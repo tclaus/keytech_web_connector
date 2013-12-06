@@ -1,0 +1,19 @@
+<!DOCTYPE html> 
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]--> 
+<html class="no-js" lang="en" > 
+<head> 
+	<meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+	<title>Keytech</title> 
+	<%= css :application %>
+	<%= js :application %> 
+</head> 
+<body> 
+	<header><%= img '/images/keytech.jpg' %></header>
+
+	<%= yield %>
+	<footer>this is the footer</footer>
+
+    <%= js :body %>
+	<script> $(document).foundation(); </script> 
+</body> 
+</html>
