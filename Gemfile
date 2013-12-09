@@ -8,6 +8,8 @@ gem 'rake'
 gem 'sass'
 gem 'compass'
 gem 'sinatra-assetpack'
+gem 'json'
+gem 'sinatra-contrib'
 
 # setup our test group and require rspec
 group :test do

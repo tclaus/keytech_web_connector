@@ -1,1 +1,22 @@
 <h1>This is going to be the Search Page!</h1>
+<% getresult=find("dampf") %>
+<% if @itemarray.empty? %>
+  <p>No results:</p>
+  <%=@result.code%>
+  <% else %>
+  <% for i in 0...@itemarray.length do %>
+    <h2>Item: <%=i+1%></h2>
+    <table>
+    <%@itemarray[i].each do |k,v|%>
+      
+	    <tr>
+	    	<td><%=k.to_s%></td>
+	    	<td><%=v.to_s%></td>
+	    </tr>
+	<%end%>
+      </table>
+
+  <%end%>
+<%end%>
+
+
