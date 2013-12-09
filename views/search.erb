@@ -16,7 +16,6 @@
 <td><%=k.to_s%></td>
 
 <% if k=="ChangedAt" || k=="CreatedAt" %>
-//http://www.ruby-doc.org/core-2.0.0/Time.html
   <td><%= Time.at((v.to_s.gsub(/\D/, "").to_i - 200) /10000000).strftime("%F") %> </td>
   <td><%=v.to_s%></td>
 
