@@ -1,17 +1,30 @@
 <h1>This is going to be the Search Page!</h1>
-<% getresult=find("dampf") %>
+<% getresult=find("keytech") %>
 <% if @itemarray.empty? %>
   <p>No results:</p>
   <%=@result.code%>
   <% else %>
   <% for i in 0...@itemarray.length do %>
-    <h2>Item: <%=i+1%></h2>
+    <h2>Item: <%=   @itemarray[i]["ElementDisplayName"] %>  </h2>
     <table>
     <%@itemarray[i].each do |k,v|%>
       
 	    <tr>
-	    	<td><%=k.to_s%></td>
-	    	<td><%=v.to_s%></td>
+
+<td>
+
+<td><%=k.to_s%></td>
+
+<% if k=="ChangedAt" || k=="CreatedAt" %>
+  <td><%= Time.at((v.to_s.gsub(/\D/, "").to_i - 200) /10000000).strftime("%F") %> </td>
+  <td><%=v.to_s%></td>
+
+<% else %>
+     <td><%=v.to_s%></td>
+<% end %>
+
+</td>
+	
 	    </tr>
 	<%end%>
       </table>
