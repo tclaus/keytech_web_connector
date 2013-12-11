@@ -27,7 +27,8 @@ assets do
   css :application, [
     '/css/normalize.css',
     '/css/foundation.css',
-    '/css/app.css'
+    '/css/app.css',
+    '/css/search.css'
    ]
 
   js_compression :jsmin
