@@ -4,9 +4,9 @@
     max-width: 100%;
 }
 
-#source-list th {
+/*#source-list th {
     display: none;
-}
+}*/
 
 #source-list td.icon {
     min-width: 55px;
