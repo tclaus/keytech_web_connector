@@ -2,7 +2,7 @@ module SearchHelper
 
 def title
 	base_title = "keytech DEMO web application"
-	if @tile.nil?
+	if @title.nil?
 		 base_title
 	else
 		"#{base_title} | #{@title}"

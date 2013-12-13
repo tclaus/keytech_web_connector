@@ -1,9 +1,3 @@
-<% def convertJsonDate(jsonDate) %>
-
-<% Time.at((jsonDate.gsub(/\D/, "").to_i - 200) /10000000).strftime("%F") %>
-<% end %>
-
-
 <h1>This is going to be the Search Page!</h1>
 <% getresult=find("schraube") %>
 

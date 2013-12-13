@@ -1,2 +1,2 @@
 require './kt'
-run Sinatra::Application
+run KtApp
