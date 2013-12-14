@@ -8,9 +8,11 @@ require 'sinatra/base'
 require "sinatra/reloader" if development?
 
 
+require_relative "lib/kt_api"
 require_relative "helpers/search_helper"
 
 class KtApp < Sinatra::Base
+
   register Sinatra::Contrib
   set :root, File.dirname(__FILE__)
 
@@ -50,13 +52,6 @@ class KtApp < Sinatra::Base
       (params[:username]=="jgrant") && (params[:passwd]=="")? true : false
     end
 
-    def find(searchstring)
-  
-    
-      @result = HTTParty.get("https://api.keytech.de/searchitems", :basic_auth => {:username => "jgrant", :password => ""}, :query => {:q => searchstring})
-      @itemarray=@result["ElementList"]
-    
-    end
   end
 
 
@@ -81,6 +76,7 @@ class KtApp < Sinatra::Base
   end
 
   post '/search' do
+    @result=KtApi.find("schraube")
     erb :search
   end
 
