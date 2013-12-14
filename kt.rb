@@ -5,15 +5,21 @@ require 'rubygems'
 require 'bundler'
 Bundler.require(:default)
 require 'sinatra/base'
-require "sinatra/reloader" if development?
+require "sinatra/contrib/all"
 
 
-require_relative "lib/kt_api"
-require_relative "helpers/search_helper"
+
 
 class KtApp < Sinatra::Base
-
   register Sinatra::Contrib
+  # configure :development do
+  #   register Sinatra::Reloader
+  #   also_reload '/lib/kt_api'
+  # end
+
+  require_relative "lib/kt_api"
+  require_relative "helpers/search_helper"
+
   set :root, File.dirname(__FILE__)
 
   register Sinatra::AssetPack
@@ -46,14 +52,6 @@ class KtApp < Sinatra::Base
   helpers SearchHelper
 
 
-  helpers do
-  
-    def access_granted?
-      (params[:username]=="jgrant") && (params[:passwd]=="")? true : false
-    end
-
-  end
-
 
   #routes
   #These are your Controllers! Can be outsourced to own files but I leave them here for now.
@@ -63,21 +61,27 @@ class KtApp < Sinatra::Base
     erb :index
   end
 
+  
   #search controller
-  before '/search' do
-    unless access_granted?
-    redirect '/'
-    end
+  post '/search' do
+    @result=KtApi.find(params[:searchstring])
+    erb :search
   end
+
+  
 
   get '/search' do
-
+    @result=""
     erb :search
   end
 
-  post '/search' do
-    @result=KtApi.find("schraube")
-    erb :search
+  #login controller
+  post '/login' do
+    if KtApi.access_granted?(params)
+      redirect '/search'
+    else
+      redirect '/'
+    end
   end
 
 end
