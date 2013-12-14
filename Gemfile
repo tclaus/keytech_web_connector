@@ -10,6 +10,7 @@ gem 'compass'
 gem 'sinatra-assetpack'
 gem 'json'
 gem 'sinatra-contrib'
+gem 'rerun'
 
 # setup our test group and require rspec
 group :test do
