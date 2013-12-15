@@ -73,7 +73,7 @@ class KtApp < Sinatra::Base
     erb :search
   end
 
-end
+#end
 
   #login controller
   post '/login' do
