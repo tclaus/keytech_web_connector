@@ -52,15 +52,6 @@ class KtApp < Sinatra::Base
   helpers SearchHelper
 
 
-  helpers do
-  
-    # def access_granted?
-    #   (params[:username]=="jgrant") && (params[:passwd]=="")? true : false
-    # end
-
-  end
-
-
   #routes
   #These are your Controllers! Can be outsourced to own files but I leave them here for now.
 
@@ -69,22 +60,20 @@ class KtApp < Sinatra::Base
     erb :index
   end
 
+  
   #search controller
-  # before '/search' do
-  #   unless access_granted?
-  #   redirect '/'
-  #   end
-  # end
 
-  # get '/search' do
-
-  #   erb :search
-  # end
-
-  get '/search' do
-    @result=KtApi.find("schraube")
+  post '/search' do
+    @result=KtApi.find(params[:searchstring])
     erb :search
   end
+
+  get '/search' do
+    @result=""
+    erb :search
+  end
+
+end
 
   #login controller
   post '/login' do
