@@ -12,7 +12,10 @@ end
 #   Images are always the same, so caching is OK for classicons (not neccesarly Thumbnails, these can change over time)
 
 def classImage(elementKey)
- baseURL = "https://api.keytech.de"
+
+
+
+ baseURL = "https://#{session[:user]}:#{session[:password]}@api.keytech.de"
  resouerceURl = "/smallclassimage/"
  classKey =   elementKey.split(':')[0]
 
