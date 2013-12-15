@@ -16,14 +16,14 @@ def classImage(elementKey)
 
 
  baseURL = "https://#{session[:user]}:#{session[:password]}@api.keytech.de"
- resouerceURl = "/smallclassimage/"
+ resourceURL = "/smallclassimage/"
  classKey =   elementKey.split(':')[0]
 
 #Auth ? 
 # By header ? 
 # Hide the API source of the image!
 
- "<img src='#{baseURL}#{resouerceURl}#{classKey}' width='30' heigth='30'>"
+ "<img src='#{baseURL}#{resourceURL}#{classKey}' width='30' heigth='30'>"
 end
 
 
