@@ -12,10 +12,6 @@ require "sinatra/contrib/all"
 
 class KtApp < Sinatra::Base
   register Sinatra::Contrib
-  # configure :development do
-  #   register Sinatra::Reloader
-  #   also_reload '/lib/kt_api'
-  # end
 
   require_relative "lib/kt_api"
   require_relative "helpers/search_helper"
@@ -57,27 +53,40 @@ class KtApp < Sinatra::Base
 
   #main page Controller
   get '/' do
+    if session[:user]
+      redirect '/search'
+    else
     erb :index
+    end
   end
 
   
   #search controller
 
   get '/search' do
-    @result=KtApi.find(params[:q])
-    erb :search
+    if session[:user]
+      @result=KtApi.find(params[:q])
+      erb :search
+    else redirect '/'
+    end
   end
 
 
-#end
 
   #login controller
   post '/login' do
     if KtApi.access_granted?(params)
+      session[:user]=params[:username]
+      session[:passwd]=params[:passwd]
       redirect '/search'
     else
       redirect '/'
     end
+  end
+
+  get "/logout" do
+    session.destroy
+    redirect '/'
   end
 
 end

@@ -16,7 +16,11 @@ module KtApi
 
   def self.access_granted?(parameters)
   	userresponse= HTTParty.get("https://api.keytech.de/user/#{parameters[:username]}", :basic_auth => {:username => parameters[:username], :password => parameters[:passwd]})
-  	userdata=userresponse["MembersList"]
-  	(userresponse.code==200) && (userdata[0]["IsActive"])? true : false
+  	@userdata=userresponse["MembersList"]
+  	(userresponse.code==200) && (@userdata[0]["IsActive"])? true : false
+  end
+
+  def self.get_full_username
+    fullname=@userdata[0]["LongName"]
   end
 end
