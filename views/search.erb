@@ -1,13 +1,18 @@
-<h1>This is going to be the Search Page!</h1>
+<div>
+  <form action="/search" method="post" accept-charset="utf-8">
+    <input type="text" name="searchstring" />
+    <input type="submit" value="Search">
+  </form>
+</div>
+
 
 
 <% if @result.empty? %>
-  <p>No results:</p>
-  
+  <p>No results</p> 
 <% else %>
 
   
-    <h2>results </h2>
+  
     <table id="source-list" class="aui">
 <thead>
   <tr>

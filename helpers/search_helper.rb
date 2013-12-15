@@ -1,15 +1,5 @@
 module SearchHelper
 
-def title
-	base_title = "keytech DEMO web application"
-	if @title.nil?
-		 base_title
-	else
-		"#{base_title} | #{@title}"
-	end
-end
-
-
 
 #Converts the nasty JSON Date format to something useful
 def convertJsonDate(jsonDate)
