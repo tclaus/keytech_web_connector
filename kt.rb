@@ -63,15 +63,11 @@ class KtApp < Sinatra::Base
   
   #search controller
 
-  post '/search' do
-    @result=KtApi.find(params[:searchstring])
+  get '/search' do
+    @result=KtApi.find(params[:q])
     erb :search
   end
 
-  get '/search' do
-    @result=""
-    erb :search
-  end
 
 #end
 
