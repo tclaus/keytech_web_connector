@@ -29,7 +29,13 @@
 <tbody>
   <% for i in 0...@result.length do %>
     <tr class="iterateable-item">
-      <td class="icon"><div>TBD</div></td> <!--ICON : To Be Done -->
+      
+      <td class="icon"><div>
+        <%= classImage(@result[i]["ElementKey"]) %>
+      </div></td>
+
+
+
       <td class="name"><div><%=@result[i]["ElementName"] %></div> </td>
       <td class="version"><div><%=@result[i]["ElementVersion"] %></div> </td>
       <td class="description"><div><%=@result[i]["ElementDisplayName"] %></div> </td>
