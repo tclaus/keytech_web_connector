@@ -6,11 +6,16 @@ module KtApi
   #<URI::InvalidURIError: the scheme http does not accept registry part: :80 (or bad hostname?)
 
   
+  def self.set_session(sessionhash)
+    @session=sessionhash
+  end
+
+  def self.destroy_session
+    @session=nil
+  end
 
   def self.find(searchstring)
-  
-    
-      result = HTTParty.get("https://api.keytech.de/searchitems", :basic_auth => {:username => "jgrant", :password => ""}, :query => {:q => searchstring})
+      result = HTTParty.get("https://api.keytech.de/searchitems", :basic_auth => {:username => @session[:user], :password => @session[:passwd]}, :query => {:q => searchstring})
       @itemarray=result["ElementList"]
   end
 

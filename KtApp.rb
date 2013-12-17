@@ -88,6 +88,7 @@ end
     if KtApi.access_granted?(params)
       session[:user]=params[:username]
       session[:passwd]=params[:passwd]
+      KtApi.set_session(session)
       redirect '/search'
     else
       redirect '/'
@@ -96,6 +97,7 @@ end
 
   get "/logout" do
     session.destroy
+    KtApi.destroy_session
     redirect '/'
   end
 
