@@ -15,6 +15,7 @@ class KtApp < Sinatra::Base
 
   require_relative "lib/kt_api"
   require_relative "helpers/search_helper"
+  require_relative "helpers/application_helper"
 
   set :root, File.dirname(__FILE__)
 
@@ -34,7 +35,7 @@ class KtApp < Sinatra::Base
 
     css :application, [
       '/css/normalize.css',
-      '/css/foundation.css',
+      #'/css/foundation.css',
       '/css/app.css',
       '/css/search.css'
     ]
@@ -44,9 +45,10 @@ class KtApp < Sinatra::Base
 
   end
 
-  #include SearchHelper module
+  #include Helpers module
+  helpers ApplicationHelper
   helpers SearchHelper
-
+  
 
   #routes
   #These are your Controllers! Can be outsourced to own files but I leave them here for now.
@@ -71,6 +73,14 @@ class KtApp < Sinatra::Base
     end
   end
 
+#Loads a element structure
+get '/search/:elementKey' do
+  if session[:user]
+      @result=KtApi.loadElementStructure(params[:name])
+      erb :search
+    else redirect '/'
+    end
+end
 
 
   #login controller
