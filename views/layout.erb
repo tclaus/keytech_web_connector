@@ -9,12 +9,15 @@
 </head> 
 <body> 
 	<header><%= img '/images/keytech.jpg' %></header>
+    
     <% if session[:user] %>
       Hello, <%=KtApi.get_full_username%>! <a href="/logout">Logout</a>
     <% else %>
+    #Show Login- Field
     <% end %>
 
 	<%= yield %>
+	
 	<footer>this is the footer</footer>
 
     <%= js :body %>

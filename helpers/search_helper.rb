@@ -23,7 +23,7 @@ def classImage(elementKey)
 # By header ? 
 # Hide the API source of the image!
 
- "<img src='#{baseURL}#{resourceURL}#{classKey}' width='30' heigth='30'>"
+ "<img src='#{baseURL}#{resourceURL}#{classKey}' width='20' heigth='20'>"
 end
 
 

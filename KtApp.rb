@@ -73,13 +73,10 @@ class KtApp < Sinatra::Base
     end
   end
 
-#Loads a element structure
+#Loads a element structure, if present
 get '/search/:elementKey' do
-  if session[:user]
-      @result=KtApi.loadElementStructure(params[:name])
+      @result=KtApi.loadElementStructure(params[:elementKey])
       erb :search
-    else redirect '/'
-    end
 end
 
 
