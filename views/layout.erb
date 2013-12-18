@@ -13,7 +13,7 @@
     <% if session[:user] %>
        Hello, <%=KtApi.get_full_username%>! <a href="/logout">Logout</a>
     <% else %>
-       #Show Login- Field
+     
     <% end %>
 
 <div id="content">
@@ -21,7 +21,9 @@
 </div>
 
 
-	<div id="footer">this is the footer</div>
+	<div id="footer">
+		keytech web app pre-beta version
+	</div>
 
     <%= js :body %>
 	<script> $(document).foundation(); </script> 

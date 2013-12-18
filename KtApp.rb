@@ -36,7 +36,7 @@ class KtApp < Sinatra::Base
     css :application, [
       '/css/normalize.css',
       #'/css/foundation.css',
-      '/css/app.css',
+      '/css/application.css',
       '/css/search.css'
     ]
 
