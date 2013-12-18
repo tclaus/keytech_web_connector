@@ -11,14 +11,17 @@
 	<header><%= img '/images/keytech.jpg' %></header>
     
     <% if session[:user] %>
-      Hello, <%=KtApi.get_full_username%>! <a href="/logout">Logout</a>
+       Hello, <%=KtApi.get_full_username%>! <a href="/logout">Logout</a>
     <% else %>
-    #Show Login- Field
+       #Show Login- Field
     <% end %>
 
+<div id="content">
 	<%= yield %>
-	
-	<footer>this is the footer</footer>
+</div>
+
+
+	<div id="footer">this is the footer</div>
 
     <%= js :body %>
 	<script> $(document).foundation(); </script> 

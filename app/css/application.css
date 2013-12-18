@@ -10,9 +10,9 @@
 
 
 #footer {
-    color: #444;
-    background: rgba(71, 79, 107, 0.91);
-    border-top: 7px solid #000;
+    color: rgb(68, 68, 68);
+    background: rgba(71, 79, 107, 0.19);
+    border-top: 1px solid #000;
     clear: both;
     padding: 15px;
     margin-top: 30px;
