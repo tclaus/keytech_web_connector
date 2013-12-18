@@ -12,19 +12,35 @@ end
 #   Images are always the same, so caching is OK for classicons (not neccesarly Thumbnails, these can change over time)
 
 def classImage(elementKey)
+     
+     #TODO: Hide the origin of the file !
+	 
+	 baseURL = "https://#{session[:user]}:#{session[:password]}@api.keytech.de"
+	 resourceURL = "/smallclassimage/"
+	 classKey =   elementKey.split(':')[0]
 
+	#Auth ? 
+	# By header ? 
+	# Hide the API source of the image!
 
-
- baseURL = "https://#{session[:user]}:#{session[:password]}@api.keytech.de"
- resourceURL = "/smallclassimage/"
- classKey =   elementKey.split(':')[0]
-
-#Auth ? 
-# By header ? 
-# Hide the API source of the image!
-
- "<img src='#{baseURL}#{resourceURL}#{classKey}' width='20' heigth='20'>"
+	 "<img src='#{baseURL}#{resourceURL}#{classKey}' width='20' heigth='20'>"
 end
+
+def mainFileDonload(elementKey)
+
+	#TODO: Hide the origin of the file !
+	# Respource: /elements/{ElementKey}/files
+	 baseURL = "https://#{session[:user]}:#{session[:password]}@api.keytech.de"
+	 resourceURL = "/elements/#{elementKey}/files"
+	 classKey =   elementKey.split(':')[0]
+
+	#Auth ? 
+	# By header ? 
+	# Hide the API source of the image!
+
+	 "<img src='#{baseURL}#{resourceURL}#{classKey}' width='20' heigth='20'>"
+end
+
 
 
 

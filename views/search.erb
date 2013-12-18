@@ -18,6 +18,7 @@
     <th class="elementStatus">Status</th>
     <th class="elementChangedAt">Changed at</th>
     <th class="elementChangedBy">Changed by</th>
+    <th class="elementDownloadIcon">Icon</th>
   </tr>
 </thead>
 <tbody>
@@ -34,6 +35,13 @@
       <td class="status"><div><%=@result[i]["ElementStatus"] %></div> </td>
       <td class="changedate"><div><%= convertJsonDate(@result[i]["ChangedAt"]) %></div> </td>
       <td class="changedbylong"><div><%=@result[i]["ChangedByLong"] %></div> </td> 
+
+     <td class="downloadicon">  
+        <a href="#" class="downloadlink" title="Download main file">
+       </a> 
+     </td>
+
+
     </tr>
   <% end %>
 </tbody>
