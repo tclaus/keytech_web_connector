@@ -26,22 +26,27 @@ def classImage(elementKey)
 	 "<img src='#{baseURL}#{resourceURL}#{classKey}' width='20' heigth='20'>"
 end
 
-def mainFileDonload(elementKey)
+#generates a download-URL for the masterfile for the given elementKey
+def mainFileDownload(elementKey)
 
 	#TODO: Hide the origin of the file !
 	# Respource: /elements/{ElementKey}/files
 	 baseURL = "https://#{session[:user]}:#{session[:password]}@api.keytech.de"
-	 resourceURL = "/elements/#{elementKey}/files"
-	 classKey =   elementKey.split(':')[0]
+	 resourceURL = "/elements/#{elementKey}/masterfile"
+
 
 	#Auth ? 
 	# By header ? 
 	# Hide the API source of the image!
 
-	 "<img src='#{baseURL}#{resourceURL}#{classKey}' width='20' heigth='20'>"
+	 "#{baseURL}#{resourceURL}"
+end
+
+
+
 end
 
 
 
 
-end
+
