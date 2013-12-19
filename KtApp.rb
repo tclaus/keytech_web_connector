@@ -58,11 +58,11 @@ class KtApp < Sinatra::Base
     if session[:user]
       redirect '/search'
     else
-    erb :index
+      erb :index
     end
   end
 
-  
+
   #search controller
 
   get '/search' do
@@ -73,11 +73,12 @@ class KtApp < Sinatra::Base
     end
   end
 
-#Loads a element structure, if present
-get '/search/:elementKey' do
+  #Loads a element structure, if present
+  get '/search/:elementKey' do
       @result=KtApi.loadElementStructure(params[:elementKey])
       erb :search
-end
+  
+  end
 
 
   #login controller
