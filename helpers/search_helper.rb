@@ -26,9 +26,9 @@ require "rexml/document"
 		# By header ? 
 		# Hide the API source of the image!
 		downloadPath = "#{resourceURL}#{classKey}"
-		#newLink = loadFileFromCache(downloadPath)
+		newLink = loadFileFromCache(downloadPath)
 
-		 "<img src='#{baseURL}#{resourceURL}#{classKey}' width='20' heigth='20'>"
+		 "<img src='/images/classimages/#{classKey}' width='20' heigth='20'>"
 	end
 
 	#generates a download-URL for the masterfile for the given elementKey
@@ -47,27 +47,50 @@ require "rexml/document"
 		 "#{baseURL}#{resourceURL}"
 	end
 
-	#loads a file from given URL, adds a RESTFul basic authorization, stores it locally and maps a local link
-	# def loadFileFromCache(fileLink)
-	# 	# see: http://juretta.com/log/2006/08/13/ruby_net_http_and_open-uri/
-	# 	#resp = href=""
+	# loads a file from given URL, adds a RESTFul basic authorization, stores it locally and maps a local link
+	def loadFileFromCache(fileLink)
+		# see: http://juretta.com/log/2006/08/13/ruby_net_http_and_open-uri/
+		#resp = href=""
 
-	# 	http = Net::HTTP.new("api.keytech.de",443)
-	# 	http.use_ssl = true; 
-	# 	http.start do |http|
-	# 		req = Net::HTTP::Get.new(fileLink, {"User-Agent" =>
- #        "keytech api downloader"})
-	# 		req.basic_auth(session[:user],session[:password])
-	# 		response = http.request(req)
-	# 		#resp = response.body
+		http = Net::HTTP.new("api.keytech.de",443)
+		http.use_ssl = true; 
+		http.start do |http|
+			req = Net::HTTP::Get.new(fileLink, {"User-Agent" =>
+        										"keytech api downloader"})
+			req.basic_auth(session[:user],session[:password])
+			response = http.request(req)
+			resp = response.body
 
-	# 		open(Dir.tmpdir,"wb"){|file|
-	# 			file.write(response.body)
-	# 		}
+			open(Dir.tmpdir+'/test.png',"wb"){|file|
+				file.write(response.body)
+			}
 
-	# 	end
+		end
 
-	# end
+	end
+
+
+def loadClassImage(classKey)
+		# see: http://juretta.com/log/2006/08/13/ruby_net_http_and_open-uri/
+		#resp = href=""
+		resource = "/smallclassimage/#{classKey}"
+#print "loaded: #{resource}"
+
+		http = Net::HTTP.new("api.keytech.de",443)
+		http.use_ssl = true; 
+		http.start do |http|
+			req = Net::HTTP::Get.new(resource, {"User-Agent" =>
+        										"keytech api downloader"})
+			req.basic_auth(session[:user],session[:password])
+			response = http.request(req)
+	#print "response #{response}"		
+			# return this!
+			response.body
+
+ 			
+		end
+
+	end
 
 
 end

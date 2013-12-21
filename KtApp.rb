@@ -11,7 +11,9 @@ require "sinatra/contrib/all"
 
 
 class KtApp < Sinatra::Base
+  
   register Sinatra::Contrib
+  register Sinatra::AssetPack
 
   require_relative "lib/kt_api"
   require_relative "helpers/search_helper"
@@ -19,7 +21,23 @@ class KtApp < Sinatra::Base
 
   set :root, File.dirname(__FILE__)
 
-  register Sinatra::AssetPack
+
+#Some configurations (dont know where to put it )
+configure :development do
+  # at Development SQLlite will do fine
+  
+  DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/development.db")
+end
+
+#Some configurations (dont know where to put it )
+configure :production do
+  # A Postgres connection:
+  username="production_username" # Dont know what to do here
+  password="production_password"
+  DataMapper.setup(:default, 'postgres://#{username}:#{password}@localhost/production')
+end
+
+
   assets do
 
     js :application, [
@@ -53,6 +71,7 @@ class KtApp < Sinatra::Base
   #routes
   #These are your Controllers! Can be outsourced to own files but I leave them here for now.
 
+
   #main page Controller
   get '/' do
     if session[:user]
@@ -75,9 +94,12 @@ class KtApp < Sinatra::Base
 
   #Loads a element structure, if present
   get '/search/:elementKey' do
+    if session[:user]
       @result=KtApi.loadElementStructure(params[:elementKey])
       erb :search
-  
+    else
+      redirect '/'
+    end
   end
 
 
@@ -98,5 +120,14 @@ class KtApp < Sinatra::Base
     KtApi.destroy_session
     redirect '/'
   end
+
+#Image forwarding. Redirect classimages provided by API to another image directly fetched by API
+get "/images/classimages/:classKey" do
+  
+  content_type "image/png"
+   loadClassImage(params[:classKey])
+end
+
+
 
 end

@@ -12,6 +12,15 @@ gem 'json'
 gem 'sinatra-contrib'
 gem 'rerun'
 
+#Datamapper stuff, in production use postgres, in dvelopment SQLite
+gem 'dm-core'
+gem 'dm-migrations'
+gem 'pg', :group => :production
+gem 'dm-postgres-adapter', :group =>:production
+gem 'dm-sqlite-adapter', :group =>:development
+
+
+
 # setup our test group and require rspec
 group :test do
   gem "rspec"
