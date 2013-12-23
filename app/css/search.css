@@ -14,13 +14,14 @@
 
 #source-list td.icon {
     min-width: 55px;
+    text-align: center;
 }
 
 #source-list td.name td.version {
     white-space: nowrap;
 }
 
-#source-list td.changedat {
+#source-list td.changedate {
     white-space: nowrap;
 }
 
@@ -66,7 +67,7 @@
                 table.aui > tfoot > tr > td {
                     padding: 7px 10px;
                     /* text-align: left; */
-                    vertical-align: top;
+                   /* vertical-align: top; */
                 }
 
                 table.aui > thead {
@@ -129,3 +130,11 @@
                     background: #f5f5f5;
                     color: #333;
                 }
+
+.downloadlink {
+  font-size:0.8em;
+  margin-top:3px;
+
+}
+
+

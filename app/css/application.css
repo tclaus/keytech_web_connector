@@ -1,0 +1,128 @@
+
+
+
+/* LoginPage / Dialog */
+body .dialog {
+    width: 400px;
+    color: #CAD0EF;
+    border: 1px solid #373553;
+   /* background-image: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #2173DC), color-stop(100%, rgba(44, 38, 63, 0.25))); */
+    /* background-image: -moz-linear-gradient(top, #2c263f 0, rgba(44, 38, 63, 0.4) 100%); */
+    /* background-image: linear-gradient(top, #2c263f 0, rgba(44, 38, 63, 0.4) 100%); */
+}
+
+
+/* override the default-style */
+fieldset {
+  border-style: none;
+}
+
+body .dialog p {
+    font-size: 14px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 15px
+}
+
+body .dialog fieldset {
+    border-top: 0;
+    padding: 30px 30px 10px 30px;
+    background-color: transparent;
+}
+
+body .dialog fieldset.active {
+    background-color: transparent
+}
+
+body .dialog fieldset p {
+    padding-left: 0;
+    padding-right: 0
+}
+
+body .dialog fieldset.submit {
+    padding: 0 30px 30px 30px;
+    border: none
+}
+
+body .dialog fieldset.submit p {
+    padding-bottom: 0
+}
+
+body .dialog fieldset.submit input.submit {
+    padding: 6px 20px;
+    background-image: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #EFEFEF), color-stop(100%, #F4F4F4));
+    background-image: -moz-linear-gradient(top, #a08dff 0, #685bb5 100%);
+    background-image: linear-gradient(top, #a08dff 0, #685bb5 100%);
+    -moz-box-shadow: black 0 0 3px 0;
+    -webkit-box-shadow: black 0 0 3px 0;
+    -o-box-shadow: black 0 0 3px 0;
+    box-shadow: black 0 0 3px 0
+}
+
+body .dialog fieldset.submit input.submit:hover {
+    background-image: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #cac4e6), color-stop(100%, #827ea5));
+    background-image: -moz-linear-gradient(top, #cac4e6 0, #827ea5 100%);
+    background-image: linear-gradient(top, #cac4e6 0, #827ea5 100%)
+}
+
+/* gemeinsame Breite festlegen */
+body .dialog input.text {
+    width: 325px;
+}
+
+body form fieldset .field label{
+  margin-bottom: 2px;
+  font-size: 12px;
+}
+
+button,
+input,
+select,
+textarea {
+     font-family: inherit; /* 1 */
+     font-size: 100%; /* 2 */
+     margin: 0; /* 3 */
+     background-color:lightyellow;
+  
+}
+
+
+body .dialog, body #message {
+    margin: 0 auto;
+    background-repeat: repeat-x;
+    text-align: left;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -moz-box-shadow: 0 0 10px #040307;
+    -webkit-box-shadow: 0 0 10px #040307;
+    box-shadow: 0 0 10px #040307
+}
+
+body .dialog {
+    width: 400px;
+    color: #9C92D1;
+    border: 1px solid #373553;
+    background-image: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #FCFCFC), color-stop(100%, rgba(253, 252, 255, 0.4)));
+    background-image: -moz-linear-gradient(top, #2c263f 0, rgba(44, 38, 63, 0.4) 100%);
+    background-image: linear-gradient(top, #2c263f 0, rgba(44, 38, 63, 0.4) 100%)
+}
+
+
+
+/* main content frame */
+#content {
+  margin: 0 auto;
+  min-height: 100%;
+  padding: 0 0 140px;
+  width: 950px;
+}
+
+#footer {
+    color: rgb(68, 68, 68);
+    background: rgba(71, 79, 107, 0.19);
+    border-top: 1px solid #000;
+    clear: both;
+    padding: 15px;
+    margin-top: 30px;
+}

@@ -6,16 +6,10 @@
   </form>
 </div>
 
+<% if !@result.empty? %>
 
-
-<% if @result.empty? %>
-  <p>No results</p> 
-<% else %>
-
-  
-  
     <table id="source-list" class="aui">
-<thead>
+   <thead>
   <tr>
     <th class="elementIcon">Type</th>
     <th class="elementName">Name</th>
@@ -31,23 +25,29 @@
     <tr class="iterateable-item">
       
       <td class="icon"><div>
-        <%= classImage(@result[i]["ElementKey"]) %>
+        <%= classImage(@result[i]["ElementKey"]) %> 
       </div></td>
 
-
-
-      <td class="name"><div><%=@result[i]["ElementName"] %></div> </td>
+      <td class="name">  <div><%=  link_to("/search/#{@result[i]['ElementKey']}", @result[i]["ElementName"]) %></div> 
+          <%  if classType(@result[i]["ElementKey"]) == "DO" %>
+          
+          <a href='
+            <%= link_to_masterfile(@result[i]["ElementKey"])%> 
+          ' class="downloadlink" title="Download main file">
+          [File Download]
+          </a>
+          <% end %>
+      </td>
       <td class="version"><div><%=@result[i]["ElementVersion"] %></div> </td>
       <td class="description"><div><%=@result[i]["ElementDisplayName"] %></div> </td>
       <td class="status"><div><%=@result[i]["ElementStatus"] %></div> </td>
-      <td class=" "><div><%= convertJsonDate(@result[i]["ChangedAt"]) %></div> </td>
+      <td class="changedate"><div><%= convertJsonDate(@result[i]["ChangedAt"]) %></div> </td>
       <td class="changedbylong"><div><%=@result[i]["ChangedByLong"] %></div> </td> 
+
     </tr>
   <% end %>
 </tbody>
 </table>
+<% end %>
 
-     
-
-<%end%>
 

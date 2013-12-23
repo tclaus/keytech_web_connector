@@ -1,8 +1,22 @@
 <div>
-	<h1>This is the main index page with Login form.</h1>
-	<form action="/login" method="post" accept-charset="utf-8">
-		Username: <input type="text" name="username" /><br/>
-		Password: <input type="password" name="passwd" /><br/>
-		<input type="submit" value="Login">
+	
+<div class="dialog" id="login">
+	 <form action="/login" class="panel-body" method="post" accept-charset="utf-8">
+	 	<fieldset><div class="field">
+	 		<label for="email">Email/Username</label>
+	 		<input class="text" id="email" name="username" placeholder="email address or username" tabindex="1" type="email" />
+	 	</div>
+	 	<div class="field">
+	 		<label for="password">Password</label>
+	 		<input class="text password" id="password" name="passwd" placeholder="password" tabindex="2" type="password" />
+	 	</div>
+	 </fieldset>
+	 <fieldset class="submit">
+	 	<p><a href="/account/password/reset">Reset Password</a></p>
+	 	<input class="submit" name="commit" tabindex="3" type="submit" value="Login" />
+	 </fieldset>
 	</form>
+</div>
+
+
 </div>

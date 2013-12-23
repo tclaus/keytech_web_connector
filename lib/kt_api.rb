@@ -19,6 +19,17 @@ module KtApi
       @itemarray=result["ElementList"]
   end
 
+  def self.loadElementStructure(elementKey)
+    #/elements/{ElementKey}/structure
+      result = HTTParty.get("https://api.keytech.de/elements/#{elementKey}/structure", :basic_auth => {:username => @session[:user], :password => @session[:passwd]})
+      @itemarray=result["ElementList"]
+
+
+
+  end
+
+
+  # User authorization
   def self.access_granted?(parameters)
   	userresponse= HTTParty.get("https://api.keytech.de/user/#{parameters[:username]}", :basic_auth => {:username => parameters[:username], :password => parameters[:passwd]})
   	@userdata=userresponse["MembersList"]

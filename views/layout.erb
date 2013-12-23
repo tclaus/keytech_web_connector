@@ -3,19 +3,27 @@
 <html class="no-js" lang="en" > 
 <head> 
 	<meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-	<title>Keytech</title> 
+	<title><%=@title%></title> 
 	<%= css :application %>
 	<%= js :application %> 
 </head> 
 <body> 
 	<header><%= img '/images/keytech.jpg' %></header>
+    
     <% if session[:user] %>
-      Hello, <%=KtApi.get_full_username%>! <a href="/logout">Logout</a>
+       Hello, <%=KtApi.get_full_username%>! <a href="/logout">Logout</a>
     <% else %>
+     
     <% end %>
 
+<div id="content">
 	<%= yield %>
-	<footer>this is the footer</footer>
+</div>
+
+
+	<div id="footer">
+		keytech web app pre-beta version
+	</div>
 
     <%= js :body %>
 	<script> $(document).foundation(); </script> 
