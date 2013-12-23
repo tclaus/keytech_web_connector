@@ -123,11 +123,23 @@ end
 
 #Image forwarding. Redirect classimages provided by API to another image directly fetched by API
 get "/images/classimages/:classKey" do
-  
-  content_type "image/png"
-   loadClassImage(params[:classKey])
+   if session[:user]
+      content_type "image/png"
+      loadClassImage(params[:classKey])
+    else
+      redirect '/'
+    end
 end
 
+
+get "/files/:elementKey/masterfile" do
+   if session[:user]
+      content_type "application/octet-stream"
+      loadMasterfile(params[:elementKey])
+    else
+      redirect '/'
+    end
+end
 
 
 end

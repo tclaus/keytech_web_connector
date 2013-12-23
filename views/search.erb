@@ -37,7 +37,8 @@
       <td class="changedbylong"><div><%=@result[i]["ChangedByLong"] %></div> </td> 
 
      <td class="downloadicon">  
-        <a href='<%= mainFileDownload(@result[i]["ElementKey"]) %>' class="downloadlink" title="Download main file">
+        <a href='<%= link_to_masterfile(@result[i]["ElementKey"])%> ' class="downloadlink" title="Download main file">
+        
        </a> 
      </td>
 
