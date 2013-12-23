@@ -18,7 +18,6 @@
     <th class="elementStatus">Status</th>
     <th class="elementChangedAt">Changed at</th>
     <th class="elementChangedBy">Changed by</th>
-    <th class="elementDownloadIcon">Icon</th>
   </tr>
 </thead>
 <tbody>
@@ -29,19 +28,21 @@
         <%= classImage(@result[i]["ElementKey"]) %> 
       </div></td>
 
-      <td class="name">  <div><%=  link_to("/search/#{@result[i]['ElementKey']}", @result[i]["ElementName"]) %></div> </td>
+      <td class="name">  <div><%=  link_to("/search/#{@result[i]['ElementKey']}", @result[i]["ElementName"]) %></div> 
+          <%  if classType(@result[i]["ElementKey"]) == "DO" %>
+          
+          <a href='
+            <%= link_to_masterfile(@result[i]["ElementKey"])%> 
+          ' class="downloadlink" title="Download main file">
+          [File Download]
+          </a>
+          <% end %>
+      </td>
       <td class="version"><div><%=@result[i]["ElementVersion"] %></div> </td>
       <td class="description"><div><%=@result[i]["ElementDisplayName"] %></div> </td>
       <td class="status"><div><%=@result[i]["ElementStatus"] %></div> </td>
       <td class="changedate"><div><%= convertJsonDate(@result[i]["ChangedAt"]) %></div> </td>
       <td class="changedbylong"><div><%=@result[i]["ChangedByLong"] %></div> </td> 
-
-     <td class="downloadicon">  
-        <a href='<%= link_to_masterfile(@result[i]["ElementKey"])%> ' class="downloadlink" title="Download main file">
-        
-       </a> 
-     </td>
-
 
     </tr>
   <% end %>

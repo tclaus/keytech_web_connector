@@ -135,6 +135,7 @@ end
 get "/files/:elementKey/masterfile" do
    if session[:user]
       content_type "application/octet-stream"
+      
       loadMasterfile(params[:elementKey])
     else
       redirect '/'

@@ -22,6 +22,23 @@ require "rexml/document"
 		 "<img src='/images/classimages/#{classKey}' width='20' heigth='20'>"
 	end
 
+	# Returns "DO", "FD" or "MI" to identify the type of element 
+	def classType(elementKey)
+		classKey =   elementKey.split(':')[0]
+		print "classkey=#{classKey}"
+		if classKey.end_with?('_MI')
+			return "MI"
+		end
+
+		if classKey.end_with?('_FD')
+			return "FD"
+		end
+
+		# easy: in all other cases: It must be an document.. 
+		return "DO"
+	end
+
+
 	#Generate an return link to masterfile - route
 	def link_to_masterfile(elementKey)
 		"/files/#{elementKey}/masterfile"
@@ -34,7 +51,7 @@ require "rexml/document"
 		resource = "/elements/#{elementKey}/masterfile"
 	 print "Loading: #{resource} "
 
-		print "Username: #{session[:user]}, pw: #{session[:passwd]}"
+		#print "Username: #{session[:user]}, pw: #{session[:passwd]}"
 
 		http = Net::HTTP.new("api.keytech.de",443)
 		http.use_ssl = true; 
@@ -44,7 +61,10 @@ require "rexml/document"
 			req.basic_auth(session[:user],session[:passwd])
 			response = http.request(req)
 	print "response: #{response}"		
-			# return this!
+
+			# return this as a file attachment
+			attachment( response["X-Filename"])  #Use the sinatra helper to set this as filename
+
 			response.body
 
  			

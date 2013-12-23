@@ -132,15 +132,9 @@
                 }
 
 .downloadlink {
- /* margin-bottom: 10px; */
-  /* width: 160px; */
-   height:15px;
- display:block;
- background:transparent url('../images/watch_icon_empty.png') center top no-repeat;
- background-size: 24px 16px
+  font-size:0.8em;
+  margin-top:3px;
+
 }
 
-.downloadlink:hover {
-   background-image: url('../images/watch_icon.png');
-}
 

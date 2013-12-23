@@ -12,7 +12,7 @@ gem 'json'
 gem 'sinatra-contrib'
 gem 'rerun'
 
-#Datamapper stuff, in production use postgres, in dvelopment SQLite
+#Datamapper stuff, in production use postgres, in development SQLite
 gem 'dm-core'
 gem 'dm-migrations'
 gem 'pg', :group => :production
