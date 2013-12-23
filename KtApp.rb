@@ -114,7 +114,7 @@ end
       @result=KtApi.loadElementStructure(params[:elementKey])
       erb :search
     else
-      flash[:notice] = "(TBD: loged out or session invalid)"
+      flash[:notice] = "(TBD: logged out or session invalid)"
       redirect '/'
     end
   end
@@ -128,7 +128,7 @@ end
       KtApi.set_session(session)
       redirect '/search'
     else
-      flash[:warning] = "Invalid username or password)"
+      flash[:error] = "Invalid username or password"
       redirect '/'
     end
   end
@@ -147,7 +147,7 @@ get "/images/classimages/:classKey" do
       content_type "image/png"
       loadClassImage(params[:classKey])
     else
-      flash[:notice] = "(TBD: loged out or session invalid)"
+      flash[:notice] = "(TBD: logged out or session invalid)"
       redirect '/'
     end
 end
@@ -159,7 +159,7 @@ get "/files/:elementKey/masterfile" do
       
       loadMasterfile(params[:elementKey])
     else
-      flash[:notice] = "(TBD: loged out or session invalid)"
+      flash[:notice] = "(TBD: logged out or session invalid)"
       redirect '/'
     end
 end
