@@ -3,11 +3,14 @@
 
 require 'rubygems'
 require 'bundler'
-Bundler.require(:default)
+
 require 'sinatra/base'
 require "sinatra/contrib/all"
+require 'sinatra/assetpack'
+require 'rack-flash'
 
 
+Bundler.require(:default)
 
 
 class KtApp < Sinatra::Base
@@ -20,6 +23,15 @@ class KtApp < Sinatra::Base
   require_relative "helpers/application_helper"
 
   set :root, File.dirname(__FILE__)
+
+# Enable flash messages
+use Rack::Flash, :sweep => true
+
+helpers do
+  def flash_types
+    [:success, :notice, :warning, :error]
+  end
+end
 
 
 #Some configurations (dont know where to put it )
@@ -68,8 +80,8 @@ end
   helpers SearchHelper
   
 
-  #routes
-  #These are your Controllers! Can be outsourced to own files but I leave them here for now.
+  # Routes
+  # These are your Controllers! Can be outsourced to own files but I leave them here for now.
 
 
   #main page Controller
@@ -77,6 +89,8 @@ end
     if session[:user]
       redirect '/search'
     else
+
+      #Never logged in, show the normal index / login page
       erb :index
     end
   end
@@ -88,7 +102,9 @@ end
     if session[:user]
       @result=KtApi.find(params[:q])
       erb :search
-    else redirect '/'
+    else 
+        flash[:notice] = "(TBD: loged out or session invalid)"
+       redirect '/'
     end
   end
 
@@ -98,6 +114,7 @@ end
       @result=KtApi.loadElementStructure(params[:elementKey])
       erb :search
     else
+      flash[:notice] = "(TBD: loged out or session invalid)"
       redirect '/'
     end
   end
@@ -111,6 +128,7 @@ end
       KtApi.set_session(session)
       redirect '/search'
     else
+      flash[:warning] = "Invalid username or password)"
       redirect '/'
     end
   end
@@ -118,6 +136,8 @@ end
   get "/logout" do
     session.destroy
     KtApi.destroy_session
+
+    flash[:notice] = "You have logged out."
     redirect '/'
   end
 
@@ -127,6 +147,7 @@ get "/images/classimages/:classKey" do
       content_type "image/png"
       loadClassImage(params[:classKey])
     else
+      flash[:notice] = "(TBD: loged out or session invalid)"
       redirect '/'
     end
 end
@@ -138,6 +159,7 @@ get "/files/:elementKey/masterfile" do
       
       loadMasterfile(params[:elementKey])
     else
+      flash[:notice] = "(TBD: loged out or session invalid)"
       redirect '/'
     end
 end

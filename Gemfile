@@ -10,6 +10,8 @@ gem 'compass'
 gem 'sinatra-assetpack'
 gem 'json'
 gem 'sinatra-contrib'
+gem 'rack-flash3'
+
 gem 'rerun'
 
 #Datamapper stuff, in production use postgres, in development SQLite

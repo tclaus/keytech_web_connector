@@ -1,5 +1,12 @@
 <div>
 	
+
+<% flash_types.select{ |kind| flash.has?(kind) }.each do |kind| %>
+<div class="flash <%= kind %>">
+  <%= flash[kind] %>
+</div>
+<% end %>
+
 <div class="dialog" id="login">
 	 <form action="/login" class="panel-body" method="post" accept-charset="utf-8">
 	 	<fieldset><div class="field">
