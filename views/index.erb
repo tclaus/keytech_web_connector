@@ -1,11 +1,7 @@
 <div>
 	
+<%= showFlashMessage %> 
 
-<% flash_types.select{ |kind| flash.has?(kind) }.each do |kind| %>
-<div class="notice <%= kind %>">
-  <%= flash[kind] %>
-</div>
-<% end %>
 
 <div class="dialog" id="login">
 	 <form action="/login" class="panel-body" method="post" accept-charset="utf-8">
@@ -16,12 +12,20 @@
 	 	<div class="field">
 	 		<label for="password">Password</label>
 	 		<input class="text password" id="password" name="passwd" placeholder="password" tabindex="2" type="password" />
+	 	<p><a href="/forgotpassword">I forgot my password</a></p>
 	 	</div>
+	 	
 	 </fieldset>
+
 	 <fieldset class="submit">
-	 	<p><a href="/account/password/reset">Reset Password</a></p>
-	 	<input class="submit" name="commit" tabindex="3" type="submit" value="Login" />
+	 		<input class="submit" name="commit" tabindex="3" type="submit" value="Login" />
 	 </fieldset>
+
+	 	<div>
+	 		<p>
+	 			<a href="/signup">Sign up a new account </a>
+	 		</p>
+	 	</div>
 	</form>
 </div>
 

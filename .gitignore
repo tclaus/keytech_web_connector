@@ -2,6 +2,11 @@
 # see https://github.com/github/gitignore#readme
 
 .DS_STORE
+
+#store no Databasefiles
+
+development.db 
+
 *.swp
 *.rbc
 *.sass-cache

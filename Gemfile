@@ -15,8 +15,7 @@ gem 'rack-flash3'
 gem 'rerun'
 
 #Datamapper stuff, in production use postgres, in development SQLite
-gem 'dm-core'
-gem 'dm-migrations'
+gem 'data_mapper'
 gem 'pg', :group => :production
 gem 'dm-postgres-adapter', :group =>:production
 gem 'dm-sqlite-adapter', :group =>:development

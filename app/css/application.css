@@ -1,5 +1,25 @@
 
 
+ol, ul {
+    list-style: none;
+}
+
+.main-navigation{
+    padding-left: 150px
+    width = 100%
+}
+
+
+.nav-item {
+    display: inline-block;
+    padding-left: 30px
+}
+
+.nav-item-login {
+    display: inline-block;
+    padding-left: 90px
+}
+
 
 /* LoginPage / Dialog */
 body .dialog {
@@ -23,8 +43,15 @@ body .dialog p {
 
 body .dialog fieldset {
     border-top: 0;
-    padding: 30px 30px 10px 30px;
+    padding: 20px 30px 10px 30px;
     background-color: transparent;
+}
+
+body .dialog fieldset h3{
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: 0px;
+    margin-bottom: 10px;
 }
 
 body .searchfield fieldset {
@@ -249,7 +276,9 @@ html .notice.error h3, body .notice.error h3 {
   width: 950px;
 }
 
-#footer {
+
+
+#footer, #header {
     color: rgb(68, 68, 68);
     background: rgba(71, 79, 107, 0.19);
     border-top: 1px solid #000;
@@ -257,3 +286,16 @@ html .notice.error h3, body .notice.error h3 {
     padding: 15px;
     margin-top: 30px;
 }
+
+#header {
+
+
+     margin-top: 0px;
+     border-top: 0px solid #000;
+     border-bottom: 1px solid #000;
+     padding-bottom: 0px;
+     margin-bottom: 15px;
+}
+
+
+

@@ -1,0 +1,112 @@
+
+
+<%= showFlashMessage %> 
+
+	<div class="dialog">
+	
+		<form accept-charset="UTF-8" action="/account" class="edit_user"  method="post">
+			<fieldset>
+			<h3 id="profile">Profile</h3>
+			<div style="margin:0;padding:0;display:inline">
+				<input name="utf8" type="hidden" value="✓">
+				<input name="_method" type="hidden" value="put">
+			</div>
+
+			<% gravatar_helper(@user) %>
+
+			<div class="field">
+			  	<label for="user[name]">Username</label>
+			    <input class="text-field" id="user_name" name="user[name]" placeholder="Name" size="30" type="text" autocomplete="off">	
+			</div>
+	 		<div class="field">
+				<label for="user[email]">Email</label>
+	    		<input class="text-field" id="user_email" name="user[email]" placeholder="<%= @user.email %>" size="30" type="email" value="<%= @user.email %>" disabled autocomplete="off">
+	  		</div>
+
+	  		<p>
+	    		<input class="small button" name="commitProfile" type="submit" value="Save">
+	  		</p>
+			</fieldset>	
+		</form>
+	</div>
+	
+<p></p>
+
+	<div class="dialog">
+		<form accept-charset="UTF-8" action="/account"  method="post">
+			<fieldset>
+			<h3>Password</h3>
+			<div style="margin:0;padding:0;display:inline">
+				<input name="utf8" type="hidden" value="✓">
+				<input name="_method" type="hidden" value="put">
+			</div>
+
+		  <div class="field">
+		  	<label for="user[current_password]">Current Password</label>
+		    <input class="text-field" id="current_password" name="current_password" placeholder="Current Password" size="30" type="password" autocomplete="off">
+		  </div>
+
+		  <div class="field">
+		  	<label for="user[password]">New Password</label>
+		    <input class="inline text-field" id="password" name="password" placeholder="New Password" size="30" type="password" autocomplete="off">
+
+		    <small class="password-hint">minimum 8 letters, numbers, and symbols</small>
+		  </div>
+
+		  <div class="field">
+		    <input class="text-field" id="password_confirmation" name="password_confirmation" placeholder="Confirm New Password" size="30" type="password" autocomplete="off">
+		  </div>
+
+		  <p class="submit">
+		    <input class="small button" id="change_passwd" name="commitPassword" type="submit" value="Save">
+		  </p>
+		</fieldset>
+	</form>
+</div>
+
+<p></p>
+	<div class="dialog">
+		
+		<form accept-charset="UTF-8" action="/account" class="edit-keytech-credentials" method="post">
+			<fieldset>
+			 <h3>keytech Credentials </h3>
+			<div style="margin:0;padding:0;display:inline">
+				<input name="utf8" type="hidden" value="✓">
+				<input name="_method" type="hidden" value="put">
+
+			</div>
+			<div class="field">
+
+				<label for="keytechUserName">keytech Username</label>
+				<input class="text-field" name="keytechUserName" placeholder="<%= @user.keytechUserName %>" size=30 type="text" value="<%= @user.keytechUserName %>" autocomplete="off">
+			</div>
+			<div class="field">
+				<label for="keytechPassword">keytech password</label>
+				<input class="text-field" name="keytechPassword" placeholder size=30 type="password" value="<%= @user.keytechPassword %>" autocomplete="off">
+			</div>
+			<div class="field">
+				<label for="keytechAPIURL">keytech API URL</label>
+				<input class="text-field" name="keytechAPIURL" placeholder="<%= @user.keytechAPIURL %>" size=30 type="text" value="<%= @user.keytechAPIURL %>" autocomplete="off">
+			</div>
+			<p class="submit">
+    			<input class="small button" id="change_keytech" name="commitKeytechCredentials" type="submit" value="Save">
+  			</p>
+  		</fieldset>
+	</form>
+	</div>
+
+<p></p>
+<div class="dialog">
+		
+		<form accept-charset="UTF-8" action="/account" class="edit-keytech-credentials" method="post">
+			<fieldset>
+				<h3>Billing Information</h3>
+				<small>To be done</small>
+			</fieldset>
+		</form>
+</div>
+
+
+</div>
+
+
