@@ -1,10 +1,15 @@
-<div>
+<div class="searchfield"> 
   <form action="/search" method="get" accept-charset="utf-8">
-   <label for="q">Search for:</label>
-    <input id="q" type="text" name="q" />
-    <input name = "commit" type="submit" value="Search">
+     <fieldset>
+      <label for="q">Search for:</label>
+      <input class="text" id="q" type="text" name="q" />
+      <input class="submit" name = "commit" type="submit" value="Search">
+    </fieldset>
   </form>
 </div>
+
+
+<%= showFlashMessage %> 
 
 <% if !@result.empty? %>
 

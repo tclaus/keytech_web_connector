@@ -8,22 +8,16 @@
 	<%= js :application %> 
 </head> 
 <body> 
-	<header><%= img '/images/keytech.jpg' %></header>
-    
-    <% if session[:user] %>
-       Hello, <%=KtApi.get_full_username%>! <a href="/logout">Logout</a>
-    <% else %>
-     
-    <% end %>
+	
+	
+	<%=  erb :header %> <!-- Header / logged-in -->
 
-<div id="content">
-	<%= yield %>
-</div>
-
-
-	<div id="footer">
-		keytech web app pre-beta version
+	<div id="content">
+		<%= yield %>
 	</div>
+
+
+	<%= erb :footer %>
 
     <%= js :body %>
 	<script> $(document).foundation(); </script> 
