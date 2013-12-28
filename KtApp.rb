@@ -20,7 +20,7 @@ class KtApp < Sinatra::Base
   register Sinatra::Contrib
   register Sinatra::AssetPack
 
-  require_relative "helpers/ktApi"
+  require_relative "helpers/KtApi"
   require_relative "helpers/SearchHelper"
   require_relative "helpers/ApplicationHelper"
   require_relative "helpers/SessionHelper"

@@ -29,7 +29,8 @@ end
 gem 'data_mapper'
 
 # Payments
-require 'braintree'
+
+gem 'braintree'
 
 
 # setup our test group and require rspec
