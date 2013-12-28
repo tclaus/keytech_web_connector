@@ -1,5 +1,5 @@
-source 'https://rubygems.org'
-ruby "2.0.0"
+source "https://rubygems.org"
+ruby '2.0.0'
 gem 'sinatra' #, :github => "sinatra/sinatra"
 
 # other dependencies
@@ -29,11 +29,11 @@ end
 gem 'data_mapper'
 
 # Payments
-require "braintree"
+require 'braintree'
 
 
 # setup our test group and require rspec
 group :test do
-  gem "rspec"
-  gem "capybara"
+  gem 'rspec'
+  gem 'capybara'
 end
