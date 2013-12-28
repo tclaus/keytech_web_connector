@@ -13,16 +13,20 @@ gem 'json'
 gem 'sinatra-contrib'
 gem 'rack-flash3'
 
-gem 'unicorn'  # Recommended web server for heroku installation
 
-gem 'rerun', :group => :development
+group :production do
+	gem 'pg'
+	gem 'dm-postgres-adapter'
+	gem 'thin'
+end
 
-#Datamapper stuff, in production use postgres, in development SQLite
+group :development do
+	gem 'rerun'
+	gem 'dm-sqlite-adapter'
+end
+
+
 gem 'data_mapper'
-gem 'pg', :group => :production
-gem 'dm-postgres-adapter', :group =>:production
-gem 'dm-sqlite-adapter', :group =>:development
-
 
 # Payments
 require "braintree"
