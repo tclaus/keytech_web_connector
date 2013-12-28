@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
-gem 'sinatra', :github => "sinatra/sinatra"
+ruby "2.0.0"
+gem 'sinatra' #, :github => "sinatra/sinatra"
 
 # other dependencies
 gem 'haml'
@@ -14,7 +15,7 @@ gem 'rack-flash3'
 
 gem 'unicorn'  # Recommended web server for heroku installation
 
-gem 'rerun'
+gem 'rerun', :group => :development
 
 #Datamapper stuff, in production use postgres, in development SQLite
 gem 'data_mapper'
