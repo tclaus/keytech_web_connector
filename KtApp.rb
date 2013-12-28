@@ -65,6 +65,10 @@ end
 
   assets do
 
+    serve '/js',     from: 'app/js'        # Default
+    serve '/css',    from: 'app/css'       # Default
+    serve '/images', from: 'app/images'    # Default
+
     js :application, [
       '/js/vendor/custom.modernizr.js'
       # You can also do this: 'js/*.js'
