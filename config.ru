@@ -2,7 +2,7 @@
 
 #enable sessions, for testing purposes expire after 60 seconds
 use Rack::Session::Pool, 
-		:expire_after => 60, 
+		:expire_after => 900, 
 		:key => "KtApp", 
 		:secret => "06c6a115a065cfd20cc2c9fcd2c3d7a7d354de3189ee58bce0240abd586db044"
 

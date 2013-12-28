@@ -21,6 +21,9 @@ gem 'dm-postgres-adapter', :group =>:production
 gem 'dm-sqlite-adapter', :group =>:development
 
 
+# Payments
+require "braintree"
+
 
 # setup our test group and require rspec
 group :test do

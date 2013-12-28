@@ -1,4 +1,4 @@
-## Remember to run 'bundle install' if something in Gemfile has changed!
+  ## Remember to run 'bundle install' if something in Gemfile has changed!
 ## To now start the app run 'rackup -p 4567' instead of 'ruby kt.rb' !
 
 require 'rubygems'
@@ -43,6 +43,14 @@ configure :development do
   # at Development SQLlite will do fine
   
   DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/development.db")
+  DataMapper.auto_upgrade!
+
+# Payments
+Braintree::Configuration.environment = :sandbox
+Braintree::Configuration.merchant_id = "6d3bxmf7cd8g9m7s"
+Braintree::Configuration.public_key = "2tdfpxc79jtk4437"
+Braintree::Configuration.private_key = "ca0de6ffc93d667297cf6b533981316a"
+
 end
 
 #Some configurations 
@@ -51,6 +59,7 @@ configure :production do
   username="production_username" # Dont know what to do here
   password="production_password"
   DataMapper.setup(:default, 'postgres://#{username}:#{password}@localhost/production')
+  DataMapper.auto_upgrade!
 end
 
 
@@ -138,15 +147,59 @@ get '/account' do
   # Shows an edit page for current account
   @user = currentUser
   if @user
-    erb  :account
+
+    if params[:action].eql? "cancelPlan"
+      print "Cancel Plan"
+        # Cancel current subscription
+        Braintree::Subscription.cancel(@user.subscriptionID)
+        
+        @user.subscriptionID = ""  # Remove subscriptionID
+        @user.save
+        redirect '/account'
+        return
+    end
+
+    if params[:action].eql? "startPlan"
+      print "Start Plan"
+        # Start a new subscription. (Now without any trials)
+        customer = Braintree::Customer.find(@user.billingID)
+        if customer
+            payment_method_token = customer.credit_cards[0].token
+
+            result = Braintree::Subscription.create(
+                      :payment_method_token => payment_method_token,
+                      :plan_id => "silver_plan",
+                      :options => {
+                        :start_immediately => true # A recreated plan does not have a trial period
+                      }
+                    )
+
+            @user.subscriptionID = result.subscription.id  # Add subscriptionID
+            @user.save
+            redirect '/account'
+
+        else
+          # Customer with this ID not found - remove from Customer
+          @user.billingID = 0
+          @user.save
+
+          flash[:error] = "No customer record found. Please try again."
+          redirect '/account'
+        end
+       
+    end
+
+  erb :account
+    
   else
     redirect '/'
   end
 end
 
+
+
 put '/account' do
   user = currentUser
-  puts params
 
   if user
     if params[:commitKeytechCredentials] == "Save"
@@ -208,9 +261,73 @@ put '/account' do
 
   # Return to account site
   redirect '/account'
-
 end
 
+# Sets a credit card for current logged in user
+get '/subscription' do
+
+  @user = currentUser
+  
+  if @user
+      if !@user.subscriptionID.empty?
+        # A billing customer is already given
+        # TODO: Eine Subscription kann gesetzt sein, auf 'Aktiv' - Status prüfen
+        erb :showBillingPlan
+      else
+        erb :customerAccount
+      end
+
+    else
+      redirect'/'
+    end
+ 
+end
+
+# For Payment Data
+post '/subscription' do
+  result = Braintree::Customer.create(
+    :first_name => params[:first_name],
+    :last_name => params[:last_name],
+    :credit_card => {
+      :billing_address => {
+        :postal_code => params[:postal_code]
+
+      },
+      :number => params[:number],
+      :expiration_month => params[:month],
+      :expiration_year => params[:year],
+      :cvv => params[:cvv]
+    }
+  )
+  if result.success?
+    "<h1>Customer created with name: #{result.customer.first_name} #{result.customer.last_name}</h1>"
+  
+    currentUser.billingID = result.customer.id
+
+    # Start the plan
+    customer = result.customer
+    payment_method_token = customer.credit_cards[0].token
+
+    result = Braintree::Subscription.create(
+      :payment_method_token => payment_method_token,
+      :plan_id => "silver_plan" # This is teh default monthly plan
+    )
+
+    if result.success?
+      "<h1>Subscription Status #{result.subscription.status}"
+    else
+      flash[:error] = result.message
+      redirect '/create_customer'  
+    end
+
+
+  else
+
+    # Something goes wrong
+    flash[:error] = result.message 
+    redirect '/create_customer'
+  end
+end
 
   #login controller
   post '/login' do
@@ -264,8 +381,22 @@ end
     end
   end
 
+get '/support' do
+   "<h3> To Be Done </h3>"
+end
 
 
+get '/about' do
+   "<h3> To Be Done </h3>"
+end
+
+get '/features' do
+   "<h3> To Be Done </h3>"
+end
+
+get '/pricing' do
+   "<h3> To Be Done </h3>"
+end
 
 # Redirection for file download
 

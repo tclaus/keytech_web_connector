@@ -264,6 +264,93 @@ html .notice.error h3, body .notice.error h3 {
     padding-left: 40px
 }
 
+.button, .minibutton {
+    position: relative;
+    display: inline-block;
+    padding: 7px 12px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+    white-space: nowrap;
+    background-color: #eeeeee;
+    background-image: -moz-linear-gradient(#fcfcfc, #eee);
+    background-image: -webkit-linear-gradient(#fcfcfc, #eee);
+    background-image: linear-gradient(#fcfcfc, #eee);
+    background-repeat: repeat-x;
+    border-radius: 3px;
+    border: 1px solid #d5d5d5;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-appearance: none
+}
+
+.button:focus, .minibutton:focus {
+    outline: none;
+    text-decoration: none;
+    border-color: #51a7e8;
+    box-shadow: 0 0 5px rgba(81, 167, 232, 0.5)
+}
+
+.button:hover, .button:active, .button.zeroclipboard-is-hover,
+.button.zeroclipboard-is-active, .minibutton:hover, .minibutton:active,
+.minibutton.zeroclipboard-is-hover, .minibutton.zeroclipboard-is-active {
+    text-decoration: none;
+    background-color: #dddddd;
+    background-image: -moz-linear-gradient(#eee, #ddd);
+    background-image: -webkit-linear-gradient(#eee, #ddd);
+    background-image: linear-gradient(#eee, #ddd);
+    background-repeat: repeat-x;
+    border-color: #ccc
+}
+
+
+.button.primary, .minibutton.primary {
+    color: #fff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #60b044;
+    background-image: -moz-linear-gradient(#8add6d, #60b044);
+    background-image: -webkit-linear-gradient(#8add6d, #60b044);
+    background-image: linear-gradient(#8add6d, #60b044);
+    background-repeat: repeat-x;
+    border-color: #5ca941
+}
+
+.button.primary:hover, .minibutton.primary:hover {
+    color: #fff;
+    background-color: #569e3d;
+    background-image: -moz-linear-gradient(#79d858, #569e3d);
+    background-image: -webkit-linear-gradient(#79d858, #569e3d);
+    background-image: linear-gradient(#79d858, #569e3d);
+    background-repeat: repeat-x;
+    border-color: #4a993e
+}
+
+.button.primary:active, .button.primary.selected, .minibutton.primary:active,
+.minibutton.primary.selected {
+    background-color: #569e3d;
+    background-image: none;
+    border-color: #418737
+}
+
+.button.primary:disabled, .button.primary:disabled:hover, .button.primary.disabled,
+.button.primary.disabled:hover, .minibutton.primary:disabled, .minibutton.primary:disabled:hover,
+.minibutton.primary.disabled, .minibutton.primary.disabled:hover {
+    color: #fff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #60b044;
+    background-image: -moz-linear-gradient(#8add6d, #60b044);
+    background-image: -webkit-linear-gradient(#8add6d, #60b044);
+    background-image: linear-gradient(#8add6d, #60b044);
+    background-repeat: repeat-x;
+    border-color: #74bb5a #74bb5a #509338
+}
 
 
 

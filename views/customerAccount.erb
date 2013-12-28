@@ -1,0 +1,60 @@
+ 
+
+<%= showFlashMessage %> 
+
+<div>
+  Thank you for upgrading to payed account. Once we successfully charge your credit card, we'll immediatly upgrade your account. </br>
+  You can then use your own API. 
+</div>
+
+<% customer = Braintree::Customer.find(@user.billingID) %>
+<% if !customer  %>
+
+
+      <form action="/subscription" method="POST" id="braintree-payment-form">
+      <h2>Customer Information</h2>
+      <p>
+        <label>First Name</label>
+        <input type="text" name="first_name" id="first_name" ></input>
+      </p>
+      <p>
+        <label for="last_name">Last Name</label>
+        <input type="text" name="last_name" id="last_name" ></input>
+      </p>
+      <p>
+        <%= erb :countrySelector %>
+      </p>
+      <p>
+        <label for="postal_code">Postal Code</label>
+        <input type="text" name="postal_code" id="postal_code" ></input>
+      </p>
+      <h2>Credit Card</h2>
+      <p>
+        <label>Card Number</label>
+        <input type="text" size="20" autocomplete="off" data-encrypted-name="number" />
+      </p>
+      <p>
+        <label>CVV</label>
+        <input type="text" size="4" autocomplete="off" data-encrypted-name="cvv" />
+      </p>
+      <p>
+        <label>Expiration (MM/YYYY)</label>
+        <input type="text" size="2" data-encrypted-name="month"/> / <input type="text" size="4" data-encrypted-name="year" />
+      </p>
+      <button class="button primary" type="submit" />Process credit card</button>
+      <a href="/" class="button">Cancel</a>
+    </form>
+
+<% else  # Else: Customer and Card created, only start a plan again %>
+    <p>
+      <a href="/account?action=startPlan" class="button primary">Start the plan</a>
+      <a href="/" class="button">Cancel</a>
+  </p>
+<% end  %>
+
+    <script src="https://js.braintreegateway.com/v1/braintree.js"></script>
+
+    <script>
+      var braintree = Braintree.create("MIIBCgKCAQEA1X+aSlByqf3ixB49OCB4A3A0GuGDWXPlA8VHk2lhtSiqZvGIWSQSqYpyMtZF2Sq87ntMXshm0qONcZpDMIzJnsUKviaA1JnpWztZt09pKb2GBA83M4lAYC5sePjKa6OJQvO1K3ythMBLAx2lT/UkY1p6mpnG0Dau3wZ83eqCdp2aemjLjIMIV+ePQdsYnOxZYRB+YOVanTWJR94cpgU/mNqgWRmRjRaxu0sZuixxaYbTVwk1MLaQUM1iVpZeZ8/m10hGQjRT11WS4UdKKhG85zQ85Lm/fI8kWSflsTJeVseL/iho44vGnp+HjHjKnAgfyjTz0WwvlXLW3ht5LaH/jQIDAQAB");
+      braintree.onSubmitEncryptForm("braintree-payment-form");
+    </script>

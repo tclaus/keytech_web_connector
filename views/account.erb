@@ -101,7 +101,29 @@
 		<form accept-charset="UTF-8" action="/account" class="edit-keytech-credentials" method="post">
 			<fieldset>
 				<h3>Billing Information</h3>
-				<small>To be done</small>
+				<p>
+				Customer ID: 
+				<%= @user.billingID %>
+				</p>
+				<p>
+				
+				 <% if !@user.subscriptionID.empty? %>
+				 <%  subscription = Braintree::Subscription.find(@user.subscriptionID)  %>
+				 <%  if subscription %>
+					  Subscription: <%= subscription.status %> </br>
+					  
+					  Next Payment: <%= "%.2f USD" % subscription.price %> on <%= subscription.next_billing_date %>
+
+					  <a href="/account?action=cancelPlan" class="button">Cancel</a>
+					<% else %>
+					<%=    "No subscription" %>
+					  <a href="/subscription" class="button">Subscribe</a>
+					<% end %>
+				<% else %>
+					<%=    "No subscription" %>
+					  <a href="/subscription" class="button">Subscribe</a>
+				<% end %>
+				</p>
 			</fieldset>
 		</form>
 </div>

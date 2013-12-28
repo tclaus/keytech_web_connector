@@ -37,9 +37,14 @@ property :keytechUserName_crypted, String, :writer =>:protected
 property :keytechPassword_crypted, String,  :writer =>:protected
 property :keytechAPI_crypted, String, :writer =>:protected
 
+
 property :created_at, DateTime
 
+# Links to the customerID of payment service
+property :billingID, Integer
 
+# Subscription ID for the Plan
+property :subscriptionID, String
 
 #validates_presence_of :password_confirmation
 validates_confirmation_of :password
