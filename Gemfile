@@ -22,11 +22,11 @@ gem 'dm-sqlite-adapter', :group =>:development
 
 
 # Payments
-require "braintree"
+gem 'braintree'
 
 
 # setup our test group and require rspec
 group :test do
-  gem "rspec"
-  gem "capybara"
+  gem 'rspec'
+  gem 'capybara'
 end

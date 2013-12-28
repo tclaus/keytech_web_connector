@@ -6,7 +6,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'data_mapper'
-require 'HTTParty'
+require 'httparty'
 
 require './Cipher'
 require './Session'

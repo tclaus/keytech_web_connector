@@ -1,5 +1,5 @@
 require 'sinatra/base'
-require 'HTTParty'
+require 'httparty'
 
 module Sinatra
 
