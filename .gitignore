@@ -12,4 +12,4 @@ development.db
 *.sass-cache
 /pkg
 /doc/api
-/Gemfile.lock
+# /Gemfile.lock #Needed for heroku

@@ -12,6 +12,8 @@ gem 'json'
 gem 'sinatra-contrib'
 gem 'rack-flash3'
 
+gem 'unicorn'  # Recommended web server for heroku installation
+
 gem 'rerun'
 
 #Datamapper stuff, in production use postgres, in development SQLite

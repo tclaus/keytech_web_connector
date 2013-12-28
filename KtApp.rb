@@ -56,9 +56,9 @@ end
 #Some configurations 
 configure :production do
   # A Postgres connection:
-  username="production_username" # Dont know what to do here
-  password="production_password"
-  DataMapper.setup(:default, 'postgres://#{username}:#{password}@localhost/production')
+  
+  DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
+
   DataMapper.auto_upgrade!
 end
 
