@@ -17,6 +17,8 @@ Bundler.require(:default)
 
 class KtApp < Sinatra::Base
   
+  set :root, File.dirname(__FILE__)
+  
   register Sinatra::Contrib
   register Sinatra::AssetPack
 
@@ -25,7 +27,7 @@ class KtApp < Sinatra::Base
   require_relative "helpers/ApplicationHelper"
   require_relative "helpers/SessionHelper"
 
-  set :root, File.dirname(__FILE__)
+  
 
 # Enable flash messages
 use Rack::Flash, :sweep => true
@@ -64,6 +66,10 @@ end
 
 
   assets do
+
+    serve '/js',     from: 'app/js'        # Default
+    serve '/css',    from: 'app/css'       # Default
+    serve '/images', from: 'app/images'    # Default
 
     js :application, [
       '/js/vendor/custom.modernizr.js'
