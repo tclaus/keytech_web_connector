@@ -36,7 +36,8 @@ module Sinatra
 
     # Loads the underlying structure base an a given Element Key
     def loadElementStructure(elementKey)
-      user = UserAccount.get(session[:user])
+      #user = UserAccount.get(session[:user])
+      user = currentUser
       #/elements/{ElementKey}/structure
       result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}/structure", 
                                         :basic_auth => {

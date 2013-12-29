@@ -17,10 +17,6 @@ require './Session'
 class UserAccount
 	include DataMapper::Resource
 
- 	# Points to the default keytech Demo- API
-  	@keytechDefaultAPI = "https://api.keytech.de"
-  	@keytechDefaultUsername = "jgrant"
-
 
   attr_accessor :password, :password_confirmation
   attr_accessor :keytechPassword, :keytechUserName, :keytechAPIURL
@@ -67,7 +63,7 @@ def keytechUserName
 		# Should not be empty, if keytch default API is used
 		# 
 
-		if self.keytechAPIURL.eql? @keytechDefaultAPI
+		if self.keytechAPIURL.eql? keytechDefaultAPI
 			return keytechDefaultUsername
 		end
 
@@ -107,7 +103,7 @@ end
 
 def keytechAPIURL
 	if keytechAPI_crypted.nil? || keytechAPI_crypted.empty?
-		return "https://api.keytech.de"  # default API URL
+		return self.keytechDefaultAPI  # default API URL
 	end
 
 	Cipher.decrypt(self.keytechAPI_crypted)
@@ -128,6 +124,37 @@ end
     self.salt = (1..12).map{(rand(26)+65).chr}.join if !self.salt
     self.password_hashed = UserAccount.encrypt(@password, self.salt)
  end
+
+ # This is the default keytech API URL for demo purposes
+ #
+def keytechDefaultAPI 
+	return "https://api.keytech.de"
+end
+# This is a valid demo user
+def keytechDefaultUsername
+	return "jgrant"
+end
+
+
+# The demo API has a special handling. 
+# 
+def usesDemoAPI?
+	self.keytechAPIURL.eql? self.keytechDefaultAPI
+end
+
+
+# Checks if user has a valid subscription
+# 
+def hasValidSubscription?
+	print " Subsciption: #{subscriptionID} "
+
+	if !subscriptionID.empty?
+	 	subscription = Braintree::Subscription.find(subscriptionID)
+		if subscription
+			return subscription.status.downcase.eql? "active"
+		end
+	end
+end
  
 protected
 def self.encrypt(pass, salt)
@@ -156,9 +183,9 @@ def self.hasKeytechAccess(userAccount)
     	# userAccount was nil
     	return false
     end
-
-
 end
+
+
 
 
 

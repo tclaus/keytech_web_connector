@@ -364,18 +364,6 @@ end
   end
 
 
-  # redirects to a search page and fill search Data
-
-  get '/search' do
-    if session[:user]
-      @result=findElements(params[:q])
-      erb :search
-    else 
-        flash[:notice] = "(TBD: loged out or session invalid)"
-       redirect '/'
-    end
-  end
-
   #Loads a element structure, if present
   get '/search/:elementKey' do
     if session[:user]
@@ -384,6 +372,26 @@ end
     else
       flash[:notice] = "(TBD: logged out or session invalid)"
       redirect '/'
+    end
+  end
+
+  # redirects to a search page and fill search Data
+  get '/search' do
+    if currentUser
+
+      if currentUser.usesDemoAPI? || currentUser.hasValidSubscription?
+        
+
+        @result=findElements(params[:q])
+        erb :search
+      else
+        flash[:warning] = "You need a valid subscription to use a API other than the demo API. Go to the account page and check your current subscription under the 'Billing' area."
+        erb :search
+      end
+
+    else 
+        flash[:notice] = "(TBD: loged out or session invalid)"
+       redirect '/'
     end
   end
 

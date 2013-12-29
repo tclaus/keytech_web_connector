@@ -1,7 +1,7 @@
 module SearchHelper
 require "net/https"
 require "rexml/document"
-
+require_relative "./SessionHelper"
 
 
 	#Converts the nasty JSON Date format to something useful
@@ -25,7 +25,6 @@ require "rexml/document"
 	# Returns "DO", "FD" or "MI" to identify the type of element 
 	def classType(elementKey)
 		classKey =   elementKey.split(':')[0]
-		print "classkey=#{classKey}"
 		if classKey.end_with?('_MI')
 			return "MI"
 		end
@@ -49,18 +48,22 @@ require "rexml/document"
 	def loadMasterfile(elementKey)
 
 		resource = "/elements/#{elementKey}/masterfile"
-	 print "Loading: #{resource} "
+	 	print "Loading: #{resource} "
 
 		#print "Username: #{session[:user]}, pw: #{session[:passwd]}"
+		user = currentUser
 
-		http = Net::HTTP.new("api.keytech.de",443)
+		plainURI = user.keytechAPIURL.sub(/^https?\:\/\//, '').sub(/^www./,'')
+		http = Net::HTTP.new(plainURI,443)
 		http.use_ssl = true; 
 		http.start do |http|
+
+			
 			req = Net::HTTP::Get.new(resource, {"User-Agent" =>
         										"keytech api downloader"})
-			req.basic_auth(session[:user],session[:passwd])
+			req.basic_auth(user.keytechUserName, user.keytechPassword)
 			response = http.request(req)
-	print "response: #{response}"		
+			print "response: #{response}"		
 
 			# return this as a file attachment
 			attachment( response["X-Filename"])  #Use the sinatra helper to set this as filename
@@ -75,16 +78,18 @@ require "rexml/document"
 
 def loadClassImage(classKey)
 		# see: http://juretta.com/log/2006/08/13/ruby_net_http_and_open-uri/
-		#resp = href=""
 		resource = "/smallclassimage/#{classKey}"
 #print "loaded: #{resource}"
+		
+		user = currentUser
 
-		http = Net::HTTP.new("api.keytech.de",443)
+		plainURI = user.keytechAPIURL.sub(/^https?\:\/\//, '').sub(/^www./,'')
+		http = Net::HTTP.new(plainURI,443)
 		http.use_ssl = true; 
 		http.start do |http|
 			req = Net::HTTP::Get.new(resource, {"User-Agent" =>
         										"keytech api downloader"})
-			req.basic_auth(session[:user],session[:passwd])
+			req.basic_auth(user.keytechUserName,user.keytechPassword)
 			response = http.request(req)
 	#print "response #{response}"		
 			# return this!
