@@ -23,7 +23,7 @@ class Cipher
 		@@cipher = OpenSSL::Cipher::Cipher.new("aes-256-cbc")
 		@@key = Digest::SHA1.hexdigest("This is the keytech password - keep it secret!-")  # Hash the clear Text password!
   		
-  		@@iv = "TC:01.06.1974000"  #16 Characters long
+  		@@iv = "TC:01.06.1974000"  # Initialisierungsvektor, 16 Characters long
 
 
  	end

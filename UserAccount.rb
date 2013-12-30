@@ -40,7 +40,7 @@ property :created_at, DateTime
 property :billingID, Integer
 
 # Subscription ID for the Plan
-property :subscriptionID, String
+property :subscriptionID, String, :default =>""
 
 #validates_presence_of :password_confirmation
 validates_confirmation_of :password
@@ -173,8 +173,8 @@ def self.hasKeytechAccess(userAccount)
 
     	userresponse = HTTParty.get(user.keytechAPIURL + "/user/#{userAccount.keytechUserName}", 
                                         :basic_auth => {
-                                              :username => user.keytechUserName, 
-                                              :password => user.keytechPassword})
+                                              :username => userAccount.keytechUserName, 
+                                              :password => userAccount.keytechPassword})
 
     	@userdata=userresponse["MembersList"]
     	(userresponse.code==200) && (@userdata[0]["IsActive"])? true : false

@@ -12,7 +12,7 @@ gem 'sinatra-assetpack'
 gem 'json'
 gem 'sinatra-contrib'
 gem 'rack-flash3'
-
+gem 'mail'
 
 group :production do
 	gem 'pg'
