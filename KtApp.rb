@@ -394,7 +394,7 @@ end
 
     if params[:email].empty?
       flash[:warning] = "Enter a valid mail address"
-      redirect '/forgotpassword'
+      redirect '/account/forgotpassword'
       return
     end
 
@@ -403,7 +403,7 @@ end
 
     if !user
       flash[:warning] = "This email address is unknown. Please enter a valid useraccount identified by it's email"
-      redirect '/forgotpassword'
+      redirect '/account/forgotpassword'
       return
     end
 

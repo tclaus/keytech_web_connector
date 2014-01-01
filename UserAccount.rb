@@ -171,7 +171,7 @@ def self.hasKeytechAccess(userAccount)
     	
     	# Load User from API and check its 'Active' Property
 
-    	userresponse = HTTParty.get(user.keytechAPIURL + "/user/#{userAccount.keytechUserName}", 
+    	userresponse = HTTParty.get(userAccount.keytechAPIURL + "/user/#{userAccount.keytechUserName}", 
                                         :basic_auth => {
                                               :username => userAccount.keytechUserName, 
                                               :password => userAccount.keytechPassword})
