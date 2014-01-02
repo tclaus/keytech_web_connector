@@ -430,7 +430,7 @@ end
       if recovery
         if !recovery.isValid?
           recovery.destroy
-          flash[:warning] = "Recovery token has become invalid"
+          flash[:warning] = "Recovery token has expired"
           return erb :"passwordManagement/invalidPasswordRecovery"  
 
         end
@@ -442,14 +442,17 @@ end
           # Start a new password, if useraccount matches
           erb :"passwordManagement/newPassword"
         else
-          "<H3>Invalid username or not found</h3>"
+        flash[:warning] = "Can not recover a password from a deleted or disabled useraccount."
+        erb :"passwordManagement/invalidPasswordRecovery"   
         end
         
       else
+        flash[:warning] = "Recovery token not found or invalid"
         erb :"passwordManagement/invalidPasswordRecovery"   
       end
 
     else
+      flash[:warning] = "Invalid page - a recovery token is missing."
       erb :"passwordManagement/invalidPasswordRecovery"
     end
 
