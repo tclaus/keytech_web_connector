@@ -27,7 +27,7 @@ class KtApp < Sinatra::Base
   require_relative "helpers/SearchHelper"
   require_relative "helpers/ApplicationHelper"
   require_relative "helpers/SessionHelper"
-  require_relative "Helpers/MailSendHelper"
+  require_relative "helpers/MailSendHelper"
   
 
 # Enable flash messages
@@ -479,7 +479,7 @@ end
                 flash[:error] = user.errors.full_messages
               else
                 # Everything is OK now
-                Print " Password reset: OK!"
+                print " Password reset: OK!"
                 recovery.destroy
                 flash[:notice] = "Your new password was accepted. Login now with you new password."
                 redirect '/'
