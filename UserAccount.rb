@@ -31,13 +31,13 @@ property :salt, String, :required=>true, :writer =>:protected
 
 property :keytechUserName_crypted, String, :writer =>:protected
 property :keytechPassword_crypted, String,  :writer =>:protected
-property :keytechAPI_crypted, String, :writer =>:protected
+property :keytechAPI_crypted, String, :length => 100, :writer =>:protected
 
 
 property :created_at, DateTime
 
 # Links to the customerID of payment service
-property :billingID, Integer
+property :billingID, Integer, :default =>0
 
 # Subscription ID for the Plan
 property :subscriptionID, String, :default =>""
@@ -98,6 +98,10 @@ def keytechAPIURL=(apiURL)
 		return
 	end
 
+	if !apiURL.downcase.start_with?("http://", "https://")
+		apiURL = "http://" + apiURL
+	end
+
 	self.keytechAPI_crypted = Cipher.encrypt(apiURL)
 end
 
@@ -139,6 +143,7 @@ end
 # The demo API has a special handling. 
 # 
 def usesDemoAPI?
+	#true
 	self.keytechAPIURL.eql? self.keytechDefaultAPI
 end
 
@@ -147,13 +152,13 @@ end
 # 
 def hasValidSubscription?
 	print " Subsciption: #{subscriptionID} "
-
 	if !subscriptionID.empty?
 	 	subscription = Braintree::Subscription.find(subscriptionID)
 		if subscription
 			return subscription.status.downcase.eql? "active"
 		end
 	end
+	return false
 end
  
 protected

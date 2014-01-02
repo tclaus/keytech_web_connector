@@ -7,8 +7,9 @@
   You can then use your own API. 
 </div>
 
+<% begin %>
 <% customer = Braintree::Customer.find(@user.billingID) %>
-<% if !customer  %>
+<% rescue Braintree::NotFoundError  %>
 
 
       <form action="/account/subscription" method="POST" id="braintree-payment-form">

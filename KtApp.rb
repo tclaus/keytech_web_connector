@@ -295,7 +295,7 @@ put '/account' do
 end
 
 # Sets a credit card for current logged in user
-get '/subscription' do
+get '/account/subscription' do
 
   @user = currentUser
   
@@ -315,7 +315,7 @@ get '/subscription' do
 end
 
 # For Payment Data
-post '/subscription' do
+post '/account/subscription' do
   result = Braintree::Customer.create(
     :first_name => params[:first_name],
     :last_name => params[:last_name],
@@ -507,7 +507,7 @@ end
     end
   end
 
-  # redirects to a search page and fill search Data
+  # redirects to a search page and fill search Data, parameter q is needed
   get '/search' do
     if currentUser
 
