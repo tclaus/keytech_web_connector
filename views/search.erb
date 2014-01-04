@@ -45,7 +45,8 @@
       </td>
       <td class="version"><div><%=@result[i]["ElementVersion"] %></div> </td>
       <td class="description"><div><%=@result[i]["ElementDisplayName"] %></div> </td>
-      <td class="status"><div><%=@result[i]["ElementStatus"] %></div> </td>
+      <td popover="I appeared on mouse enter!" popover-trigger="mouseenter" class="status"><div><%=@result[i]["ElementStatus"] %></div> 
+      </td>
       <td class="changedate"><div><%= convertJsonDate(@result[i]["ChangedAt"]) %></div> </td>
       <td class="changedbylong"><div><%=@result[i]["ChangedByLong"] %></div> </td> 
 

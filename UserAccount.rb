@@ -5,6 +5,7 @@
 
 require 'rubygems'
 require 'sinatra'
+require 'sinatra/base'
 require 'data_mapper'
 require 'httparty'
 
@@ -143,8 +144,9 @@ end
 # The demo API has a special handling. 
 # 
 def usesDemoAPI?
-	#true
-	self.keytechAPIURL.eql? self.keytechDefaultAPI
+ # in Development - Mode, access to all kinds of API is granted
+	(self.keytechAPIURL.eql? self.keytechDefaultAPI) || ENV['RACK_ENV'].eql?("development")
+
 end
 
 

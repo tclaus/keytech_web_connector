@@ -48,13 +48,13 @@ configure :development do
   DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/development.db")
   DataMapper.auto_upgrade!
 
-# Payments
-Braintree::Configuration.environment = :sandbox
-Braintree::Configuration.merchant_id = "6d3bxmf7cd8g9m7s"
-Braintree::Configuration.public_key = "2tdfpxc79jtk4437"
-Braintree::Configuration.private_key = "ca0de6ffc93d667297cf6b533981316a"
+  # Payments
+  Braintree::Configuration.environment = :sandbox
+  Braintree::Configuration.merchant_id = "6d3bxmf7cd8g9m7s"
+  Braintree::Configuration.public_key = "2tdfpxc79jtk4437"
+  Braintree::Configuration.private_key = "ca0de6ffc93d667297cf6b533981316a"
 
-# Mail Send
+  # Mail Send
   Mail.defaults do
       delivery_method :smtp, { :address              => "smtp.gmail.com",
                                :port                 => 587,
@@ -118,7 +118,7 @@ end
 
   end
 
-enable :method_override
+  enable :method_override
 
   #include Helpers module
   helpers ApplicationHelper
