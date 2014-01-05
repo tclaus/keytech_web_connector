@@ -71,13 +71,12 @@ end
 #Some configurations 
 configure :production do
   # A Postgres connection:
-  print "Database URL: " + ENV['DATABASE_URL']
   DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
   # TODO: Payments als Production Code einbauen
 
   # Mail Send
   Mail.defaults do
-      delivery_method :smtp, { :address              => "smtp.sendgrit.net",
+      delivery_method :smtp, { :address              => "smtp.sendgrid.net",
                                :port               => 587,
                                :user_name            => ENV['SENDGRID_USERNAME'],
                                :password             => ENV['SENDGRID_PASSORD'],
