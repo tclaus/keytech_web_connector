@@ -8,9 +8,11 @@ require 'sinatra/base'
 require "sinatra/contrib/all"
 require 'sinatra/assetpack'
 require 'rack-flash'
+require 'rack/flash/test'
 
 require './UserAccount'
 require './helpers/KtApi'
+require './PasswordRecoveryList'
 
 Bundler.require(:default)
 
@@ -26,7 +28,7 @@ class KtApp < Sinatra::Base
   require_relative "helpers/SearchHelper"
   require_relative "helpers/ApplicationHelper"
   require_relative "helpers/SessionHelper"
-
+  require_relative "helpers/MailSendHelper"
   
 
 # Enable flash messages
@@ -47,19 +49,41 @@ configure :development do
   DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/development.db")
   DataMapper.auto_upgrade!
 
-# Payments
-Braintree::Configuration.environment = :sandbox
-Braintree::Configuration.merchant_id = "6d3bxmf7cd8g9m7s"
-Braintree::Configuration.public_key = "2tdfpxc79jtk4437"
-Braintree::Configuration.private_key = "ca0de6ffc93d667297cf6b533981316a"
+  # Payments
+  Braintree::Configuration.environment = :sandbox
+  Braintree::Configuration.merchant_id = "6d3bxmf7cd8g9m7s"
+  Braintree::Configuration.public_key = "2tdfpxc79jtk4437"
+  Braintree::Configuration.private_key = "ca0de6ffc93d667297cf6b533981316a"
 
+  # Mail Send
+  Mail.defaults do
+      delivery_method :smtp, { :address              => "smtp.gmail.com",
+                               :port                 => 587,
+                               :user_name            => "vvanchesa@gmail.com",
+                               :password             => "bla123_yuhuu",
+                               :authentication       => :plain,
+                               :enable_starttls_auto => true  }
+
+  end
+  DataMapper.auto_upgrade!
 end
 
 #Some configurations 
 configure :production do
   # A Postgres connection:
-  
   DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
+  # TODO: Payments als Production Code einbauen
+
+  # Mail Send
+  Mail.defaults do
+      delivery_method :smtp, { :address              => "smtp.sendgrid.net",
+                               :port               => 587,
+                               :user_name            => ENV['SENDGRID_USERNAME'],
+                               :password             => ENV['SENDGRID_PASSWORD'],
+                               :authentication       => :plain,
+                               :enable_starttls_auto => true  }
+
+  end
 
   DataMapper.auto_upgrade!
 end
@@ -94,13 +118,14 @@ end
 
   end
 
-enable :method_override
+  enable :method_override
 
   #include Helpers module
   helpers ApplicationHelper
   helpers SearchHelper
   helpers SessionHelper
   helpers Sinatra::KtApiHelper
+  helpers MailSendHelper
 
   # Routes
   # These are your Controllers! Can be outsourced to own files but I leave them here for now.
@@ -270,7 +295,7 @@ put '/account' do
 end
 
 # Sets a credit card for current logged in user
-get '/subscription' do
+get '/account/subscription' do
 
   @user = currentUser
   
@@ -290,7 +315,7 @@ get '/subscription' do
 end
 
 # For Payment Data
-post '/subscription' do
+post '/account/subscription' do
   result = Braintree::Customer.create(
     :first_name => params[:first_name],
     :last_name => params[:last_name],
@@ -359,8 +384,118 @@ end
     redirect '/'
   end
 
-  get '/forgotpassword' do
-    erb :forgotpassword
+  get '/account/forgotpassword' do
+    erb :"passwordManagement/forgotpassword"
+  end
+
+  # Send a password recovery link
+  post '/account/forgotpassword' do
+    # existiert diese Mail- Adrese ? 
+
+    if params[:email].empty?
+      flash[:warning] = "Enter a valid mail address"
+      redirect '/account/forgotpassword'
+      return
+    end
+
+    # Get user account by its mail
+    user = UserAccount.first(:email => params[:email].to_s)
+
+    if !user
+      flash[:warning] = "This email address is unknown. Please enter a valid useraccount identified by it's email"
+      redirect '/account/forgotpassword'
+      return
+    end
+
+    # Delete all old password recoveries based in this email
+    PasswordRecoveryList.all(:email => params[:email]).destroy
+    
+    # Generate a new password recovery pending entry
+    newRecovery = PasswordRecoveryList.create(:email=> params[:email] )
+    # Now send a mail
+    if newRecovery
+      sendPasswordRecoveryMail(newRecovery)
+      flash[:notice] = "A recovery mail was send to #{params[:email]} please check your inbox."
+      erb :"passwordManagement/recoveryMailSent"
+    end
+
+  end
+
+  # Recovers lost password,if recoveryID is still valid in database
+  get '/account/password/reset/:recoveryID' do
+    if params[:recoveryID] 
+      recovery = PasswordRecoveryList.first(:recoveryID => params[:recoveryID])
+      print "Recovery: #{recovery}"
+
+      if recovery
+        if !recovery.isValid?
+          recovery.destroy
+          flash[:warning] = "Recovery token has expired"
+          return erb :"passwordManagement/invalidPasswordRecovery"  
+
+        end
+
+        @user = UserAccount.first(:email => recovery.email.to_s)
+        if @user
+          print " User account found!"
+
+          # Start a new password, if useraccount matches
+          erb :"passwordManagement/newPassword"
+        else
+        flash[:warning] = "Can not recover a password from a deleted or disabled useraccount."
+        erb :"passwordManagement/invalidPasswordRecovery"   
+        end
+        
+      else
+        flash[:warning] = "Recovery token not found or invalid"
+        erb :"passwordManagement/invalidPasswordRecovery"   
+      end
+
+    else
+      flash[:warning] = "Invalid page - a recovery token is missing."
+      erb :"passwordManagement/invalidPasswordRecovery"
+    end
+
+  end
+  
+  # accepts a new password and assigns it to current user
+  post '/account/password/reset' do
+    recovery = PasswordRecoveryList.first(:recoveryID => params[:recoveryID])
+    print " Recovery: #{recovery}"
+    if recovery
+        user = UserAccount.first(:email => recovery.email.to_s)
+        if user
+          # Password check and store it
+            print " User: #{user}"
+            password = params[:password]
+            password_confirmation = params[:password_confirmation]
+
+            if password.empty? && password_confirmation.empty?
+                flash[:warning] = "New password can not be empty"
+                redirect '/account/password/reset/#{params[:recoveryID]}'   
+            end
+
+            if password.eql? password_confirmation
+              user.password = password
+              user.password_confirmation = password_confirmation
+              if !user.save
+                flash[:error] = user.errors.full_messages
+              else
+                # Everything is OK now
+                print " Password reset: OK!"
+                recovery.destroy
+                flash[:notice] = "Your new password was accepted. Login now with you new password."
+                redirect '/'
+              end
+
+            else
+              flash[:error] = "Password and password confirmation did not match."
+              redirect '/account/password/reset/#{params[:recoveryID]}'   
+            end
+
+        end
+    end
+
   end
 
 
@@ -375,7 +510,7 @@ end
     end
   end
 
-  # redirects to a search page and fill search Data
+  # redirects to a search page and fill search Data, parameter q is needed
   get '/search' do
     if currentUser
 
