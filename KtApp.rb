@@ -8,6 +8,7 @@ require 'sinatra/base'
 require "sinatra/contrib/all"
 require 'sinatra/assetpack'
 require 'rack-flash'
+require 'rack/flash/test'
 
 require './UserAccount'
 require './helpers/KtApi'
