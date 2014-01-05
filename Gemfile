@@ -11,6 +11,7 @@ gem 'compass'
 gem 'sinatra-assetpack'
 gem 'json'
 gem 'sinatra-contrib'
+gem 'rack-flash-session'
 gem 'rack-flash3'
 gem 'mail'
 

@@ -70,7 +70,7 @@ end
 #Some configurations 
 configure :production do
   # A Postgres connection:
-  print "database URL: " + ENV['DATABASE_URL']
+  print "Database URL: " + ENV['DATABASE_URL']
   DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
   # TODO: Payments als Production Code einbauen
 
