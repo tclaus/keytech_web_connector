@@ -111,6 +111,8 @@ GEM
     pg (0.17.1)
     polyglot (0.3.3)
     rack (1.5.2)
+    rack-flash-session (1.0.2)
+      rack (>= 1.0)
     rack-flash3 (1.0.5)
       rack
     rack-protection (1.5.1)
@@ -181,6 +183,7 @@ DEPENDENCIES
   json
   mail
   pg
+  rack-flash-session
   rack-flash3
   rake
   rerun
