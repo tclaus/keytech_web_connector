@@ -78,10 +78,10 @@ configure :production do
   # Mail Send
   Mail.defaults do
       delivery_method :smtp, { :address              => "smtp.sendgrit.net",
-                               :domain               => 'heroku.com',
+                               :port               => 587,
                                :user_name            => ENV['SENDGRID_USERNAME'],
                                :password             => ENV['SENDGRID_PASSORD'],
-                               :authentication       => nil,
+                               :authentication       => :plain,
                                :enable_starttls_auto => true  }
 
   end
