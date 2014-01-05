@@ -1,6 +1,6 @@
 #For Rackup Configuration needed. Rackup shows here and do whatever 'run' orders
 
-#enable sessions, for testing purposes expire after 60 seconds
+#enable sessions, for 900 seconds (15 minutes)
 use Rack::Session::Pool, 
 		:expire_after => 900, 
 		:key => "KtApp", 

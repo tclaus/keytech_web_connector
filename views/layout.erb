@@ -1,15 +1,15 @@
 <!DOCTYPE html> 
 <!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]--> 
-<html class="no-js" lang="en" > 
+<html class="no-js" lang="en" ng-app> 
 <head> 
 	<meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 	<title><%=@title%></title> 
-	<%= css :application %>
-	<%= js :application %> 
+
+	<%= css :application %> 
+	 <%= js :application %>
 </head> 
 <body> 
-	
-	
+
 	<%=  erb :header %> <!-- Header / logged-in -->
 
 	<div id="content">
@@ -20,6 +20,6 @@
 	<%= erb :footer %>
 
     <%= js :body %>
-	<script> $(document).foundation(); </script> 
+	 <script> $(document).foundation(); </script>
 </body> 
 </html>
