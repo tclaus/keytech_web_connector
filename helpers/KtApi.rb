@@ -75,7 +75,7 @@ module Sinatra
         keytechElement.elementVersion =  element['ElementVersion']
         keytechElement.hasVersions =  element['HasVersions']
         keytechElement.thumbnailHint =  element['ThumbnailHint']
-
+print "Thumbnail : #{element['ThumbnailHint']}"
 
         return keytechElement
     end

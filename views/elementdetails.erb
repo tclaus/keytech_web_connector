@@ -16,7 +16,7 @@
 
 
 
-<% if request.query_string =="viewtype=information"  %>
+<% if request.query_string =="viewtype=information"  || request.query_string=="" %>
 <%=	erb :"details/information" %>
 <% end %>
 

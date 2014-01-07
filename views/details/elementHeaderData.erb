@@ -1,7 +1,9 @@
 
+<div>
+	<img src="/element/<%= @element.thumbnailHint %>/thumbnail" alt="<%= @element.elementTypeDisplayName %>"></img>
 
-<img src="/element/<%= @element.thumbnailHint %>/thumbnail" alt=<%= @element.elementTypeDisplayName %>></img>
+	<%= @element.elementDisplayName %>
 
-<%= @element.elementDisplayName %>
+	Thumbnail: <%= @element.thumbnailHint %>
 
-Thumbnail: <%= @element.thumbnailHint %>
+</div>
