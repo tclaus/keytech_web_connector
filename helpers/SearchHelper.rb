@@ -76,7 +76,7 @@ require_relative "./SessionHelper"
 
 
 
-def loadClassImage(classKey)
+	def loadClassImage(classKey)
 		# see: http://juretta.com/log/2006/08/13/ruby_net_http_and_open-uri/
 		resource = "/smallclassimage/#{classKey}"
 #print "loaded: #{resource}"
@@ -99,6 +99,8 @@ def loadClassImage(classKey)
 		end
 
 	end
+
+	
 
 
 end

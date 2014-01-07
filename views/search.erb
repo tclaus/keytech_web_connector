@@ -1,59 +1,8 @@
-<div class="searchfield"> 
-  <form action="/search" method="get" accept-charset="utf-8">
-     <fieldset>
-      <label for="q">Search for:</label>
-      <input class="text" id="q" type="text" name="q" />
-      <input class="submit" name = "commit" type="submit" value="Search">
-    </fieldset>
-  </form>
-</div>
 
+<%= erb :searchField %> 
 
 <%= showFlashMessage %> 
 
-<% if @result && !@result.empty? %>
-
-    <table id="source-list" class="aui">
-   <thead>
-  <tr>
-    <th class="elementIcon">Type</th>
-    <th class="elementName">Name</th>
-    <th class="elementVersion">Version</th>
-    <th class="elementDescription">Description</th>
-    <th class="elementStatus">Status</th>
-    <th class="elementChangedAt">Changed at</th>
-    <th class="elementChangedBy">Changed by</th>
-  </tr>
-</thead>
-<tbody>
-  <% for i in 0...@result.length do %>
-    <tr class="iterateable-item">
-      
-      <td class="icon"><div>
-        <%= classImage(@result[i]["ElementKey"]) %> 
-      </div></td>
-
-      <td class="name">  <div><%=  link_to("/search/#{@result[i]['ElementKey']}", @result[i]["ElementName"]) %></div> 
-          <%  if classType(@result[i]["ElementKey"]) == "DO" %>
-          
-          <a href='
-            <%= link_to_masterfile(@result[i]["ElementKey"])%> 
-          ' class="downloadlink" title="Download main file">
-          [File Download]
-          </a>
-          <% end %>
-      </td>
-      <td class="version"><div><%=@result[i]["ElementVersion"] %></div> </td>
-      <td class="description"><div><%=@result[i]["ElementDisplayName"] %></div> </td>
-      <td popover="I appeared on mouse enter!" popover-trigger="mouseenter" class="status"><div><%=@result[i]["ElementStatus"] %></div> 
-      </td>
-      <td class="changedate"><div><%= convertJsonDate(@result[i]["ChangedAt"]) %></div> </td>
-      <td class="changedbylong"><div><%=@result[i]["ChangedByLong"] %></div> </td> 
-
-    </tr>
-  <% end %>
-</tbody>
-</table>
-<% end %>
+<%= erb :resultsList %>
 
 

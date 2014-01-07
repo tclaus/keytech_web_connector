@@ -29,5 +29,9 @@ def currentUser
 	return user
 end
 
+def sessionInvalidText
+	return "You are logged out due to inactivity."
+end
+
 
 end

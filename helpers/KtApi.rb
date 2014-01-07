@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'httparty'
+require './KeytechElement'
 
 module Sinatra
 
@@ -47,17 +48,64 @@ module Sinatra
         @itemarray=result["ElementList"]
     end
 
+    # Loads excact one Element
+    def loadElement(elementKey)
+      user = currentUser
+      #/elements/{ElementKey}/structure
+      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}", 
+                                        :basic_auth => {
+                                              :username => user.keytechUserName, 
+                                              :password => user.keytechPassword})
 
-    # # User authorization
-    # def self.access_granted?(parameters)
-    # 	userresponse= HTTParty.get("https://api.keytech.de/user/#{parameters[:username]}", :basic_auth => {:username => parameters[:username], :password => parameters[:passwd]})
-    # 	@userdata=userresponse["MembersList"]
-    # 	(userresponse.code==200) && (@userdata[0]["IsActive"])? true : false
-    # end
+        keytechElement = KeytechElement.new
+        element = result["ElementList"][0]
 
-    # def self.get_full_username
-    #   fullname=@userdata[0]["LongName"]
-    # end
+        keytechElement.createdAt =  element['CreatedAt']
+        keytechElement.createdBy =  element['CreatedBy']
+        keytechElement.createdByLong =  element['CreatedByLong']
+        keytechElement.changedAt =  element['ChangedAt']
+        keytechElement.changedBy =  element['ChangedBy']
+        keytechElement.changedByLong =  element['changedByLong']
+        keytechElement.elementDescription =  element['ElementDescription']
+        keytechElement.elementDisplayName =  element['ElementDisplayName']
+        keytechElement.elementKey =  element['ElementKey']
+        keytechElement.elementName =  element['ElementName']
+        keytechElement.elementStatus =  element['elementStatus']
+        keytechElement.elementTypeDisplayName =  element['ElementTypeDisplayName']
+        keytechElement.elementVersion =  element['ElementVersion']
+        keytechElement.hasVersions =  element['HasVersions']
+        keytechElement.thumbnailHint =  element['ThumbnailHint']
+
+
+        return keytechElement
+    end
+
+
+# Loads the thumbnail at the given key
+  def loadElementThumbnail(thumbnailKey)
+    # see: http://juretta.com/log/2006/08/13/ruby_net_http_and_open-uri/
+    resource = "/elements/#{thumbnailKey}/thumbnail"
+  #print "loaded: #{resource}"
+    
+    user = currentUser
+
+    plainURI = user.keytechAPIURL.sub(/^https?\:\/\//, '').sub(/^www./,'')
+    http = Net::HTTP.new(plainURI,443)
+    http.use_ssl = true; 
+    http.start do |http|
+      req = Net::HTTP::Get.new(resource, {"User-Agent" =>
+                            "keytech api downloader"})
+      req.basic_auth(user.keytechUserName,user.keytechPassword)
+      response = http.request(req)
+  #print "response #{response}"   
+      # return this!
+      response.body
+
+      
+    end
+
+  end
+
   end
 
   # Register this class
