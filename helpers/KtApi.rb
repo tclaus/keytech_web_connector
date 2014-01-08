@@ -1,6 +1,8 @@
 require 'sinatra/base'
 require 'httparty'
 require './KeytechElement'
+require './EditorLayout'
+require './EditorLayouts'
 
 module Sinatra
 
@@ -49,10 +51,12 @@ module Sinatra
     end
 
     # Loads excact one Element
-    def loadElement(elementKey)
+    # responseAttributes one of LISTER|EDITOR|NONE|ALL  - defaults to NONE
+    # If set additional attributes are added to result
+    def loadElement(elementKey,responseAttributes = "")
       user = currentUser
       #/elements/{ElementKey}/structure
-      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}", 
+      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}?attributes=#{responseAttributes}", 
                                         :basic_auth => {
                                               :username => user.keytechUserName, 
                                               :password => user.keytechPassword})
@@ -75,7 +79,7 @@ module Sinatra
         keytechElement.elementVersion =  element['ElementVersion']
         keytechElement.hasVersions =  element['HasVersions']
         keytechElement.thumbnailHint =  element['ThumbnailHint']
-print "Thumbnail : #{element['ThumbnailHint']}"
+        keytechElement.keyValueList = elementKey['KeyValueList']
 
         return keytechElement
     end
@@ -100,11 +104,58 @@ print "Thumbnail : #{element['ThumbnailHint']}"
   #print "response #{response}"   
       # return this!
       response.body
-
-      
     end
 
   end
+
+# Loads the editorlayout for this class
+ def loadEditorLayout(elementKey)
+      #user = UserAccount.get(session[:user])
+      classKey =   elementKey.split(':')[0]
+
+      user = currentUser
+      #/elements/{ElementKey}/structure
+      result = HTTParty.get(user.keytechAPIURL + "/classes/#{classKey}/editorlayout", 
+                                              :basic_auth => {
+                                              :username => user.keytechUserName, 
+                                              :password => user.keytechPassword})
+
+
+          editorLayouts = EditorLayouts.new # [] # creates an array
+          
+          maxWidth = 0
+          maxHeight = 0
+
+          result["DesignerControls"].each do |layoutElement| # go through JSON response and make gracefully objects
+      
+
+          editorlayout = EditorLayout.new
+          editorlayout.attributeAlignment = layoutElement['AttributeAlignment']
+          editorlayout.attributeName = layoutElement['AttributeName']
+          editorlayout.controlType = layoutElement['ControlType']
+          editorlayout.dataDictionaryID = layoutElement['DataDictionaryID']
+          editorlayout.dataDictionaryType = layoutElement['DataDictionaryType']
+          editorlayout.displayName = layoutElement['Displayname']
+          editorlayout.font = layoutElement['Font']
+          editorlayout.name = layoutElement['Name']
+          editorlayout.position = layoutElement['Position']
+          editorlayout.sequence = layoutElement['Sequence']
+          editorlayout.size = layoutElement['Size']
+          
+          height = editorlayout.size['height'] + editorlayout.position['y']
+          (maxHeight< height)? maxHeight= height : maxHeight
+
+          width = editorlayout.size['width'] + editorlayout.position['x']
+          (maxWidth< width)? maxWidth= width : maxWidth
+
+          editorLayouts.layouts << editorlayout
+
+        end
+        # maxinale grösse und breite  berechnen und dem Objekt zuweisen, für View wichtig
+        editorLayouts.maxWidth =  maxWidth
+        editorLayouts.maxHeight = maxHeight
+        return editorLayouts
+    end
 
   end
 

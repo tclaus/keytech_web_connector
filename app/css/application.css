@@ -56,7 +56,7 @@ body .dialog fieldset h3{
 
 body .searchfield fieldset {
     border-top: 0;
-    padding: 30px 30px 10px 30px;
+    right: 30px;
     background-color: transparent;
 }
 
@@ -372,6 +372,10 @@ html .notice.error h3, body .notice.error h3 {
     clear: both;
     padding: 15px;
     margin-top: 30px;
+}
+#footer {
+    /* position:absolute; */
+    top:10px;
 }
 
 #header {

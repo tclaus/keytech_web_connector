@@ -1,1 +1,10 @@
-<h3>Information: To be done </h3>
+
+
+<% editorLayouts = loadEditorLayout(@element.elementKey) %>
+
+<fieldset class="Information" style="position:relative; left:5px; top:5px; height:<%= editorLayouts.maxHeight  %>px">
+
+<% editorLayouts.layouts.each do |layoutElement| %>
+<%= layoutElement.htmlStatement %>
+<% end %>
+</fieldset>

@@ -1,9 +1,13 @@
 
-<div>
+<%= @element.elementTypeDisplayName %>
+<div class="elementHeader">
+	
 	<img src="/element/<%= @element.thumbnailHint %>/thumbnail" alt="<%= @element.elementTypeDisplayName %>"></img>
 
 	<%= @element.elementDisplayName %>
-
-	Thumbnail: <%= @element.thumbnailHint %>
-
 </div>
+<% if classType(@element.elementKey) == "DO" %>
+	<a href="<%= link_to_masterfile(@element.elementKey) %>" class="downloadlink" title="Download main file">
+          [File Download]
+          </a>
+<% end %>

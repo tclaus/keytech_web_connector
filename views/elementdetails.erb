@@ -1,5 +1,4 @@
 
-<%= erb :searchField %> 
 
 <%= showFlashMessage %> 
 
@@ -9,7 +8,11 @@
 	<li <%= currentViewType?("viewtype=information")%>><a href="<%= @viewType %>?viewtype=information">Information</a></li>
 	<li <%= currentViewType?("viewtype=structure")%>><a href="<%= @viewType %>?viewtype=structure">Structure </a></li>
 	<li <%= currentViewType?("viewtype=fileslist")%>><a href="<%= @viewType %>?viewtype=fileslist">Fileslist</a></li>
-	<li <%= currentViewType?("viewtype=bom")%>><a href="<%= @viewType %>?viewtype=bom">Bill of Material</a></li>
+	
+	<% if classType(@element.elementKey) == "MI" %>
+	<% # BOM only for 'MI' - Type %>
+		<li <%= currentViewType?("viewtype=bom")%>><a href="<%= @viewType %>?viewtype=bom">Bill of Material</a></li>
+	<% end %>
 	<li <%= currentViewType?("viewtype=notes")%>><a href="<%= @viewType %>?viewtype=notes">Notes</a></li>
 	<li <%= currentViewType?("viewtype=history")%>><a href="<%= @viewType %>?viewtype=history">History</a></li>
 </ul>
