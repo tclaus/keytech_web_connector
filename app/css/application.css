@@ -359,7 +359,7 @@ html .notice.error h3, body .notice.error h3 {
 #content {
   margin: 0 auto;
   min-height: 100%;
-  padding: 0 0 140px;
+  padding: 0 0 20px;
   width: 950px;
 }
 
