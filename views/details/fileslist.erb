@@ -4,7 +4,8 @@
 
 <% fileList.each do |file| %>
 <div>
-	<a href = "#">
+	
+	<a href = "/files/<%= params[:elementKey]%>/files/<%= file.fileID %>">
 	<%= file.fileName %> , <%= Filesize.from(file.fileSize.to_s + 'b').pretty %> 
 </a>
 

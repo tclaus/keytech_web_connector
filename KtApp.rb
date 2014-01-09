@@ -588,6 +588,17 @@ get "/files/:elementKey/masterfile" do
     end
 end
 
+get "/files/:elementKey/files/:fileID" do
+   if currentUser
+      content_type "application/octet-stream"
+      
+      loadFile(params[:elementKey],params[:fileID])
+    else
+      flash[:notice] = sessionInvalidText
+      redirect '/'
+    end
+end
+
 get "/element/:thumbnailHint/thumbnail" do
    if currentUser
       content_type "image/png"

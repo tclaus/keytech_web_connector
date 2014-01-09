@@ -43,7 +43,32 @@ require_relative "./SessionHelper"
 		"/files/#{elementKey}/masterfile"
 	end
 
+	def loadFile(elementKey,fileID)
+	 #files/:elementKey/files/:fileID"
+	 	resource = "/elements/#{elementKey}/files/#{fileID}"
+	 	print "Loading file: #{resource} "
 
+		#print "Username: #{session[:user]}, pw: #{session[:passwd]}"
+		user = currentUser
+
+		plainURI = user.keytechAPIURL.sub(/^https?\:\/\//, '').sub(/^www./,'')
+		http = Net::HTTP.new(plainURI,443)
+		http.use_ssl = true; 
+		http.start do |http|
+
+			
+			req = Net::HTTP::Get.new(resource, {"User-Agent" =>
+        										"keytech api downloader"})
+			req.basic_auth(user.keytechUserName, user.keytechPassword)
+			response = http.request(req)
+			print "response: #{response}"		
+
+			# return this as a file attachment
+			attachment( response["X-Filename"])  #Use the sinatra helper to set this as filename
+
+			response.body
+		end
+	end
 	#generates a download-URL for the masterfile for the given elementKey
 	def loadMasterfile(elementKey)
 
