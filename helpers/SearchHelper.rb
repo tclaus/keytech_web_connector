@@ -69,7 +69,8 @@ require_relative "./SessionHelper"
 			response.body
 		end
 	end
-	#generates a download-URL for the masterfile for the given elementKey
+
+	# Starts the download for the masterfile of the given element
 	def loadMasterfile(elementKey)
 
 		resource = "/elements/#{elementKey}/masterfile"

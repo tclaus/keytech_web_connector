@@ -4,6 +4,7 @@ require './KeytechElement'
 require './EditorLayout'
 require './EditorLayouts'
 require './KeytechElementFile'
+require './KeytechElementNote'
 
 module Sinatra
 
@@ -169,7 +170,6 @@ module Sinatra
                                               :password => user.keytechPassword})
 
       files = [] # crates an empty array
-      print result
 
       result["GetElementFileListResult"].each do |elementFile| # go through JSON response and make gracefully objects
       
@@ -183,6 +183,38 @@ module Sinatra
           end
         return files
     end
+
+ def loadElementNoteList(elementKey)
+
+      user = currentUser
+
+      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}/notes", 
+                                              :basic_auth => {
+                                              :username => user.keytechUserName, 
+                                              :password => user.keytechPassword})
+
+      notes = [] # crates an empty array
+
+
+      result["NotesList"].each do |note| # go through JSON response and make gracefully objects
+      
+            elementNote = KeytechElementNote.new
+            elementNote.changedAt = note['ChangedAt']
+            elementNote.changedBy = note['ChangedBy']
+            elementNote.changedByLong = note['ChangedByLong']
+            elementNote.createdAt = note['CreatedAt']
+            elementNote.createdBy = note['CreatedBy']
+            elementNote.createdByLong = note['CreatedByLong']
+            elementNote.noteID = note['NoteID']
+            elementNote.noteSubject = note['NoteSubject']
+            elementNote.noteText = note['NoteText']            
+            elementNote.noteType = note['NoteType']
+
+            notes << elementNote
+      end
+      return notes
+    end
+
 
 
 
