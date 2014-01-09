@@ -3,6 +3,7 @@ require 'httparty'
 require './KeytechElement'
 require './EditorLayout'
 require './EditorLayouts'
+require './KeytechElementFile'
 
 module Sinatra
 
@@ -103,7 +104,7 @@ module Sinatra
       response = http.request(req)
   #print "response #{response}"   
       # return this!
-      response.body
+      response.body  # Body contain image Data!
     end
 
   end
@@ -156,6 +157,34 @@ module Sinatra
         editorLayouts.maxHeight = maxHeight
         return editorLayouts
     end
+
+# Loads the filelist of given element 
+ def loadElementFileList(elementKey)
+
+      user = currentUser
+
+      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}/files", 
+                                              :basic_auth => {
+                                              :username => user.keytechUserName, 
+                                              :password => user.keytechPassword})
+
+      files = [] # crates an empty array
+      print result
+
+      result["GetElementFileListResult"].each do |elementFile| # go through JSON response and make gracefully objects
+      
+            file = KeytechElementFile.new
+            file.fileID = elementFile['FileID']
+            file.fileName = elementFile['FileName']
+            file.fileSize = elementFile['FileSize']
+            file.fileSizeDisplay = elementFile['FileSizeDisplay']
+            # normalized filename erstellen ? 
+            files << file
+          end
+        return files
+    end
+
+
 
   end
 

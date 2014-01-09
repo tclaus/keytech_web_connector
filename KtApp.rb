@@ -15,6 +15,7 @@ require './UserAccount'
 #require './helpers/DetailsHelper'
 require './PasswordRecoveryList'
 
+
 Bundler.require(:default)
 
 

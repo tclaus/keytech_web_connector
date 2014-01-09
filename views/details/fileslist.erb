@@ -1,1 +1,12 @@
-<h3>Fileslist: To Be Done</h3>
+
+<% fileList=loadElementFileList(params[:elementKey])   %>
+<% #require 'Filesize' %>
+
+<% fileList.each do |file| %>
+<div>
+	<a href = "#">
+	<%= file.fileName %> , <%= Filesize.from(file.fileSize.to_s + 'b').pretty %> 
+</a>
+
+</div>
+<% end %>
