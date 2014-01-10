@@ -353,7 +353,9 @@ html .notice.error h3, body .notice.error h3 {
 }
 
 
-
+.elementHeader {
+    height: :150px;
+}
 
 /* main content frame */
 #content {

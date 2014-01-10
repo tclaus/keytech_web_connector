@@ -5,6 +5,7 @@ require './EditorLayout'
 require './EditorLayouts'
 require './KeytechElementFile'
 require './KeytechElementNote'
+require './KeytechElementStatusHistoryEntry'
 
 module Sinatra
 
@@ -76,7 +77,7 @@ module Sinatra
         keytechElement.elementDisplayName =  element['ElementDisplayName']
         keytechElement.elementKey =  element['ElementKey']
         keytechElement.elementName =  element['ElementName']
-        keytechElement.elementStatus =  element['elementStatus']
+        keytechElement.elementStatus =  element['ElementStatus']
         keytechElement.elementTypeDisplayName =  element['ElementTypeDisplayName']
         keytechElement.elementVersion =  element['ElementVersion']
         keytechElement.hasVersions =  element['HasVersions']
@@ -215,6 +216,33 @@ module Sinatra
       return notes
     end
 
+# every status change is archived in a status history
+# (a element with status "Finish" must have been "at work" at some time)
+def loadElementStatusHistory(elementKey)
+
+      user = currentUser
+
+      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}/statushistory", 
+                                              :basic_auth => {
+                                              :username => user.keytechUserName, 
+                                              :password => user.keytechPassword})
+
+      history = [] # crates an empty array
+
+
+      result["StatusHistoryEntries"].each do |historyentry| # go through JSON response and make gracefully objects
+      
+            entry = KeytechElementStatusHistoryEntry.new
+            entry.description = historyentry['Description']
+            entry.signedByList = historyentry['SignedByList']
+            entry.sourceStatus = historyentry['SourceStatus']
+            entry.targetStatus = historyentry['TargetStatus']
+            
+
+            history << entry
+      end
+      return history  
+    end
 
 
 
