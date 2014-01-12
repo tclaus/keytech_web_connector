@@ -1,0 +1,44 @@
+
+
+<%= showFlashMessage %> 
+
+<%= erb :"details/elementHeaderData" %>
+	
+<ul class="nav nav-tabs">
+	<li <%= currentViewType?("viewtype=information")%>><a href="<%= @viewType %>?viewtype=information">Information</a></li>
+	<li <%= currentViewType?("viewtype=structure")%>><a href="<%= @viewType %>?viewtype=structure">Structure </a></li>
+	<li <%= currentViewType?("viewtype=fileslist")%>><a href="<%= @viewType %>?viewtype=fileslist">Fileslist</a></li>
+	
+	<% if classType(@element.elementKey) == "MI" %>
+	<% # BOM only for 'MI' - Type %>
+		<li <%= currentViewType?("viewtype=bom")%>><a href="<%= @viewType %>?viewtype=bom">Bill of Material</a></li>
+	<% end %>
+	<li <%= currentViewType?("viewtype=notes")%>><a href="<%= @viewType %>?viewtype=notes">Notes</a></li>
+	<li <%= currentViewType?("viewtype=history")%>><a href="<%= @viewType %>?viewtype=history">History</a></li>
+</ul>
+
+
+
+<% if request.query_string =="viewtype=information"  || request.query_string=="" %>
+<%=	erb :"details/information" %>
+<% end %>
+
+<% if request.query_string =="viewtype=structure" %>
+<%=	erb :"details/structure" %>
+<% end %>
+
+<% if request.query_string =="viewtype=fileslist" %>
+<%=	erb :"details/fileslist" %>
+<% end %>
+
+<% if request.query_string =="viewtype=bom" %>
+<%=	erb :"details/bom" %>
+<% end %>
+
+<% if request.query_string =="viewtype=notes" %>
+<%=	erb :"details/notes" %>
+<% end %>
+
+<% if request.query_string =="viewtype=history" %>
+<%= erb :"details/history" %>
+<% end %>

@@ -1,0 +1,27 @@
+
+<% notes=loadElementNoteList(params[:elementKey])   %>
+<% #require 'Filesize' %>
+
+<ul class="list-group">
+<% if notes.length > 0 %>
+<% notes.each do |note| %>
+
+  <li class="list-group-item">
+  	<div>
+  	<%= note.createdByLong%>  <%= convertJsonDate(note.createdAt) %> 
+  	</div>
+  	<div>
+  		<strong><%= note.noteSubject %></strong>
+  	</div>
+  	<div class="text-muted">
+  		<%= note.noteText[0,200] %>
+  	</div>
+  </li>
+  
+<% end %>
+<% else %>
+	<li>
+		<div class="text-muted"> No notes for this element </div>
+	</li>
+<% end %>
+</ul>

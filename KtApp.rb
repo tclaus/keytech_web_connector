@@ -9,10 +9,13 @@ require "sinatra/contrib/all"
 require 'sinatra/assetpack'
 require 'rack-flash'
 require 'rack/flash/test'
+require 'filesize'
 
 require './UserAccount'
-require './helpers/KtApi'
+#require './helpers/KtApi'
+#require './helpers/DetailsHelper'
 require './PasswordRecoveryList'
+
 
 Bundler.require(:default)
 
@@ -25,6 +28,7 @@ class KtApp < Sinatra::Base
   register Sinatra::AssetPack
 
   require_relative "helpers/KtApi"
+  require_relative "helpers/DetailsHelper"
   require_relative "helpers/SearchHelper"
   require_relative "helpers/ApplicationHelper"
   require_relative "helpers/SessionHelper"
@@ -41,7 +45,12 @@ helpers do
   end
 end
 
-#Some database configurations
+#Some configurations
+
+configure do
+  set :start_time, Time.now
+end
+
 
 configure :development do
   # at Development SQLlite will do fine
@@ -96,7 +105,8 @@ end
     serve '/images', from: 'app/images'    # Default
 
     js :application, [
-      '/js/vendor/custom.modernizr.js'
+      '/js/vendor/custom.modernizr.js',
+      '/js/popup.js'
       # You can also do this: 'js/*.js'
     ]
 
@@ -125,13 +135,14 @@ end
   helpers SearchHelper
   helpers SessionHelper
   helpers Sinatra::KtApiHelper
+  helpers DetailsHelper
   helpers MailSendHelper
 
   # Routes
   # These are your Controllers! Can be outsourced to own files but I leave them here for now.
 
 
-  #main page Controller
+  #main page controller
   get '/' do
     if session[:user]
       redirect '/search'
@@ -455,7 +466,6 @@ end
       flash[:warning] = "Invalid page - a recovery token is missing."
       erb :"passwordManagement/invalidPasswordRecovery"
     end
-
   end
   
   # accepts a new password and assigns it to current user
@@ -499,13 +509,26 @@ end
   end
 
 
-  #Loads a element structure, if present
-  get '/search/:elementKey' do
-    if session[:user]
-      @result=loadElementStructure(params[:elementKey])
-      erb :search
+  #Loads a element detail, if present
+  get '/elementdetails/:elementKey' do
+    if currentUser
+      @elementKey = params[:elementKey]
+
+      if params[:format]=='json'
+        elementData = loadElement(@elementKey,'ALL')
+        return elementData.to_json
+      end
+
+      # OK, viewtype is relevant
+      @element = loadElement(@elementKey)
+
+      @detailsLink = "/elementdetails/#{params[:elementKey]}"
+      @viewType = params[:viewType]
+      
+
+      erb :elementdetails
     else
-      flash[:notice] = "(TBD: logged out or session invalid)"
+      flash[:notice] = sessionInvalidText
       redirect '/'
     end
   end
@@ -513,11 +536,10 @@ end
   # redirects to a search page and fill search Data, parameter q is needed
   get '/search' do
     if currentUser
-
       if currentUser.usesDemoAPI? || currentUser.hasValidSubscription?
         
 
-        @result=findElements(params[:q])
+        @result= findElements(params[:q])
         erb :search
       else
         flash[:warning] = "You need a valid subscription to use a API other than the demo API. Go to the account page and check your current subscription under the 'Billing' area."
@@ -525,7 +547,7 @@ end
       end
 
     else 
-        flash[:notice] = "(TBD: loged out or session invalid)"
+        flash[:notice] = sessionInvalidText
        redirect '/'
     end
   end
@@ -551,25 +573,48 @@ end
 
 # Image forwarding. Redirect classimages provided by API to another image directly fetched by API
 get "/images/classimages/:classKey" do
-   if session[:user]
+   if currentUser
       content_type "image/png"
       loadClassImage(params[:classKey])
     else
-      flash[:notice] = "(TBD: logged out or session invalid)"
+      flash[:notice] = sessionInvalidText
       redirect '/'
     end
 end
 
 
 get "/files/:elementKey/masterfile" do
-   if session[:user]
+   if currentUser
       content_type "application/octet-stream"
       
       loadMasterfile(params[:elementKey])
     else
-      flash[:notice] = "(TBD: logged out or session invalid)"
+      flash[:notice] = sessionInvalidText
       redirect '/'
     end
+end
+
+get "/files/:elementKey/files/:fileID" do
+   if currentUser
+      content_type "application/octet-stream"
+      
+      loadFile(params[:elementKey],params[:fileID])
+    else
+      flash[:notice] = sessionInvalidText
+      redirect '/'
+    end
+end
+
+get "/element/:thumbnailHint/thumbnail" do
+   if currentUser
+      content_type "image/png"
+      loadElementThumbnail(params[:thumbnailHint])
+    else
+      flash[:notice] = sessionInvalidText
+      redirect '/'
+    end
+
+
 end
 
 

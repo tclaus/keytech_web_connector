@@ -10,7 +10,6 @@ require 'data_mapper'
 require 'httparty'
 
 require './Cipher'
-require './Session'
 
 
 
@@ -22,8 +21,6 @@ class UserAccount
   attr_accessor :password, :password_confirmation
   attr_accessor :keytechPassword, :keytechUserName, :keytechAPIURL
  
-
-has n, :sessions
 
 property :id, Serial
 property :email, String, :required => true, :length => (5..40), :unique => true, :format => :email_address

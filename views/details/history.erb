@@ -1,0 +1,30 @@
+<% history=loadElementStatusHistory(params[:elementKey])   %>
+<% #require 'Filesize' %>
+
+<ul class="list-group">
+<% if history.length > 0 %>
+<% history.each do |historyEntry| %>
+
+  <li class="list-group-item">
+  	
+  	<div>
+  		
+  		<%= historyEntry.signedByList[0]['SignedByLong'] %>
+  		<%= convertJsonDate(historyEntry.signedByList[0]['SignedAt']) %>
+  		</div>
+  		<div>
+  		<strong><%= historyEntry.sourceStatus %> => <%= historyEntry.targetStatus %></strong>
+  	</div>
+  	<div class="text-muted">
+  		<%= historyEntry.description %>
+  	</div>
+  </li>
+  
+<% end %>
+<% else %>
+	<li>
+		<div> 
+			<span class="text-muted">No status changes yet. Current State is: </span> <%= @element.elementStatus %> </div>
+	</li>
+<% end %>
+</ul>

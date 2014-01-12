@@ -83,6 +83,7 @@ GEM
     eventmachine (1.0.3)
     fastercsv (1.5.5)
     ffi (1.9.3)
+    filesize (0.0.2)
     fssm (0.2.10)
     haml (4.0.4)
       tilt
@@ -178,6 +179,7 @@ DEPENDENCIES
   data_mapper
   dm-postgres-adapter
   dm-sqlite-adapter
+  filesize
   haml
   httparty
   json

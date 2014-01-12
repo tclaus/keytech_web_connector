@@ -24,15 +24,16 @@ require_relative "./SessionHelper"
 
 	# Returns "DO", "FD" or "MI" to identify the type of element 
 	def classType(elementKey)
-		classKey =   elementKey.split(':')[0]
-		if classKey.end_with?('_MI')
-			return "MI"
-		end
+		if elementKey
+			classKey =   elementKey.split(':')[0]
+			if classKey.end_with?('_MI')
+				return "MI"
+			end
 
-		if classKey.end_with?('_FD')
-			return "FD"
+			if classKey.end_with?('_FD')
+				return "FD"
+			end
 		end
-
 		# easy: in all other cases: It must be an document.. 
 		return "DO"
 	end
@@ -43,8 +44,34 @@ require_relative "./SessionHelper"
 		"/files/#{elementKey}/masterfile"
 	end
 
+	def loadFile(elementKey,fileID)
+	 #files/:elementKey/files/:fileID"
+	 	resource = "/elements/#{elementKey}/files/#{fileID}"
+	 	print "Loading file: #{resource} "
 
-	#generates a download-URL for the masterfile for the given elementKey
+		#print "Username: #{session[:user]}, pw: #{session[:passwd]}"
+		user = currentUser
+
+		plainURI = user.keytechAPIURL.sub(/^https?\:\/\//, '').sub(/^www./,'')
+		http = Net::HTTP.new(plainURI,443)
+		http.use_ssl = true; 
+		http.start do |http|
+
+			
+			req = Net::HTTP::Get.new(resource, {"User-Agent" =>
+        										"keytech api downloader"})
+			req.basic_auth(user.keytechUserName, user.keytechPassword)
+			response = http.request(req)
+			print "response: #{response}"		
+
+			# return this as a file attachment
+			attachment( response["X-Filename"])  #Use the sinatra helper to set this as filename
+
+			response.body
+		end
+	end
+
+	# Starts the download for the masterfile of the given element
 	def loadMasterfile(elementKey)
 
 		resource = "/elements/#{elementKey}/masterfile"
@@ -76,7 +103,7 @@ require_relative "./SessionHelper"
 
 
 
-def loadClassImage(classKey)
+	def loadClassImage(classKey)
 		# see: http://juretta.com/log/2006/08/13/ruby_net_http_and_open-uri/
 		resource = "/smallclassimage/#{classKey}"
 #print "loaded: #{resource}"
@@ -99,6 +126,8 @@ def loadClassImage(classKey)
 		end
 
 	end
+
+	
 
 
 end

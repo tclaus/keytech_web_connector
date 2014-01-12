@@ -14,6 +14,7 @@ gem 'sinatra-contrib'
 gem 'rack-flash-session'
 gem 'rack-flash3'
 gem 'mail'
+gem 'filesize'
 
 group :production do
 	gem 'pg'

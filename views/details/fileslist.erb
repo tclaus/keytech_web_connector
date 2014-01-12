@@ -1,0 +1,13 @@
+
+<% fileList=loadElementFileList(params[:elementKey])   %>
+<% #require 'Filesize' %>
+
+<% fileList.each do |file| %>
+<div>
+	
+	<a href = "/files/<%= params[:elementKey]%>/files/<%= file.fileID %>">
+	<%= file.fileName %> , <%= Filesize.from(file.fileSize.to_s + 'b').pretty %> 
+</a>
+
+</div>
+<% end %>
