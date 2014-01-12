@@ -512,8 +512,14 @@ end
   #Loads a element detail, if present
   get '/elementdetails/:elementKey' do
     if currentUser
-      
       @elementKey = params[:elementKey]
+
+      if params[:format]=='json'
+        elementData = loadElement(@elementKey,'ALL')
+        return elementData.to_json
+      end
+
+      # OK, viewtype is relevant
       @element = loadElement(@elementKey)
 
       @detailsLink = "/elementdetails/#{params[:elementKey]}"

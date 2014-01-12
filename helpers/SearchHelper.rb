@@ -24,15 +24,16 @@ require_relative "./SessionHelper"
 
 	# Returns "DO", "FD" or "MI" to identify the type of element 
 	def classType(elementKey)
-		classKey =   elementKey.split(':')[0]
-		if classKey.end_with?('_MI')
-			return "MI"
-		end
+		if elementKey
+			classKey =   elementKey.split(':')[0]
+			if classKey.end_with?('_MI')
+				return "MI"
+			end
 
-		if classKey.end_with?('_FD')
-			return "FD"
+			if classKey.end_with?('_FD')
+				return "FD"
+			end
 		end
-
 		# easy: in all other cases: It must be an document.. 
 		return "DO"
 	end

@@ -82,7 +82,7 @@ module Sinatra
         keytechElement.elementVersion =  element['ElementVersion']
         keytechElement.hasVersions =  element['HasVersions']
         keytechElement.thumbnailHint =  element['ThumbnailHint']
-        keytechElement.keyValueList = elementKey['KeyValueList']
+        keytechElement.keyValueList = element['KeyValueList']
 
         return keytechElement
     end

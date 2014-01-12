@@ -6,6 +6,7 @@
 
 	<%= @element.elementDisplayName %>
 </div>
+
 <% if classType(@element.elementKey) == "DO" %>
 	<a href="<%= link_to_masterfile(@element.elementKey) %>" class="downloadlink" title="Download main file">
           [File Download]

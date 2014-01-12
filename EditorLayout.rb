@@ -23,12 +23,13 @@
  	 end
 
  	 if controlType=="TEXT"
- 	 	inputTag = "<input type=\"text\" id=\"#{attributeName}\"  #{positionAttribute} value=\"{{the value}}\"></input>"
+ 	 	attributeDataLink = "element.#{attributeName}"
+ 	 	inputTag = "<input type=\"text\" id=\"#{attributeName}\"  #{positionAttribute} ng-model=\"#{attributeDataLink}\">"
  	 	return inputTag
  	 end
  	 
  	 if controlType=="CHECK"
- 	 	inputTag = "<input type=\"checkbox\" id=\"#{attributeName}\"  #{positionAttribute} ></input>"
+ 	 	inputTag = "<input type=\"checkbox\" id=\"#{attributeName}\"  #{positionAttribute} >"
  	 	return inputTag
  	 end
 
