@@ -23,7 +23,7 @@ meta.foundation-mq-xxlarge {
 *:before,
 *:after {
   -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
+  /*-webkit-box-sizing: border-box;*/
   box-sizing: border-box; }
 
 html,
@@ -4424,7 +4424,7 @@ textarea {
   height: 2.3125rem;
   width: 100%;
   -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
+  /*-webkit-box-sizing: border-box;*/
   box-sizing: border-box;
   -webkit-transition: -webkit-box-shadow 0.45s, border-color 0.45s ease-in-out;
   -moz-transition: -moz-box-shadow 0.45s, border-color 0.45s ease-in-out;

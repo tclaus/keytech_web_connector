@@ -31,6 +31,7 @@ property :keytechUserName_crypted, String, :writer =>:protected
 property :keytechPassword_crypted, String,  :writer =>:protected
 property :keytechAPI_crypted, String, :length => 100, :writer =>:protected
 
+property :is_admin, Boolean, :default => false
 
 property :created_at, DateTime
 

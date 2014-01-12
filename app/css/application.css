@@ -4,6 +4,21 @@ ol, ul {
     list-style: none;
 }
 
+.attribute-list {
+    border:1px dotted black;
+    padding: 0;
+    display:table;
+    width:100%; 
+}
+
+.attribute-list ul{
+    display:table-row; 
+}
+
+.attribute-list li{
+    display:table-cell; 
+}
+
 .main-navigation{
     padding-left: 150px
     width = 100%
