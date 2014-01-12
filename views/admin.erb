@@ -1,0 +1,31 @@
+<h2>All Users</h2>
+
+
+	<% unless @users.empty?%>
+	<table id="source-list" class="aui">
+   <thead>
+  <tr>
+    <th>User ID</th>
+    <th>email</th>
+    <th>Account created at</th>
+    <th>Billing ID</th>
+    <th>Subscription ID</th>
+    <th>is admin</th>
+  </tr>
+</thead>
+<tbody>
+	<% @users.each do |user| %>
+	<tr>
+		
+		<td><%= user.id%></td>
+		<td><%= user.email%></td>
+		<td><%= user.created_at.strftime("%F at %T")%></td>
+		<td><%= user.billingID%></td>
+		<td><%= user.subscriptionID%></td>
+		<td><%= user.is_admin.to_s%></td>
+		
+	</tr>
+	<%end%>
+</tbody>
+</table>
+	<%end%>

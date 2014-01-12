@@ -546,6 +546,16 @@ end
     end
   end
 
+get '/admin' do
+  if loggedIn? #&& currentUser.is_admin?
+    @users=UserAccount.all
+    erb :admin
+  else
+    flash[:notice] = "You are not logged in."
+    redirect '/'
+  end
+end
+
 get '/support' do
    "<h3> To Be Done </h3>"
 end
