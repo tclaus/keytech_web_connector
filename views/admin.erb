@@ -6,11 +6,11 @@
    <thead>
   <tr>
     <th>User ID</th>
-    <th>email</th>
+    <th>Email</th>
     <th>Account created at</th>
     <th>Billing ID</th>
     <th>Subscription ID</th>
-    <th>is admin</th>
+    <th>Is admin</th>
   </tr>
 </thead>
 <tbody>
@@ -22,7 +22,7 @@
 		<td><%= user.created_at.strftime("%F at %T")%></td>
 		<td><%= user.billingID%></td>
 		<td><%= user.subscriptionID%></td>
-		<td><%= user.is_admin.to_s%></td>
+		<td><%= user.isAdmin?.to_s%></td>
 		
 	</tr>
 	<%end%>

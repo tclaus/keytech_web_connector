@@ -11,29 +11,27 @@
       <ul class="nav navbar-nav">
 
           
-      <% if loggedIn?   %>
+      <% if currentUser  %>
           <li class="nav-item"><a href="/search">Search</a></li>
-      <% end %>
-    
-    <% if !loggedIn?  # Show only if not logged in  %>
+      <% else %>
           <li class="nav-item"><a href="/features">Features</a></li>
           <li class="nav-item"><a href="/pricing">Pricing</a></li>
-    <% end %>
+      <% end %>
 
-          <!-- Wenn eingelogged -->
-          <li class="nav-item"><a href="/support">Support</a></li>
-          <li class="nav-item"><a href="/about">About</a></li>
-          
-          <%  if !loggedIn? %> <!-- Wenn nicht eingelogged -->
-            <li class="nav-item"><a href="/">Login</a></li>
-            <li class="nav-item"><a href="/signup">Signup</a></li>
-          <% else %> <!-- Wenn eingelogged -->
-            <li class="nav-item"><a href="/account">Account</a></li>
-            <% if currentUser.is_admin %>
-              <li class="nav-item"><a href="/admin">Admin</a></li>
-            <% end %>
-            <li class="nav-item"><a href="/logout">Logout</a></li>
-          <% end %>
+      <!-- Immer anzeigen  -->
+      <li class="nav-item"><a href="/support">Support</a></li>
+      <li class="nav-item"><a href="/about">About</a></li>
+
+      <%  if !currentUser %> <!-- Wenn nicht eingelogged -->
+        <li class="nav-item"><a href="/">Login</a></li>
+        <li class="nav-item"><a href="/signup">Signup</a></li>
+      <% else %> <!-- Wenn eingelogged -->
+        <li class="nav-item"><a href="/account">Account</a></li>
+      <% if currentUser.isAdmin? %>
+        <li class="nav-item"><a href="/admin">Admin</a></li>
+      <% end %>
+        <li class="nav-item"><a href="/logout">Logout</a></li>
+      <% end %>
 
       </ul>
       <ul class="nav navbar-nav navbar-right">

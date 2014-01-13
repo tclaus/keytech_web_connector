@@ -80,7 +80,7 @@ configure :development do
                                :port                 => 587,
                                :user_name            => "vvanchesa@gmail.com",
                                :password             => "bla123_yuhuu",
-                               :authentication       => :plain,
+                               :authentication       => :plain,   
                                :enable_starttls_auto => true  }
 
   end
@@ -489,7 +489,7 @@ end
   end
   
   # accepts a new password and assigns it to current user
-  post '/account/password/reset' do
+  post '/account/password/reset/' do
     recovery = PasswordRecoveryList.first(:recoveryID => params[:recoveryID])
     print " Recovery: #{recovery}"
     if recovery
@@ -573,7 +573,7 @@ end
   end
 
 get '/admin' do
-  if loggedIn? #&& currentUser.is_admin?
+  if loggedIn? && currentUser.isAdmin?
     @users=UserAccount.all
     erb :admin
   else

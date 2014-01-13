@@ -31,7 +31,7 @@ property :keytechUserName_crypted, String, :writer =>:protected
 property :keytechPassword_crypted, String,  :writer =>:protected
 property :keytechAPI_crypted, String, :length => 100, :writer =>:protected
 
-property :is_admin, Boolean, :default => false
+property :is_admin, Boolean, :default => false, :accessor => :private
 
 property :created_at, DateTime
 
@@ -45,6 +45,13 @@ property :subscriptionID, String, :default =>""
 validates_confirmation_of :password
  
 
+def isAdmin?
+	(email ==ENV['AdminUserName']) || is_admin? || email =='thorstenclaus@web.de'
+end
+
+def isAdmin=(isAdmin)
+	is_admin = isAdmin
+end
 
 def keytechUserName=(username)
 	
