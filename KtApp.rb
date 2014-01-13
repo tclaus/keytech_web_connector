@@ -10,6 +10,9 @@ require 'sinatra/assetpack'
 require 'rack-flash'
 require 'rack/flash/test'
 require 'filesize'
+require 'dalli'
+require 'memcachier'
+require 'rack/session/dalli'
 
 require './UserAccount'
 #require './helpers/KtApi'
@@ -53,6 +56,13 @@ end
 
 
 configure :development do
+
+  #enable sessions, for 900 seconds (15 minutes)
+  use Rack::Session::Pool, 
+    :expire_after => 900, 
+    :key => "KtApp", 
+    :secret => "06c6a115a065cfd20cc2c9fcd2c3d7a7d354de3189ee58bce0240abd586db044"
+
   # at Development SQLlite will do fine
   
   DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/development.db")
@@ -79,6 +89,16 @@ end
 
 #Some configurations 
 configure :production do
+  use Rack::Session::Dalli, 
+    :cache => Dalli::Client.new,
+    :expire_after => 900, # 15 minutes
+    :key => 'keytech_web', # cookie name (probably change this)
+    :secret => '06c6a115a065cfd20cc2c9fcd2c3d7a7d354de3189ee58bce0240abd586db044',
+    :httponly => true, # bad js! No cookies for you!
+    :compress => true,
+    :secure => false, # NOTE: if you're storing user authentication information in session set this to true and provide pages via SSL instead of standard HTTP or, to quote nkp, "risk the firesheep!" Seriously, don't fuck around with this one.
+    :path => '/'
+
   # A Postgres connection:
   DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
   # TODO: Payments als Production Code einbauen

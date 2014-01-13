@@ -26,6 +26,7 @@ GEM
       fssm (>= 0.2.7)
       sass (~> 3.1)
     daemons (1.1.9)
+    dalli (2.7.0)
     data_mapper (1.2.0)
       dm-aggregates (~> 1.2.0)
       dm-constraints (~> 1.2.0)
@@ -102,6 +103,7 @@ GEM
       activesupport (>= 2.3.6)
       mime-types
       treetop (>= 1.4.5)
+    memcachier (0.0.2)
     mime-types (2.0)
     mini_portile (0.5.2)
     minitest (4.7.5)
@@ -176,6 +178,7 @@ DEPENDENCIES
   braintree
   capybara
   compass
+  dalli
   data_mapper
   dm-postgres-adapter
   dm-sqlite-adapter
@@ -184,6 +187,7 @@ DEPENDENCIES
   httparty
   json
   mail
+  memcachier
   pg
   rack-flash-session
   rack-flash3
