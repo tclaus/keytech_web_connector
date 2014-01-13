@@ -13,6 +13,8 @@ require 'filesize'
 require 'dalli'
 require 'memcachier'
 require 'rack/session/dalli'
+require 'rack-cache'
+
 
 require './UserAccount'
 #require './helpers/KtApi'
@@ -40,6 +42,7 @@ class KtApp < Sinatra::Base
 
 # Enable flash messages
 use Rack::Flash, :sweep => true
+
 
 
 helpers do
@@ -604,6 +607,7 @@ end
 # Image forwarding. Redirect classimages provided by API to another image directly fetched by API
 get "/images/classimages/:classKey" do
    if currentUser
+      cache_control :publix, mag_age:1800
       content_type "image/png"
       loadClassImage(params[:classKey])
     else

@@ -17,6 +17,8 @@ gem 'mail'
 gem 'filesize'
 gem 'memcachier'
 gem 'dalli'
+gem 'rack-cache'
+
 
 group :production do
 	gem 'pg'

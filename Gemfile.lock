@@ -114,6 +114,8 @@ GEM
     pg (0.17.1)
     polyglot (0.3.3)
     rack (1.5.2)
+    rack-cache (1.2)
+      rack (>= 0.4)
     rack-flash-session (1.0.2)
       rack (>= 1.0)
     rack-flash3 (1.0.5)
@@ -189,6 +191,7 @@ DEPENDENCIES
   mail
   memcachier
   pg
+  rack-cache
   rack-flash-session
   rack-flash3
   rake
