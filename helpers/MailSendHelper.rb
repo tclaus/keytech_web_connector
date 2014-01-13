@@ -13,8 +13,8 @@ module MailSendHelper
 		
 		# Makes the link and adds the recoveryID
 		# TODO: Distinguish between Development and Productive!
-		
-		recoveryLink = "http://localhost:9292/account/password/reset/#{passwordRecovery.recoveryID}"
+		localURL = ENV['localURL']
+		recoveryLink = "http://#{localURL}/account/password/reset/#{passwordRecovery.recoveryID}"
 
 
 		mailContent = File.read('./media/password_recoveryMail_EN.txt')
