@@ -214,7 +214,6 @@ html .notice, body .notice {
     padding: 10px 10px 8px 10px;
     margin-bottom: 15px;
     background-color: #5987a0;
-    background-image: url(/assets/notice-bkg.png);
     background-repeat: repeat-x;
     background-position: center bottom;
     -moz-border-radius: 7px;
@@ -240,7 +239,6 @@ html .notice em, body .notice em {
 html .notice h3, body .notice h3 {
     line-height: 30px;
     padding-top: 1px;
-    background-image: url(/assets/notice-icon-35x35.png);
     background-position: left top;
     background-repeat: no-repeat;
     padding-left: 35px
@@ -248,7 +246,6 @@ html .notice h3, body .notice h3 {
 
 html .notice.success, body .notice.success {
     background-color: #7c984c;
-    background-image: url(/assets/notice-success-bkg.png)
 }
 
 html .notice.success em, body .notice.success em {
@@ -264,7 +261,6 @@ html .notice.success h3, body .notice.success h3 {
 
 html .notice.error, body .notice.error {
     background-color: #a11c39;
-    background-image: url(/assets/notice-error-bkg.png);
 }
 
 html .notice.error em, body .notice.error em {
@@ -273,7 +269,6 @@ html .notice.error em, body .notice.error em {
 }
 
 html .notice.error h3, body .notice.error h3 {
-    background-image: url(/assets/notice-error-icon-35x35.png);
     background-position: left top;
     background-repeat: no-repeat;
     padding-left: 40px
@@ -369,7 +364,7 @@ html .notice.error h3, body .notice.error h3 {
 
 
 .elementHeader {
-    height: :150px;
+    height :150px;
 }
 
 /* main content frame */
