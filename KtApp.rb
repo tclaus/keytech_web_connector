@@ -58,8 +58,11 @@ configure do
 end
 
 
-configure :development do
 
+configure :development do
+  
+
+  
   #enable sessions, for 900 seconds (15 minutes)
   use Rack::Session::Pool, 
     :expire_after => 900, 
@@ -92,6 +95,7 @@ end
 
 #Some configurations 
 configure :production do
+
   use Rack::Session::Dalli, 
     :cache => Dalli::Client.new,
     :expire_after => 900, # 15 minutes
@@ -607,7 +611,7 @@ end
 # Image forwarding. Redirect classimages provided by API to another image directly fetched by API
 get "/images/classimages/:classKey" do
    if currentUser
-      cache_control :publix, mag_age:1800
+      cache_control :public, mag_age:1800
       content_type "image/png"
       loadClassImage(params[:classKey])
     else

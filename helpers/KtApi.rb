@@ -15,6 +15,7 @@ module Sinatra
 
     require_relative '../UserAccount'
 
+
     # Finds all elements by a search text
     def findElements(searchstring)
         
@@ -90,6 +91,11 @@ module Sinatra
 
 # Loads the thumbnail at the given key
   def loadElementThumbnail(thumbnailKey)
+
+  # caching
+  cache = Dalli::Client.new
+  
+
     # see: http://juretta.com/log/2006/08/13/ruby_net_http_and_open-uri/
     resource = "/elements/#{thumbnailKey}/thumbnail"
   #print "loaded: #{resource}"
@@ -97,16 +103,27 @@ module Sinatra
     user = currentUser
 
     plainURI = user.keytechAPIURL.sub(/^https?\:\/\//, '').sub(/^www./,'')
-    http = Net::HTTP.new(plainURI,443)
-    http.use_ssl = true; 
-    http.start do |http|
-      req = Net::HTTP::Get.new(resource, {"User-Agent" =>
-                            "keytech api downloader"})
-      req.basic_auth(user.keytechUserName,user.keytechPassword)
-      response = http.request(req)
-  #print "response #{response}"   
-      # return this!
-      response.body  # Body contain image Data!
+    
+    tnData = cache.get(plainURI + resource)
+    if !tnData
+    # Thumbnail für 1 std cachen 
+    print "cache MISS "
+
+      http = Net::HTTP.new(plainURI,443)
+      http.use_ssl = true; 
+      http.start do |http|
+        req = Net::HTTP::Get.new(resource, {"User-Agent" =>
+                              "keytech api downloader"})
+        req.basic_auth(user.keytechUserName,user.keytechPassword)
+        response = http.request(req)
+    
+        cache.set(plainURI + resource,response.body)
+        # return this!
+        response.body  # Body contain image Data!
+      end
+    else
+      print "cache HIT! "
+      return tnData
     end
 
   end
