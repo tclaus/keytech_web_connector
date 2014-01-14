@@ -113,8 +113,8 @@ require_relative "./SessionHelper"
 		plainURI = user.keytechAPIURL.sub(/^https?\:\/\//, '').sub(/^www./,'')
 		
 		# caching
-  		cache = Dalli::Client.new
-		tnData = cache.get(plainURI + resource)
+  		
+		tnData = settings.cache.get(plainURI + resource)
     	if !tnData
 
 		http = Net::HTTP.new(plainURI,443)
@@ -126,7 +126,7 @@ require_relative "./SessionHelper"
 			response = http.request(req)
 	#print "response #{response}"		
 	
-			cache.set(plainURI + resource,response.body)
+			settings.cache.set(plainURI + resource,response.body)
 			# return this!
 			response.body
 

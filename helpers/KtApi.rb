@@ -93,7 +93,7 @@ module Sinatra
   def loadElementThumbnail(thumbnailKey)
 
   # caching
-  cache = Dalli::Client.new
+  #cache = Dalli::Client.new
   
 
     # see: http://juretta.com/log/2006/08/13/ruby_net_http_and_open-uri/
@@ -104,7 +104,7 @@ module Sinatra
 
     plainURI = user.keytechAPIURL.sub(/^https?\:\/\//, '').sub(/^www./,'')
     
-    tnData = cache.get(plainURI + resource)
+    tnData = settings.cache.get(plainURI + resource)
     if !tnData
     # Thumbnail für 1 std cachen 
     print "cache MISS "
@@ -117,7 +117,7 @@ module Sinatra
         req.basic_auth(user.keytechUserName,user.keytechPassword)
         response = http.request(req)
     
-        cache.set(plainURI + resource,response.body)
+        settings.cache.set(plainURI + resource,response.body)
         # return this!
         response.body  # Body contain image Data!
       end

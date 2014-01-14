@@ -54,7 +54,11 @@ end
 #Some configurations
 
 configure do
-  set :start_time, Time.now
+  
+  # Set up Memcache
+  dalliOptions={:expires_in =>300}
+  set :cache, Dalli::Client.new(nil,dalliOptions)
+
 end
 
 
