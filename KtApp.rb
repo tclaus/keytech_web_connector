@@ -128,19 +128,19 @@ end
     serve '/images', from: 'app/images'    # Default
 
     js :application, [
-      '/js/vendor/custom.modernizr.js',
+      #'/js/vendor/custom.modernizr.js',
       '/js/popup.js'
       # You can also do this: 'js/*.js'
     ]
 
     js :body, [
-      '/js/vendor/jquery.js',
-      '/js/foundation.min.js'
+      #'/js/vendor/jquery.js',
+      #'/js/foundation.min.js'
       # You can also do this: 'js/*.js'
     ]
 
     css :application, [
-      '/css/normalize.css',
+      #'/css/normalize.css',
       #'/css/foundation.css',
       '/css/application.css',
       '/css/search.css'
