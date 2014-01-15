@@ -107,7 +107,7 @@ module Sinatra
     tnData = settings.cache.get(plainURI + resource)
     if !tnData
     # Thumbnail für 1 std cachen 
-    print "cache MISS "
+    #print "cache MISS "
 
       http = Net::HTTP.new(plainURI,443)
       http.use_ssl = true; 
@@ -122,7 +122,7 @@ module Sinatra
         response.body  # Body contain image Data!
       end
     else
-      print "cache HIT! "
+      #print "cache HIT! "
       return tnData
     end
 
