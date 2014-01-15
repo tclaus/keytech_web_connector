@@ -173,16 +173,36 @@ end
   # These are your Controllers! Can be outsourced to own files but I leave them here for now.
 
 
-  #main page controller
+  # main page controller
   get '/' do
     if session[:user]
-      redirect '/search'
+      erb :overview
     else
 
       #Never logged in, show the normal index / login page
-      erb :index
+      erb :login
     end
   end
+
+# redirects to a search page and fill search Data, parameter q is needed
+  get '/search' do
+    if currentUser
+      if currentUser.usesDemoAPI? || currentUser.hasValidSubscription?
+        
+
+        @result= findElements(params[:q])
+        erb :search
+      else
+        flash[:warning] = "You need a valid subscription to use a API other than the demo API. Go to the account page and check your current subscription under the 'Billing' area."
+        erb :search
+      end
+
+    else 
+        flash[:notice] = sessionInvalidText
+       redirect '/'
+    end
+  end
+
 
   #new User signup page
   get '/signup' do
@@ -268,8 +288,6 @@ get '/account' do
     redirect '/'
   end
 end
-
-
 
 put '/account' do
   user = currentUser
@@ -402,16 +420,16 @@ post '/account/subscription' do
   end
 end
 
-  #login controller
+  # Login controller
   post '/login' do
 
     user = UserAccount.authenticate(params[:username],params[:passwd])
 
     if user
       session[:user] = user.id
-      redirect '/search'
+      redirect '/'
     else
-      flash[:error] = "Invalid username or password"
+      flash[:error] = invalidUserNameOrPasswordText
       redirect '/'
     end
   end
@@ -564,24 +582,6 @@ end
     end
   end
 
-  # redirects to a search page and fill search Data, parameter q is needed
-  get '/search' do
-    if currentUser
-      if currentUser.usesDemoAPI? || currentUser.hasValidSubscription?
-        
-
-        @result= findElements(params[:q])
-        erb :search
-      else
-        flash[:warning] = "You need a valid subscription to use a API other than the demo API. Go to the account page and check your current subscription under the 'Billing' area."
-        erb :search
-      end
-
-    else 
-        flash[:notice] = sessionInvalidText
-       redirect '/'
-    end
-  end
 
 get '/admin' do
   if loggedIn? && currentUser.isAdmin?
@@ -614,7 +614,7 @@ end
 
 # Image forwarding. Redirect classimages provided by API to another image directly fetched by API
 get "/images/classimages/:classKey" do
-   if currentUser
+   if loggedIn?
       cache_control :public, mag_age:1800
       content_type "image/png"
       loadClassImage(params[:classKey])
@@ -626,7 +626,7 @@ end
 
 
 get "/files/:elementKey/masterfile" do
-   if currentUser
+   if loggedIn?
       content_type "application/octet-stream"
       
       loadMasterfile(params[:elementKey])
@@ -637,7 +637,7 @@ get "/files/:elementKey/masterfile" do
 end
 
 get "/files/:elementKey/files/:fileID" do
-   if currentUser
+   if loggedIn?
       content_type "application/octet-stream"
       
       loadFile(params[:elementKey],params[:fileID])
@@ -648,7 +648,7 @@ get "/files/:elementKey/files/:fileID" do
 end
 
 get "/element/:thumbnailHint/thumbnail" do
-   if currentUser
+   if loggedIn?
       content_type "image/png"
       loadElementThumbnail(params[:thumbnailHint])
     else

@@ -19,5 +19,8 @@ def sessionInvalidText
 	return "You are logged out due to inactivity."
 end
 
+def invalidUserNameOrPasswordText
+	return "Invalid username or password"
+end 
 
 end
