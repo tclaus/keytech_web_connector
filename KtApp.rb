@@ -56,7 +56,7 @@ end
 configure do
   
   # Set up Memcache
-  dalliOptions={:expires_in =>300}
+  dalliOptions={:expires_in =>1800} #30 minuten
   set :cache, Dalli::Client.new(nil,dalliOptions)
 
 end
