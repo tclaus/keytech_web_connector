@@ -500,7 +500,7 @@ end
   end
   
   # accepts a new password and assigns it to current user
-  post '/account/password/reset/' do
+  post '/account/password/reset' do
     recovery = PasswordRecoveryList.first(:recoveryID => params[:recoveryID])
     print " Recovery: #{recovery}"
     if recovery
