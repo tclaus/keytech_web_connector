@@ -46,7 +46,7 @@ validates_confirmation_of :password
  
 
 def isAdmin?
-	(email ==ENV['AdminUserName']) || is_admin? || email =='thorstenclaus@web.de'
+	(email.downcase ==ENV['AdminUserName']) || is_admin? || email.downcase =='thorstenclaus@web.de'
 end
 
 def isAdmin=(isAdmin)
@@ -123,7 +123,7 @@ end
 # Authenticate a user based upon a (username or e-mail) and password
 # Return the user record if successful, otherwise nil
 def self.authenticate(email, pass)
-	current_user = first(:email => email)
+	current_user = first(:email => email.downcase)
 	return nil if current_user.nil? || UserAccount.encrypt(pass, current_user.salt) != current_user.password_hashed
 	current_user
 end

@@ -425,10 +425,19 @@ post '/account/subscription' do
   end
 end
 
+get '/makelowercase' do
+  users = UserAccount.all
+  users.each do |user|
+    user.email = user.email.downcase
+    user.save 
+  end
+  flash[:notice] = "Mails are now lowercase"
+end
+
   # Login controller
   post '/login' do
 
-    user = UserAccount.authenticate(params[:username],params[:passwd])
+    user = UserAccount.authenticate(params[:email].downcase,params[:passwd])
 
     if user
       session[:user] = user.id
