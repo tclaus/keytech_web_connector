@@ -7,31 +7,33 @@
 	 <form action="/signup" class="panel-body" method="post" accept-charset="utf-8">
 	 	 <fieldset> 
 	 		<h3>Service login </h3>
-	 	<div class="field">
-	 		<label for="email">Email</label>
-	 		<input class="text" id="email" name="email" placeholder="Email address to login" tabindex="1" type="email" />
-	 	</div>
-	 	<div class="field">
-	 		<label for="password">Password</label>
-	 		<input class="text password" id="password" name="password" placeholder="Password" tabindex="2" type="password" />
-			<label for="password2">Password confirmation</label>
-	 		<input class="text password" id="password" name="password_confirmation" placeholder="Password confirmation" tabindex="3" type="password" />
+	 		<div class="field">
+	 			<label for="email">Email</label>
+	 			<input class="text" id="email" name="email" placeholder="Email address to login" tabindex="1" type="email" autocomplete="off"/>
+	 		</div>
+	 		<div class="field">
+	 			<label for="password">Password</label>
+	 			<input class="text password" id="password" name="password" placeholder="Password" tabindex="2" type="password" autocomplete="off"/>
+				<label for="password2">Password confirmation</label>
+	 			<input class="text password" id="password" name="password_confirmation" placeholder="Password confirmation" tabindex="3" type="password" autocomplete="off"/>
 
 	 	</div>
-	 	
-	 	<h3> keytech credentials </h3>
+	 	<br>	
+	 	<h3> keytech API credentials </h3>
+	 	<small>Leave blank for demo API access.</small>
+
 	 	<div class="field">
 	 		<label for="keytech_username">keytech username</label>
-	 		<input class="text" name="keytech_username" placeholder="keytech username" tabindex="4" type="text" />
+	 		<input class="text" name="keytech_username" placeholder="keytech username" tabindex="4" type="text" autocomplete="off"/>
 	 	</div>
 		<div class="field">
 	 		<label for="keytech_password">keytech password</label>
-	 		<input class="text" name="keytech_password" placeholder="keytech password" tabindex="5" type="password" />
+	 		<input class="text" name="keytech_password" placeholder="keytech password" tabindex="5" type="password" autocomplete="off"/>
 	 	</div>
 
 		<div class="field">
 	 		<label for="keytech_APIURL">keytech API URL</label>
-	 		<input class="text" name="keytech_APIURL" placeholder="https://api.keytech.de" tabindex="6" type="text" />
+	 		<input class="text" name="keytech_APIURL" placeholder="https://api.keytech.de" tabindex="6" type="text" autocomplete="off"/>
 	 	</div>
 
 

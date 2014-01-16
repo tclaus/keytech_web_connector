@@ -172,6 +172,11 @@ end
   # Routes
   # These are your Controllers! Can be outsourced to own files but I leave them here for now.
 
+# handle 404 error
+not_found do
+  status 404
+  erb :oops
+end
 
   # main page controller
   get '/' do
@@ -213,11 +218,11 @@ end
   # flash message if something goes wrong
   post '/signup' do
 
-     @user = UserAccount.new(:email => params[:email], 
+     @user = UserAccount.new(:email => params[:email].downcase, 
                 :password => params[:password], :password_confirmation => params[:password_confirmation],
                 :keytechUserName =>params[:keytech_username],
                 :keytechPassword => params[:keytech_password],
-                :keytechAPIURL => params[:keytech_APIURL])
+                :keytechAPIURL => params[:keytech_APIURL].downcase)
         if @user.save
 
           if UserAccount.hasKeytechAccess(@user)
@@ -459,7 +464,7 @@ end
     end
 
     # Get user account by its mail
-    user = UserAccount.first(:email => params[:email].to_s)
+    user = UserAccount.first(:email => params[:email].to_s.downcase)
 
     if !user
       flash[:warning] = "This email address is unknown. Please enter a valid useraccount identified by it's email"
@@ -484,26 +489,27 @@ end
   # Recovers lost password,if recoveryID is still valid in database
   get '/account/password/reset/:recoveryID' do
     if params[:recoveryID] 
+      # recovery Token exist?
       recovery = PasswordRecoveryList.first(:recoveryID => params[:recoveryID])
       print "Recovery: #{recovery}"
 
       if recovery
         if !recovery.isValid?
+          print "Recovery token is invalid"
           recovery.destroy
           flash[:warning] = "Recovery token has expired"
           return erb :"passwordManagement/invalidPasswordRecovery"  
-
         end
 
         @user = UserAccount.first(:email => recovery.email.to_s)
         if @user
-          print " User account found!"
+          print " Recovery: User account found!"
 
           # Start a new password, if useraccount matches
           erb :"passwordManagement/newPassword"
         else
-        flash[:warning] = "Can not recover a password from a deleted or disabled useraccount."
-        erb :"passwordManagement/invalidPasswordRecovery"   
+          flash[:warning] = "Can not recover a password from a deleted or disabled useraccount."
+          erb :"passwordManagement/invalidPasswordRecovery"   
         end
         
       else

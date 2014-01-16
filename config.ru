@@ -5,7 +5,7 @@ require './KtApp'
 
 #if memcache_servers = ENV["MEMCACHE_SERVERS"]
 #  use Rack::Cache,
-#    verbose: true,
+#    verbose: false,
 #    metastore:   "memcached://#{memcache_servers}",
 #    entitystore: "memcached://#{memcache_servers}"
 #else
