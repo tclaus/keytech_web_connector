@@ -23,7 +23,7 @@ gem 'rack-cache'
 group :production do
 	gem 'pg'
 	gem 'dm-postgres-adapter'
-	gem 'thin'
+	gem 'unicron'
 end
 
 group :development do
