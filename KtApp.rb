@@ -100,6 +100,13 @@ end
 #Some configurations 
 configure :production do
 
+  # Catch internal errors and redicert
+  set :raise_errors, false
+  set :show_exceptions, false
+error do
+    redirect to('/')
+end
+
   use Rack::Session::Dalli, 
     :cache => Dalli::Client.new,
     :expire_after => 900, # 15 minutes
