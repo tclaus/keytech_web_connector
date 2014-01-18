@@ -609,20 +609,43 @@ get '/admin' do
 end
 
 get '/support' do
-   "<h3> To Be Done </h3>"
+   erb :"public/support"
 end
 
+# Redirected when 'submit' is clicked
+post '/contact' do 
+  name= params[:name]
+  email= params[:email]
+  message= params[:message]
 
+
+
+    mail = Mail.new do
+      from    name + "<" + email + ">"
+      to      'support@claus-software.de'
+      subject name + " has contacted you"
+      body    message
+    end
+
+    if mail.deliver!
+      flash[:notice] = "Mail was sent. Thank you."
+    else
+      print "Error sending mail"
+      flash[:notice] = "Error sending mail"
+    end
+    redirect '/support'
+
+end
 get '/about' do
-   "<h3> To Be Done </h3>"
+   erb :"public/about"
 end
 
 get '/features' do
-   "<h3> To Be Done </h3>"
+   erb :"public/features"
 end
 
 get '/pricing' do
-   "<h3> To Be Done </h3>"
+   erb :"public/pricing"
 end
 
 # Redirection for file download

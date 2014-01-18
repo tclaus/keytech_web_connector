@@ -176,7 +176,9 @@ textarea {
   
 }
 
-
+.form-actions {
+    text-align: right;
+}
 body .dialog, body #message {
     margin: 0 auto;
     background-repeat: repeat-x;
@@ -376,6 +378,10 @@ html .notice.error h3, body .notice.error h3 {
 }
 
 
+#feedback-form {
+    width: 450px;
+    padding-left: 50px;
+}
 
 #footer, #header {
     color: rgb(68, 68, 68);
