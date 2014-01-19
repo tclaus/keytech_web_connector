@@ -1,12 +1,24 @@
 	
 	<div id="footer">
 		<p>
-		keytech web app pre-beta version
-</p>
-<p>
-		Keytech user: 
-		<% if currentUser %>
-			<%= currentUser.keytechUserName %>
-		<% end %>
-</p>
+		keytech web app pre-beta version<br>
+			
+			Keytech user: 
+			<% if currentUser %>
+				<%= currentUser.keytechUserName %>
+			<% else %>
+				-not logged in-
+			<% end %>
+			
+		</p>
+		<ul class="list-inline">
+			<li class="small">Claus-Software, 2014</li>
+			<li class="small"><a href="/terms">Terms and Conditions</a></li>
+			<li class="small"><a href="/about">About / Impressum</a></li>
+
+		</ul>
+		
+
+
+		
 	</div>

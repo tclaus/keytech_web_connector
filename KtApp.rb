@@ -643,6 +643,11 @@ post '/contact' do
     redirect '/support'
 
 end
+
+get '/terms' do
+  erb :"public/terms"
+end
+
 get '/about' do
    erb :"public/about"
 end
