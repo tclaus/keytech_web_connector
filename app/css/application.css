@@ -89,7 +89,6 @@ body input.submit, body input.button {
     text-shadow: #cfcfcf 0 0 2px;
     color: #16153b;
     font-size: 14px;
-    background-image: url(/assets/button-smooth.png);
     background-repeat: repeat-x;
     background-position: center bottom;
     padding: 7px 20px 7px 20px;
@@ -193,7 +192,7 @@ body .notice {
     text-align: left;
 }
 
-/* Notice Errors / Warnings Messages */
+/* Flash Notice Errors / Warnings Messages */
 html .notice, body .notice {
     color: white;
     padding: 10px 10px 8px 10px;
@@ -347,6 +346,7 @@ html .notice.error h3, body .notice.error h3 {
     border-color: #74bb5a #74bb5a #509338
 }
 
+/* Fetaures - Page */
 .featuresHeading{
     color: #333;
     font-size: 32px;
