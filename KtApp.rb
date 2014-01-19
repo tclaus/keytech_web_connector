@@ -648,8 +648,8 @@ get '/terms' do
   erb :"public/terms"
 end
 
-get '/about' do
-   erb :"public/about"
+get '/impressum' do
+   erb :"public/impressum"
 end
 
 get '/features' do

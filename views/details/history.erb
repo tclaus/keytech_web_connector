@@ -6,7 +6,7 @@
 <% history.each do |historyEntry| %>
 
   <li class="list-group-item">
-  	
+
   	<div>
   		
   		<%= historyEntry.signedByList[0]['SignedByLong'] %>
@@ -22,7 +22,7 @@
   
 <% end %>
 <% else %>
-	<li>
+	<li class="list-group-item">
 		<div> 
 			<span class="text-muted">No status changes yet. Current State is: </span> <%= @element.elementStatus %> </div>
 	</li>
