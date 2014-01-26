@@ -218,12 +218,17 @@ end
 
   #new User signup page
   get '/signup' do
+
+  flash[:error] = "Signup any new accounts not available"
+  redirect '/'
+return
     erb :signup
   end
 
   # Signup a new user, take POST arguments and try to create a new useraccount
   # flash message if something goes wrong
   post '/signup' do
+
 
      @user = UserAccount.new(:email => params[:email].downcase, 
                 :password => params[:password], :password_confirmation => params[:password_confirmation],
