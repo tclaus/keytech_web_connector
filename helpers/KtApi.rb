@@ -20,13 +20,23 @@ module Sinatra
     def findElements(searchstring)
         
         user = UserAccount.get(session[:user])
+        
+        typeString=''
+        # type=bla demo
+        if (searchstring.start_with?('type='))
+          # dann bis zum ersten leerzeichen suchen
+          teststr = searchstring.partition('type=')[2]
+          print "orgstr: " + searchstring
+          print "test: " +teststr.strip
+          typeString = teststr.strip
+          searchstring = searchstring.partition(' ')[2] # Rechten Teil übergeben'
+        end
 
-      
         result = HTTParty.get(user.keytechAPIURL + "/searchitems", 
                                         :basic_auth => {
                                               :username => user.keytechUserName, 
                                               :password => user.keytechPassword}, 
-                                        :query => {:q => searchstring})
+                                        :query => {:q => searchstring,:classtypes=>typeString})
 
         if result.code !=200 || result.code !=403
          # flash[:notice] = "#{result.code}: #{result.message}"
