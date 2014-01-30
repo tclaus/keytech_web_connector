@@ -32,7 +32,7 @@ group :development do
 end
 
 
-gem 'data_mapper'
+gem 'data_mapper' '~> 1.2.0'
 
 # Payments
 

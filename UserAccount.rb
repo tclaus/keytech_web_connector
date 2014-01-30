@@ -42,7 +42,7 @@ property :billingID, Integer, :default =>0
 property :subscriptionID, String, :default =>""
 
 # last seen at. Provides the latest action the user has done
-property :lastSeenAt, DateTime ,:default => :created_at
+property :lastSeenAt, DateTime ,:default => Time.now
 
 #validates_presence_of :password_confirmation
 validates_confirmation_of :password
