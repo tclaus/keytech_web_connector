@@ -12,6 +12,10 @@ end
 
 def currentUser
 	user = UserAccount.get(session[:user])
+	if user
+		user.lastSeenAt = Time.now # Update the last action the user did
+		user.save
+	end	
 	return user
 end
 

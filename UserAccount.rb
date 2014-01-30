@@ -41,6 +41,9 @@ property :billingID, Integer, :default =>0
 # Subscription ID for the Plan
 property :subscriptionID, String, :default =>""
 
+# last seen at. Provides the latest action the user has done
+property :lastSeenAt, DateTime ,:default => :created_at
+
 #validates_presence_of :password_confirmation
 validates_confirmation_of :password
  
