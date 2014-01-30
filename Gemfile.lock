@@ -182,7 +182,7 @@ DEPENDENCIES
   capybara
   compass
   dalli
-  data_mapper
+  data_mapper (~> 1.2.0)
   dm-postgres-adapter
   dm-sqlite-adapter
   filesize
