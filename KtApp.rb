@@ -219,9 +219,9 @@ end
   #new User signup page
   get '/signup' do
 
-  flash[:error] = "Signup any new accounts not available"
-  redirect '/'
-return
+     # flash[:error] = "Signup any new accounts not available"
+      #redirect '/'
+      #return
     erb :signup
   end
 
@@ -236,6 +236,8 @@ return
                 :keytechPassword => params[:keytech_password],
                 :keytechAPIURL => params[:keytech_APIURL].downcase)
         if @user.save
+
+          sendNewSignUpMail(@user)
 
           if UserAccount.hasKeytechAccess(@user)
             # OK, Access granted by API
