@@ -622,6 +622,25 @@ get '/admin' do
   end
 end
 
+delete '/admin/:email' do
+       user = UserAccount.first(:email => recovery.email.to_s)
+       if user.email.eql currentuser.email
+          flash[:danger] = 'Can not delete yourself'
+          return
+        end
+
+        if user.delete
+          flash[:info] = 'Useraccount deleted'
+          redirect '/admin'
+        else
+          flash[:warning] = 'Failed deleting UserAccount'
+          redirect '/admin'
+        end
+
+
+end
+
+
 get '/support' do
    erb :"public/support"
 end

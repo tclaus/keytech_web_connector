@@ -199,7 +199,7 @@ module Sinatra
 
       files = [] # crates an empty array
 
-      result["GetElementFileListResult"].each do |elementFile| # go through JSON response and make gracefully objects
+      result["FileInfos"].each do |elementFile| # go through JSON response and make gracefully objects
       
             file = KeytechElementFile.new
             file.fileID = elementFile['FileID']
