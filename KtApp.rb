@@ -219,9 +219,9 @@ end
   #new User signup page
   get '/signup' do
 
-     # flash[:error] = "Signup any new accounts not available"
-      #redirect '/'
-      #return
+     flash[:error] = "Signup any new accounts not available"
+    redirect '/'
+    return
     erb :signup
   end
 
