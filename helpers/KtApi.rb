@@ -6,6 +6,8 @@ require './EditorLayouts'
 require './KeytechElementFile'
 require './KeytechElementNote'
 require './KeytechElementStatusHistoryEntry'
+require './KeytechBomElement'
+require './KeytechBomElements'
 
 module Sinatra
 
@@ -51,18 +53,45 @@ module Sinatra
         @itemarray=result["ElementList"]
     end
 
-    # Loads the underlying structure base an a given Element Key
-    def loadElementStructure(elementKey)
-      #user = UserAccount.get(session[:user])
+    
+    # Loads the BOM of the given elementKey
+    def loadElementBom(elementKey)
       user = currentUser
       #/elements/{ElementKey}/structure
-      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}/structure", 
+      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}/bom", 
                                         :basic_auth => {
                                               :username => user.keytechUserName, 
                                               :password => user.keytechPassword})
 
-        @itemarray=result["ElementList"]
+        keytechBomElements = loadElementBomData(result)
+        print " Bom loaded "
+        return keytechBomElements
     end
+private 
+  def loadElementBomData(result)
+     
+    bomItems = KeytechBomElements.new
+
+     result["BomElementList"].each do |bomItem|
+      newbomItem = KeytechBomElement.new
+
+      # Unmwandeln des Arrays in eine Hash-Liste
+      if bomItem["KeyValueList"]
+          hash = {}
+          bomItem["KeyValueList"].each do |pairs|
+            hash[pairs['Key']] = pairs['Value']
+          end
+          newbomItem.keyValueList = hash
+      end
+
+      
+      newbomItem.simpleElement = bomItem["SimpleElement"]
+      
+      bomItems.bomElements << newbomItem
+    end
+    return bomItems
+  end
+
 
     # Loads excact one Element
     # responseAttributes one of LISTER|EDITOR|NONE|ALL  - defaults to NONE
@@ -75,6 +104,12 @@ module Sinatra
                                               :username => user.keytechUserName, 
                                               :password => user.keytechPassword})
 
+        keytechElement = loadElementData(result)
+        return keytechElement
+    end
+
+private 
+def loadElementData(result)
         keytechElement = KeytechElement.new
         element = result["ElementList"][0]
 
@@ -96,15 +131,25 @@ module Sinatra
         keytechElement.keyValueList = element['KeyValueList']
 
         return keytechElement
-    end
+end
 
+# Loads the underlying structure base an a given Element Key
+    def loadElementStructure(elementKey)
+      #user = UserAccount.get(session[:user])
+      user = currentUser
+      #/elements/{ElementKey}/structure
+      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}/structure", 
+                                        :basic_auth => {
+                                              :username => user.keytechUserName, 
+                                              :password => user.keytechPassword})
+
+        @itemarray=result["ElementList"]
+    end
 
 # Loads the thumbnail at the given key
   def loadElementThumbnail(thumbnailKey)
 
-  # caching
-  #cache = Dalli::Client.new
-  
+
 
     # see: http://juretta.com/log/2006/08/13/ruby_net_http_and_open-uri/
     resource = "/elements/#{thumbnailKey}/thumbnail"
@@ -150,8 +195,35 @@ module Sinatra
                                               :username => user.keytechUserName, 
                                               :password => user.keytechPassword})
 
+      return layoutFromResult(result)
+          
+  end
 
-          editorLayouts = EditorLayouts.new # [] # creates an array
+
+  # Loads the bill of material layout
+def loadBomLayout
+    user = currentUser
+    plainURI = user.keytechAPIURL.sub(/^https?\:\/\//, '').sub(/^www./,'')
+   
+    bomLayoutData = settings.cache.get(plainURI + "_BOM")
+    if !bomLayoutData
+
+      #/elements/{ElementKey}/structure
+      result = HTTParty.get(user.keytechAPIURL + "/classes/bom/listerlayout", 
+                                              :basic_auth => {
+                                              :username => user.keytechUserName, 
+                                              :password => user.keytechPassword})
+
+      bomLayoutData =  layoutFromResult(result)
+      settings.cache.set(plainURI + "_BOM",bomLayoutData,60*60) #1 Stunde merken'
+    end
+    return bomLayoutData
+
+  end
+
+private
+   def layoutFromResult(result)
+        editorLayouts = EditorLayouts.new # [] # creates an array
           
           maxWidth = 0
           maxHeight = 0
@@ -185,7 +257,9 @@ module Sinatra
         editorLayouts.maxWidth =  maxWidth
         editorLayouts.maxHeight = maxHeight
         return editorLayouts
-    end
+  end
+
+
 
 # Loads the filelist of given element 
  def loadElementFileList(elementKey)

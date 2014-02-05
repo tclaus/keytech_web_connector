@@ -44,6 +44,8 @@ property :subscriptionID, String, :default =>""
 # last seen at. Provides the latest action the user has done
 property :lastSeenAt, DateTime ,:default => Time.now
 
+property :is_locked,Boolean, :default => false
+
 #validates_presence_of :password_confirmation
 validates_confirmation_of :password
  
