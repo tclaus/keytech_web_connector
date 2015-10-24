@@ -26,16 +26,15 @@ group :production do
 	gem 'unicorn'
 end
 
-group :development do
+#group :development do
 	gem 'rerun'
 	gem 'dm-sqlite-adapter'
-end
+#end
 
 
 gem 'data_mapper', '~> 1.2.0'
 
-# Payments
-
+# Payment provider
 gem 'braintree'
 
 

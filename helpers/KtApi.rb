@@ -67,6 +67,7 @@ module Sinatra
         print " Bom loaded "
         return keytechBomElements
     end
+
 private 
   def loadElementBomData(result)
      
@@ -118,17 +119,21 @@ def loadElementData(result)
         keytechElement.createdByLong =  element['CreatedByLong']
         keytechElement.changedAt =  element['ChangedAt']
         keytechElement.changedBy =  element['ChangedBy']
-        keytechElement.changedByLong =  element['changedByLong']
-        keytechElement.elementDescription =  element['ElementDescription']
-        keytechElement.elementDisplayName =  element['ElementDisplayName']
-        keytechElement.elementKey =  element['ElementKey']
-        keytechElement.elementName =  element['ElementName']
-        keytechElement.elementStatus =  element['ElementStatus']
-        keytechElement.elementTypeDisplayName =  element['ElementTypeDisplayName']
-        keytechElement.elementVersion =  element['ElementVersion']
+        keytechElement.changedByLong =  element['ChangedByLong']
+        keytechElement.elementDescription =  element['Description']
+        keytechElement.elementDisplayName =  element['DisplayName']
+        keytechElement.elementKey =  element['Key']
+        keytechElement.elementName =  element['Name']
+        keytechElement.elementStatus =  element['Status']
+        keytechElement.elementTypeDisplayName =  element['ClassDisplayName']
+        keytechElement.elementVersion =  element['Version']
         keytechElement.hasVersions =  element['HasVersions']
         keytechElement.thumbnailHint =  element['ThumbnailHint']
         keytechElement.keyValueList = element['KeyValueList']
+
+        keytechElement.elementReleasedAt = element['ReleasedAt']
+        keytechElement.elementReleasedBy = element['ReleasedBy']
+        keytechElement.elementReleasedByLong = element['ReleasedByLong']
 
         return keytechElement
 end
@@ -150,10 +155,9 @@ end
   def loadElementThumbnail(thumbnailKey)
 
 
-
-    # see: http://juretta.com/log/2006/08/13/ruby_net_http_and_open-uri/
+    # Using Dalli and memcached
     resource = "/elements/#{thumbnailKey}/thumbnail"
-  #print "loaded: #{resource}"
+    # print "loaded: #{resource}"
     
     user = currentUser
 
@@ -177,7 +181,7 @@ end
         response.body  # Body contain image Data!
       end
     else
-      #print "cache HIT! "
+      print "cache HIT! "
       return tnData
     end
 

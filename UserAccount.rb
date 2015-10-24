@@ -143,7 +143,7 @@ end
  # This is the default keytech API URL for demo purposes
  #
 def keytechDefaultAPI 
-	return "https://api.keytech.de"
+	return "https://demo.keytech.de"
 end
 # This is a valid demo user
 def keytechDefaultUsername

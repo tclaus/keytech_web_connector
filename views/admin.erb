@@ -11,7 +11,9 @@
     <th>Last seen at</th>
     <th>Billing ID</th>
     <th>Subscription ID</th>
-    <th>Is admin</th>
+    <th>Role</th>
+    <th>Active</th>
+    <th></th>
   </tr>
 </thead>
 <tbody>
@@ -29,10 +31,29 @@
 		<td><%= user.lastSeenAt.strftime("%F at %T")%></td>
 		<td><%= user.billingID%></td>
 		<td><%= user.subscriptionID%></td>
-		<td><%= user.isAdmin?.to_s%></td>
-		
+		<td>
+				<% if user.isAdmin? %>
+					Admin
+				<% else %>
+				   User
+				<% end %>
+		</td>
+		<td class="text-danger">
+			<% if user.is_locked %>
+			   Locked
+			<% end %>
+		</td>
+
+		<td>
+			<button type="button" class="btn btn-warning btn-xs">Lock</button>
+			<button type="button" class="btn btn-danger btn-xs">Delete</button>
+
+		</td>
 	</tr>
 	<%end%>
 </tbody>
 </table>
 	<%end%>
+ 
+
+</script>

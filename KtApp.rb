@@ -3,7 +3,6 @@
 
 require 'rubygems'
 require 'bundler'
-
 require 'sinatra/base'
 require "sinatra/contrib/all"
 require 'sinatra/assetpack'
@@ -689,7 +688,7 @@ end
 # Redirection for file download
 
 # Image forwarding. Redirect classimages provided by API to another image directly fetched by API
-get "/images/classimages/:classKey" do
+get "/classes/:classKey/smallimage" do
    if loggedIn?
       cache_control :public, mag_age:1800
       content_type "image/png"

@@ -9,17 +9,19 @@ require_relative "./SessionHelper"
 	 Time.at((jsonDate.gsub(/\D/, "").to_i - 200) /10000000).strftime("%F")
 	end
 
-
+	# TODO: Load images locally
 	#1. Generate a URL with credentials and load and forward image from API (Nasty)
 	#2. Load the image to a local image store and reload it from local? 
 	#   Images are always the same, so caching is OK for classicons (not neccesarly Thumbnails, these can change over time)
 
 	def classImage(elementKey)
-	     
-		 resourceURL = "/smallclassimage/"
-		 classKey =   elementKey.split(':')[0]
+	     if elementKey
+		 	resourceURL = "/smallclassimage/"
+		 	classKey =   elementKey.split(':')[0]
+		 	#TODO: Load high-res images on retina devices
+		 	"<img class='smallclassimage' src='/classes/#{classKey}/smallimage' width='20' heigth='20'>"
+		end
 
-		 "<img src='/images/classimages/#{classKey}' width='20' heigth='20'>"
 	end
 
 	# Returns "DO", "FD" or "MI" to identify the type of element 
@@ -74,7 +76,7 @@ require_relative "./SessionHelper"
 	# Starts the download for the masterfile of the given element
 	def loadMasterfile(elementKey)
 
-		resource = "/elements/#{elementKey}/masterfile"
+		resource = "/elements/#{elementKey}/files/masterfile"
 	 	print "Loading: #{resource} "
 
 		#print "Username: #{session[:user]}, pw: #{session[:passwd]}"
@@ -105,7 +107,7 @@ require_relative "./SessionHelper"
 
 	def loadClassImage(classKey)
 		# see: http://juretta.com/log/2006/08/13/ruby_net_http_and_open-uri/
-		resource = "/smallclassimage/#{classKey}"
+		resource = "/classes/#{classKey}/smallimage"
 #print "loaded: #{resource}"
 		
 		user = currentUser
