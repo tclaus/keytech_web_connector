@@ -163,6 +163,8 @@ end
 # Checks if user has a valid subscription
 # 
 def hasValidSubscription?
+	return true
+	# Ignore any nbilling this time
 	print " Subsciption: #{subscriptionID} "
 	if !subscriptionID.empty?
 	 	subscription = Braintree::Subscription.find(subscriptionID)

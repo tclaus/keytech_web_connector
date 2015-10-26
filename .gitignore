@@ -10,6 +10,7 @@ development.db
 *.swp
 *.rbc
 *.sass-cache
+*.log
 /pkg
 /doc/api
 /.bundle

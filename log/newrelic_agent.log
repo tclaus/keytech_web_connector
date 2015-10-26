@@ -1200,3 +1200,62 @@
 [10/24/15 18:54:38 +0200 thorstens-mac.local (16276)] INFO : Installing deferred Rack instrumentation
 [10/24/15 18:54:38 +0200 thorstens-mac.local (16276)] INFO : Finished instrumentation
 [10/24/15 18:54:39 +0200 thorstens-mac.local (16276)] INFO : Doing deferred dependency-detection before Rack startup
+[10/24/15 23:42:03 +0200 thorstens-mac.local (37876)] INFO : Starting the New Relic agent in "development" environment.
+[10/24/15 23:42:03 +0200 thorstens-mac.local (37876)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[10/24/15 23:42:03 +0200 thorstens-mac.local (37876)] INFO : Reading configuration from config/newrelic.yml
+[10/24/15 23:42:03 +0200 thorstens-mac.local (37876)] INFO : Enabling the Request Sampler.
+[10/24/15 23:42:03 +0200 thorstens-mac.local (37876)] INFO : Environment: development
+[10/24/15 23:42:03 +0200 thorstens-mac.local (37876)] INFO : No known dispatcher detected.
+[10/24/15 23:42:03 +0200 thorstens-mac.local (37876)] INFO : Application: development
+[10/24/15 23:42:03 +0200 thorstens-mac.local (37876)] WARN : Agent configured not to send data in this environment.
+[10/24/15 23:42:03 +0200 thorstens-mac.local (37876)] INFO : Installing DataMapper instrumentation
+[10/24/15 23:42:03 +0200 thorstens-mac.local (37876)] INFO : Installing Dalli Memcache instrumentation
+[10/24/15 23:42:03 +0200 thorstens-mac.local (37876)] INFO : Installing Net instrumentation
+[10/24/15 23:42:03 +0200 thorstens-mac.local (37876)] INFO : Installing Sinatra instrumentation
+[10/24/15 23:42:03 +0200 thorstens-mac.local (37876)] INFO : Installing deferred Rack instrumentation
+[10/24/15 23:42:03 +0200 thorstens-mac.local (37876)] INFO : Finished instrumentation
+[10/24/15 23:42:04 +0200 thorstens-mac.local (37876)] INFO : Doing deferred dependency-detection before Rack startup
+[10/25/15 09:56:58 +0100 thorstens-mac.local (38048)] INFO : Starting the New Relic agent in "development" environment.
+[10/25/15 09:56:58 +0100 thorstens-mac.local (38048)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[10/25/15 09:56:58 +0100 thorstens-mac.local (38048)] INFO : Reading configuration from config/newrelic.yml
+[10/25/15 09:56:58 +0100 thorstens-mac.local (38048)] INFO : Enabling the Request Sampler.
+[10/25/15 09:56:58 +0100 thorstens-mac.local (38048)] INFO : Environment: development
+[10/25/15 09:56:58 +0100 thorstens-mac.local (38048)] INFO : No known dispatcher detected.
+[10/25/15 09:56:58 +0100 thorstens-mac.local (38048)] INFO : Application: development
+[10/25/15 09:56:58 +0100 thorstens-mac.local (38048)] WARN : Agent configured not to send data in this environment.
+[10/25/15 09:56:58 +0100 thorstens-mac.local (38048)] INFO : Installing DataMapper instrumentation
+[10/25/15 09:56:58 +0100 thorstens-mac.local (38048)] INFO : Installing Dalli Memcache instrumentation
+[10/25/15 09:56:58 +0100 thorstens-mac.local (38048)] INFO : Installing Net instrumentation
+[10/25/15 09:56:58 +0100 thorstens-mac.local (38048)] INFO : Installing Sinatra instrumentation
+[10/25/15 09:56:58 +0100 thorstens-mac.local (38048)] INFO : Installing deferred Rack instrumentation
+[10/25/15 09:56:58 +0100 thorstens-mac.local (38048)] INFO : Finished instrumentation
+[10/25/15 09:59:14 +0100 thorstens-mac.local (38115)] INFO : Starting the New Relic agent in "development" environment.
+[10/25/15 09:59:14 +0100 thorstens-mac.local (38115)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[10/25/15 09:59:14 +0100 thorstens-mac.local (38115)] INFO : Reading configuration from config/newrelic.yml
+[10/25/15 09:59:14 +0100 thorstens-mac.local (38115)] INFO : Enabling the Request Sampler.
+[10/25/15 09:59:14 +0100 thorstens-mac.local (38115)] INFO : Environment: development
+[10/25/15 09:59:14 +0100 thorstens-mac.local (38115)] INFO : No known dispatcher detected.
+[10/25/15 09:59:14 +0100 thorstens-mac.local (38115)] INFO : Application: development
+[10/25/15 09:59:14 +0100 thorstens-mac.local (38115)] WARN : Agent configured not to send data in this environment.
+[10/25/15 09:59:14 +0100 thorstens-mac.local (38115)] INFO : Installing DataMapper instrumentation
+[10/25/15 09:59:14 +0100 thorstens-mac.local (38115)] INFO : Installing Dalli Memcache instrumentation
+[10/25/15 09:59:14 +0100 thorstens-mac.local (38115)] INFO : Installing Net instrumentation
+[10/25/15 09:59:14 +0100 thorstens-mac.local (38115)] INFO : Installing Sinatra instrumentation
+[10/25/15 09:59:14 +0100 thorstens-mac.local (38115)] INFO : Installing deferred Rack instrumentation
+[10/25/15 09:59:14 +0100 thorstens-mac.local (38115)] INFO : Finished instrumentation
+[10/25/15 09:59:15 +0100 thorstens-mac.local (38115)] INFO : Doing deferred dependency-detection before Rack startup
+[10/25/15 10:15:32 +0100 thorstens-mac.local (38141)] INFO : Starting the New Relic agent in "development" environment.
+[10/25/15 10:15:32 +0100 thorstens-mac.local (38141)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[10/25/15 10:15:32 +0100 thorstens-mac.local (38141)] INFO : Reading configuration from config/newrelic.yml
+[10/25/15 10:15:32 +0100 thorstens-mac.local (38141)] INFO : Enabling the Request Sampler.
+[10/25/15 10:15:32 +0100 thorstens-mac.local (38141)] INFO : Environment: development
+[10/25/15 10:15:32 +0100 thorstens-mac.local (38141)] INFO : No known dispatcher detected.
+[10/25/15 10:15:32 +0100 thorstens-mac.local (38141)] INFO : Application: development
+[10/25/15 10:15:32 +0100 thorstens-mac.local (38141)] WARN : Agent configured not to send data in this environment.
+[10/25/15 10:15:32 +0100 thorstens-mac.local (38141)] INFO : Installing DataMapper instrumentation
+[10/25/15 10:15:32 +0100 thorstens-mac.local (38141)] INFO : Installing Dalli Memcache instrumentation
+[10/25/15 10:15:32 +0100 thorstens-mac.local (38141)] INFO : Installing Net instrumentation
+[10/25/15 10:15:32 +0100 thorstens-mac.local (38141)] INFO : Installing Sinatra instrumentation
+[10/25/15 10:15:32 +0100 thorstens-mac.local (38141)] INFO : Installing deferred Rack instrumentation
+[10/25/15 10:15:32 +0100 thorstens-mac.local (38141)] INFO : Finished instrumentation
+[10/25/15 10:15:33 +0100 thorstens-mac.local (38141)] INFO : Doing deferred dependency-detection before Rack startup

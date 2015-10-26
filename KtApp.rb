@@ -78,10 +78,10 @@ configure :development do
   DataMapper.auto_upgrade!
 
   # Payments
-  Braintree::Configuration.environment = :sandbox
-  Braintree::Configuration.merchant_id = "6d3bxmf7cd8g9m7s"
-  Braintree::Configuration.public_key = "2tdfpxc79jtk4437"
-  Braintree::Configuration.private_key = "ca0de6ffc93d667297cf6b533981316a"
+  #Braintree::Configuration.environment = :sandbox
+  #Braintree::Configuration.merchant_id = "6d3bxmf7cd8g9m7s"
+  #Braintree::Configuration.public_key = "2tdfpxc79jtk4437"
+  #Braintree::Configuration.private_key = "ca0de6ffc93d667297cf6b533981316a"
 
   # Mail Send
   Mail.defaults do
@@ -218,9 +218,9 @@ end
   #new User signup page
   get '/signup' do
 
-     flash[:error] = "Signup any new accounts not available"
-    redirect '/'
-    return
+     #flash[:error] = "Signup any new accounts not available"
+    #redirect '/'
+    #return
     erb :signup
   end
 
@@ -259,46 +259,45 @@ get '/account' do
   @user = currentUser
   if @user
 
-    if params[:action].eql? "cancelPlan"
-      print "Cancel Plan"
-        # Cancel current subscription
-        Braintree::Subscription.cancel(@user.subscriptionID)
-        
-        @user.subscriptionID = ""  # Remove subscriptionID
-        @user.save
-        redirect '/account'
-        return
-    end
+    #if params[:action].eql? "cancelPlan"
+    #  print "Cancel Plan"
+    #    # Cancel current subscription
+    #    Braintree::Subscription.cancel(@user.subscriptionID)
+    #    
+    #    @user.subscriptionID = ""  # Remove subscriptionID
+    #    @user.save
+    #    redirect '/account'
+    #    return
+    #end
 
-    if params[:action].eql? "startPlan"
-      print "Start Plan"
-        # Start a new subscription. (Now without any trials)
-        customer = Braintree::Customer.find(@user.billingID)
-        if customer
-            payment_method_token = customer.credit_cards[0].token
+    # if params[:action].eql? "startPlan"
+    #   print "Start Plan"
+    #     # Start a new subscription. (Now without any trials)
+    #     customer = Braintree::Customer.find(@user.billingID)
+    #     if customer
+    #         payment_method_token = customer.credit_cards[0].token
 
-            result = Braintree::Subscription.create(
-                      :payment_method_token => payment_method_token,
-                      :plan_id => "silver_plan",
-                      :options => {
-                        :start_immediately => true # A recreated plan does not have a trial period
-                      }
-                    )
+    #         result = Braintree::Subscription.create(
+    #                   :payment_method_token => payment_method_token,
+    #                   :plan_id => "silver_plan",
+    #                   :options => {
+    #                     :start_immediately => true # A recreated plan does not have a trial period
+    #                   }
+    #                 )
 
-            @user.subscriptionID = result.subscription.id  # Add subscriptionID
-            @user.save
-            redirect '/account'
+    #         @user.subscriptionID = result.subscription.id  # Add subscriptionID
+    #         @user.save
+    #         redirect '/account'
 
-        else
-          # Customer with this ID not found - remove from Customer
-          @user.billingID = 0
-          @user.save
+    #     else
+    #       # Customer with this ID not found - remove from Customer
+    #       @user.billingID = 0
+    #       @user.save
 
-          flash[:error] = "No customer record found. Please try again."
-          redirect '/account'
-        end
-       
-    end
+    #       flash[:error] = "No customer record found. Please try again."
+    #       redirect '/account'
+    #     end
+    # end
 
   erb :account
     
