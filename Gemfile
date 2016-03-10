@@ -8,7 +8,7 @@ gem 'httparty'
 gem 'rake'
 gem 'sass'
 gem 'compass'
-gem 'sinatra-assetpack'
+gem 'sinatra-assetpack', '~> 0.3.3'
 gem 'json'
 gem 'sinatra-contrib'
 gem 'rack-flash-session'
@@ -18,12 +18,12 @@ gem 'filesize'
 gem 'memcachier'
 gem 'dalli'
 gem 'rack-cache'
-gem 'newrelic_rpm'
+gem 'puma'
 
 group :production do
 	gem 'pg'
 	gem 'dm-postgres-adapter'
-	gem 'unicorn'
+	
 end
 
 group :development do

@@ -1274,3 +1274,18 @@
 [03/10/16 15:24:42 +0100 thorstens-mac.local (32715)] INFO : Installing deferred Rack instrumentation
 [03/10/16 15:24:42 +0100 thorstens-mac.local (32715)] INFO : Finished instrumentation
 [03/10/16 15:24:42 +0100 thorstens-mac.local (32715)] INFO : Doing deferred dependency-detection before Rack startup
+[2016-03-10 15:57:38 +0100 thorstens-mac.local (34858)] INFO : Starting the New Relic agent in "development" environment.
+[2016-03-10 15:57:38 +0100 thorstens-mac.local (34858)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[2016-03-10 15:57:38 +0100 thorstens-mac.local (34858)] INFO : Reading configuration from config/newrelic.yml (/Users/thorstenclaus/Documents/Develop/ruby-projects/keytech)
+[2016-03-10 15:57:38 +0100 thorstens-mac.local (34858)] INFO : Environment: development
+[2016-03-10 15:57:38 +0100 thorstens-mac.local (34858)] INFO : Dispatcher: unicorn
+[2016-03-10 15:57:38 +0100 thorstens-mac.local (34858)] INFO : Application: development
+[2016-03-10 15:57:38 +0100 thorstens-mac.local (34858)] WARN : Agent configured not to send data in this environment.
+[2016-03-10 15:57:38 +0100 thorstens-mac.local (34858)] INFO : Installing DataMapper instrumentation
+[2016-03-10 15:57:38 +0100 thorstens-mac.local (34858)] INFO : Installing Memcache instrumentation for dalli gem
+[2016-03-10 15:57:38 +0100 thorstens-mac.local (34858)] INFO : Installing Net instrumentation
+[2016-03-10 15:57:38 +0100 thorstens-mac.local (34858)] INFO : Installing Sinatra instrumentation
+[2016-03-10 15:57:38 +0100 thorstens-mac.local (34858)] INFO : Installing deferred Rack::Builder instrumentation
+[2016-03-10 15:57:38 +0100 thorstens-mac.local (34858)] INFO : Installing Rack::Builder middleware instrumentation
+[2016-03-10 15:57:38 +0100 thorstens-mac.local (34858)] INFO : Finished instrumentation
+[2016-03-10 15:57:38 +0100 thorstens-mac.local (34858)] INFO : Doing deferred dependency-detection before Rack startup

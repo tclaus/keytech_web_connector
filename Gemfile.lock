@@ -99,7 +99,6 @@ GEM
     jsmin (1.0.1)
     json (1.8.3)
     json_pure (1.8.3)
-    kgio (2.10.0)
     listen (3.0.6)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9.7)
@@ -115,11 +114,11 @@ GEM
     minitest (5.8.4)
     multi_json (1.11.2)
     multi_xml (0.5.5)
-    newrelic_rpm (3.15.0.314)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     pg (0.18.4)
     polyglot (0.3.5)
+    puma (3.1.0)
     rack (1.6.4)
     rack-cache (1.6.1)
       rack (>= 0.4)
@@ -131,7 +130,6 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
-    raindrops (0.16.0)
     rake (11.0.1)
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
@@ -156,11 +154,11 @@ GEM
       rack (~> 1.5)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
-    sinatra-assetpack (0.3.1)
+    sinatra-assetpack (0.3.5)
       jsmin
       rack-test
       sinatra
-      tilt (>= 1.3.0)
+      tilt (>= 1.3.0, < 2.0)
     sinatra-contrib (1.4.6)
       backports (>= 2.0)
       multi_json
@@ -170,15 +168,11 @@ GEM
       tilt (>= 1.3, < 3)
     stringex (1.5.1)
     thread_safe (0.3.5)
-    tilt (2.0.2)
+    tilt (1.4.1)
     treetop (1.6.5)
       polyglot (~> 0.3)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    unicorn (5.0.1)
-      kgio (~> 2.6)
-      rack
-      raindrops (~> 0.7)
     uuidtools (2.1.5)
     xpath (2.0.0)
       nokogiri (~> 1.3)
@@ -199,8 +193,8 @@ DEPENDENCIES
   json
   mail
   memcachier
-  newrelic_rpm
   pg
+  puma
   rack-cache
   rack-flash-session
   rack-flash3
@@ -209,6 +203,5 @@ DEPENDENCIES
   rspec
   sass
   sinatra
-  sinatra-assetpack
+  sinatra-assetpack (~> 0.3.3)
   sinatra-contrib
-  unicorn
