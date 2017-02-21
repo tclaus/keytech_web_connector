@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby '2.0.0'
+#ruby '2.0.0'
 gem 'sinatra' #, :github => "sinatra/sinatra"
 
 # other dependencies
@@ -8,9 +8,11 @@ gem 'httparty'
 gem 'rake'
 gem 'sass'
 gem 'compass'
-gem 'sinatra-assetpack', '~> 0.3.3'
+#gem 'sinatra-assetpack'
+gem 'sinatra-asset-pipeline', '~> 1.0'
 gem 'json'
 gem 'sinatra-contrib'
+gem 'pkg-config'
 gem 'rack-flash-session'
 gem 'rack-flash3'
 gem 'mail'
@@ -23,14 +25,12 @@ gem 'puma'
 group :production do
 	gem 'pg'
 	gem 'dm-postgres-adapter'
-	
 end
 
 group :development do
 	gem 'rerun'
-	gem 'dm-sqlite-adapter'
+	gem 'dm-sqlite-adapter', '~> 1.2'
 end
-
 
 gem 'data_mapper', '~> 1.2.0'
 

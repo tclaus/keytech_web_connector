@@ -4,8 +4,9 @@
 require 'rubygems'
 require 'bundler'
 require 'sinatra/base'
-require "sinatra/contrib/all"
-require 'sinatra/assetpack'
+require 'sinatra/contrib/all'
+#require 'sinatra/assetpack'
+require 'sinatra/asset_pipeline'
 require 'rack-flash'
 require 'rack/flash/test'
 require 'filesize'
@@ -29,7 +30,7 @@ class KtApp < Sinatra::Base
   set :root, File.dirname(__FILE__)
   
   register Sinatra::Contrib
-  register Sinatra::AssetPack
+  
 
   require_relative "helpers/KtApi"
   require_relative "helpers/DetailsHelper"
@@ -64,7 +65,7 @@ end
 
 configure :development do
   
-
+  #require 'dm-sqlite-adapter'
   
   #enable sessions, for 900 seconds (15 minutes)
   use Rack::Session::Pool, 
@@ -77,11 +78,6 @@ configure :development do
   DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/development.db")
   DataMapper.auto_upgrade!
 
-  # Payments
-  #Braintree::Configuration.environment = :sandbox
-  #Braintree::Configuration.merchant_id = "6d3bxmf7cd8g9m7s"
-  #Braintree::Configuration.public_key = "2tdfpxc79jtk4437"
-  #Braintree::Configuration.private_key = "ca0de6ffc93d667297cf6b533981316a"
 
   # Mail Send
   Mail.defaults do
@@ -98,6 +94,7 @@ end
 
 #Some configurations 
 configure :production do
+  require 'dm-postgres-adapter'
 
   # Catch internal errors and redicert
   set :raise_errors, false
@@ -134,36 +131,13 @@ end
   DataMapper.auto_upgrade!
 end
 
+# Assets (Cleard)
+# see https://github.com/kalasjocke/sinatra-asset-pipeline
 
-  assets do
-
-    serve '/js',     from: 'app/js'        # Default
-    serve '/css',    from: 'app/css'       # Default
-    serve '/images', from: 'app/images'    # Default
-
-    js :application, [
-      #'/js/vendor/custom.modernizr.js',
-      '/js/popup.js'
-      # You can also do this: 'js/*.js'
-    ]
-
-    js :body, [
-      #'/js/vendor/jquery.js',
-      #'/js/foundation.min.js'
-      # You can also do this: 'js/*.js'
-    ]
-
-    css :application, [
-      #'/css/normalize.css',
-      #'/css/foundation.css',
-      '/css/application.css',
-      '/css/search.css'
-    ]
-
-    js_compression :jsmin
-    css_compression :simple
-
-  end
+# The path to your assets
+  set :assets_paths, %w('./app')
+  register Sinatra::AssetPipeline
+  
 
   enable :method_override
 
@@ -385,10 +359,9 @@ get '/account/subscription' do
         erb :customerAccount
       end
 
-    else
+  else
       redirect'/'
-    end
- 
+  end 
 end
 
 # For Payment Data
@@ -621,21 +594,19 @@ get '/admin' do
 end
 
 delete '/admin/:email' do
-       user = UserAccount.first(:email => recovery.email.to_s)
-       if user.email.eql currentuser.email
-          flash[:danger] = 'Can not delete yourself'
-          return
-        end
+  user = UserAccount.first(:email => recovery.email.to_s)
+  if user.email.eql currentuser.email
+    flash[:danger] = 'Can not delete yourself'
+    return
+  end
 
-        if user.delete
-          flash[:info] = 'Useraccount deleted'
-          redirect '/admin'
-        else
-          flash[:warning] = 'Failed deleting UserAccount'
-          redirect '/admin'
-        end
-
-
+  if user.delete
+    flash[:info] = 'Useraccount deleted'
+    redirect '/admin'
+  else
+    flash[:warning] = 'Failed deleting UserAccount'
+    redirect '/admin'
+  end
 end
 
 
@@ -649,22 +620,20 @@ post '/contact' do
   email= params[:email]
   message= params[:message]
 
+  mail = Mail.new do
+    from    name + "<" + email + ">"
+    to      'support@claus-software.de'
+    subject name + " has contacted you"
+    body    message
+  end
 
-
-    mail = Mail.new do
-      from    name + "<" + email + ">"
-      to      'support@claus-software.de'
-      subject name + " has contacted you"
-      body    message
-    end
-
-    if mail.deliver!
-      flash[:notice] = "Mail was sent. Thank you."
-    else
-      print "Error sending mail"
-      flash[:notice] = "Error sending mail"
-    end
-    redirect '/support'
+  if mail.deliver!
+    flash[:notice] = "Mail was sent. Thank you."
+  else
+    print "Error sending mail"
+    flash[:notice] = "Error sending mail"
+  end
+  redirect '/support'
 
 end
 
@@ -688,49 +657,47 @@ end
 
 # Image forwarding. Redirect classimages provided by API to another image directly fetched by API
 get "/classes/:classKey/smallimage" do
-   if loggedIn?
-      cache_control :public, mag_age:1800
-      content_type "image/png"
-      loadClassImage(params[:classKey])
-    else
-      flash[:notice] = sessionInvalidText
-      redirect '/'
-    end
+  if loggedIn?
+    cache_control :public, mag_age:1800
+    content_type "image/png"
+    loadClassImage(params[:classKey])
+  else
+    flash[:notice] = sessionInvalidText
+    redirect '/'
+  end
 end
 
 
 get "/files/:elementKey/masterfile" do
-   if loggedIn?
-      content_type "application/octet-stream"
-      
-      loadMasterfile(params[:elementKey])
-    else
-      flash[:notice] = sessionInvalidText
-      redirect '/'
-    end
+  if loggedIn?
+    content_type "application/octet-stream"
+
+    loadMasterfile(params[:elementKey])
+  else
+    flash[:notice] = sessionInvalidText
+    redirect '/'
+  end
 end
 
 get "/files/:elementKey/files/:fileID" do
-   if loggedIn?
-      content_type "application/octet-stream"
-      
-      loadFile(params[:elementKey],params[:fileID])
-    else
-      flash[:notice] = sessionInvalidText
-      redirect '/'
-    end
+  if loggedIn?
+    content_type "application/octet-stream"
+    
+    loadFile(params[:elementKey],params[:fileID])
+  else
+    flash[:notice] = sessionInvalidText
+    redirect '/'
+  end
 end
 
 get "/element/:thumbnailHint/thumbnail" do
-   if loggedIn?
-      content_type "image/png"
-      loadElementThumbnail(params[:thumbnailHint])
-    else
-      flash[:notice] = sessionInvalidText
-      redirect '/'
-    end
-
-
+  if loggedIn?
+    content_type "image/png"
+    loadElementThumbnail(params[:thumbnailHint])
+  else
+    flash[:notice] = sessionInvalidText
+    redirect '/'
+  end
 end
 
 
