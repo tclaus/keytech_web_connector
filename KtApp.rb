@@ -174,7 +174,6 @@ end
     if currentUser
       if currentUser.usesDemoAPI? || currentUser.hasValidSubscription?
         
-
         @result= findElements(params[:q])
         erb :search
       else
