@@ -4,14 +4,14 @@
 
 
 <div class="dialog" id="login">
-	 <form action="/login" class="panel-body" method="post" accept-charset="utf-8">
+	 <form action="/login" class="panel-body" method="post" accept-charset="utf-8" autocomplete="on">
 	 	<fieldset><div class="field">
-	 		<label for="email">Email/Username</label>
-	 		<input class="text" id="email" name="email" placeholder="email address or username" tabindex="1" type="email" />
+	 		<label for="username">Email/Username</label>
+	 		<input class="text" id="username" name="username" placeholder="email address or username" tabindex="1" type="email" autocomplete="username"/>
 	 	</div>
 	 	<div class="field">
 	 		<label for="password">Password</label>
-	 		<input class="text password" id="password" name="passwd" placeholder="password" tabindex="2" type="password" />
+	 		<input class="text password" id="password" name="password" placeholder="password" tabindex="2" type="password" autocomplete="password"/>
 	 	<p><a href="/account/forgotpassword">I forgot my password</a></p>
 	 	</div>
 	 	

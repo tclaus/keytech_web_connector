@@ -5,8 +5,8 @@ require 'rubygems'
 require 'bundler'
 require 'sinatra/base'
 require 'sinatra/contrib/all'
-#require 'sinatra/assetpack'
-require 'sinatra/asset_pipeline'
+
+require 'sprockets'
 require 'rack-flash'
 require 'rack/flash/test'
 require 'filesize'
@@ -131,13 +131,13 @@ end
   DataMapper.auto_upgrade!
 end
 
-# Assets (Cleard)
-# see https://github.com/kalasjocke/sinatra-asset-pipeline
+  # Assets (Cleard)
+  set :environment, Sprockets::Environment.new
+  environment.append_path "assets/stylesheets"
+  environment.append_path "assets/javascripts"
+  #environment.js_compressor = :uglify
+  #environment.css_compressor = :scss    
 
-# The path to your assets
-  set :assets_paths, %w('./app')
-  register Sinatra::AssetPipeline
-  
 
   enable :method_override
 
@@ -157,6 +157,11 @@ not_found do
   status 404
   erb :oops
 end
+
+  get '/assets/*' do
+    env["PATH_INFO"].sub!("/assets","")
+    settings.environment.call(env)
+  end
 
   # main page controller
   get '/' do
@@ -421,7 +426,7 @@ end
   # Login controller
   post '/login' do
 
-    user = UserAccount.authenticate(params[:email].downcase,params[:passwd])
+    user = UserAccount.authenticate(params[:username].downcase,params[:password])
 
     if user
       session[:user] = user.id
