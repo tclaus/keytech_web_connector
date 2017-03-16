@@ -69,8 +69,8 @@ configure :development do
   
   #enable sessions, for 900 seconds (15 minutes)
   use Rack::Session::Pool, 
-    :expire_after => 900, 
-    :key => "KtApp", 
+    :expire_after => 2592000, 
+    :key => "keytech_user", 
     :secret => "06c6a115a065cfd20cc2c9fcd2c3d7a7d354de3189ee58bce0240abd586db044"
 
   # at Development SQLlite will do fine
@@ -105,8 +105,8 @@ end
 
   use Rack::Session::Dalli, 
     :cache => Dalli::Client.new,
-    :expire_after => 900, # 15 minutes
-    :key => 'keytech_web', # cookie name (probably change this)
+    :expire_after => 2592000, # 15 minutes
+    :key => 'keytech_user', # cookie name (probably change this)
     :secret => '06c6a115a065cfd20cc2c9fcd2c3d7a7d354de3189ee58bce0240abd586db044',
     :httponly => true, # bad js! No cookies for you!
     :compress => true,
