@@ -1,12 +1,14 @@
-module SearchHelper
 require "net/https"
 require "rexml/document"
-require_relative "./SessionHelper"
+#require_relative "./SessionHelper"
+
+
+module SearchHelper
 
 
 	#Converts the nasty JSON Date format to something useful
 	def convertJsonDate(jsonDate)
-	 Time.at((jsonDate.gsub(/\D/, "").to_i - 200) /10000000).strftime("%F")
+		Time.at((jsonDate.gsub(/\D/, "").to_i - 200) / 1000).strftime("%F")
 	end
 
 	# TODO: Load images locally
@@ -14,14 +16,12 @@ require_relative "./SessionHelper"
 	#2. Load the image to a local image store and reload it from local? 
 	#   Images are always the same, so caching is OK for classicons (not neccesarly Thumbnails, these can change over time)
 
-	def classImage(elementKey)
+	def classImageTemplate(elementKey)
 	     if elementKey
-		 	resourceURL = "/smallclassimage/"
 		 	classKey =   elementKey.split(':')[0]
 		 	#TODO: Load high-res images on retina devices
 		 	"<img class='smallclassimage' src='/classes/#{classKey}/smallimage' width='20' heigth='20'>"
 		end
-
 	end
 
 	# Returns "DO", "FD" or "MI" to identify the type of element 
@@ -103,46 +103,38 @@ require_relative "./SessionHelper"
 		end
 	end
 
-
-
 	def loadClassImage(classKey)
 		# see: http://juretta.com/log/2006/08/13/ruby_net_http_and_open-uri/
 		resource = "/classes/#{classKey}/smallimage"
-#print "loaded: #{resource}"
-		
+		#print "loaded: #{resource}"
+			
 		user = currentUser
-
+		
 		plainURI = user.keytechAPIURL.sub(/^https?\:\/\//, '').sub(/^www./,'')
 		
-		# caching
-  		
+		# Image already loaded in memcache? 
+
 		tnData = settings.cache.get(plainURI + resource)
     	if !tnData
+    		# if not, reload from keytech API
+			http = Net::HTTP.new(plainURI,443)
+			http.use_ssl = true; 
+			http.start do |http|
+				req = Net::HTTP::Get.new(resource, {"User-Agent" =>
+	        										"keytech api downloader"})
+				req.basic_auth(user.keytechUserName,user.keytechPassword)
+				response = http.request(req)
+				#print "response #{response}"		
+		
+				settings.cache.set(plainURI + resource,response.body)
+				# return this!
+				response.body
 
-		http = Net::HTTP.new(plainURI,443)
-		http.use_ssl = true; 
-		http.start do |http|
-			req = Net::HTTP::Get.new(resource, {"User-Agent" =>
-        										"keytech api downloader"})
-			req.basic_auth(user.keytechUserName,user.keytechPassword)
-			response = http.request(req)
-	#print "response #{response}"		
-	
-			settings.cache.set(plainURI + resource,response.body)
-			# return this!
-			response.body
-
- 			
+			end
+		else
+			return tnData
 		end
-	else
-		return tnData
 	end
-
-
-	end
-
-	
-
 
 end
 

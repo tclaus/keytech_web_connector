@@ -1,8 +1,10 @@
 
 
+require_relative '../UserAccount'
+
 # Helps getting session information
 module SessionHelper
-	require_relative '../UserAccount'
+	
 
 	def loggedIn?
 		return session[:user] !=nil
@@ -10,6 +12,7 @@ module SessionHelper
 
 
 	def currentUser
+		
 		user = UserAccount.get(session[:user])
 		if user
 			user.lastSeenAt = Time.now # Update the last action the user did

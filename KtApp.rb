@@ -31,7 +31,6 @@ class KtApp < Sinatra::Base
   
   register Sinatra::Contrib
   
-
   require_relative "helpers/KtApi"
   require_relative "helpers/DetailsHelper"
   require_relative "helpers/SearchHelper"
@@ -59,6 +58,14 @@ configure do
   dalliOptions={:expires_in =>1800} #30 minuten
   set :cache, Dalli::Client.new(nil,dalliOptions)
 
+  #enable sessions, for 900 seconds (15 minutes)
+  use Rack::Session::Cookie, 
+    :expire_after => 2592000, 
+    :key => 'rack.session', 
+    :path => "/",
+    :secret => "06c6a115a065cfd20cc2c9fcd2c3d7a7d354de3189ee58bce0240abd586db044"
+
+    title = "keytech web connector"
 end
 
 
@@ -67,11 +74,18 @@ configure :development do
   
   #require 'dm-sqlite-adapter'
   
-  #enable sessions, for 900 seconds (15 minutes)
-  use Rack::Session::Pool, 
-    :expire_after => 2592000, 
-    :key => "keytech_user", 
-    :secret => "06c6a115a065cfd20cc2c9fcd2c3d7a7d354de3189ee58bce0240abd586db044"
+
+
+  # use Rack::Session::Dalli, 
+  #  :cache => Dalli::Client.new,
+  #  :expire_after => 2592000, # 15 minutes
+  #  :key => 'keytech_user', # cookie name (probably change this)
+   # :secret => '06c6a115a065cfd20cc2c9fcd2c3d7a7d354de3189ee58bce0240abd586db044',
+   # :httponly => true, # bad js! No cookies for you!
+   # :compress => true,
+   # :secure => false, # NOTE: if you're storing user authentication information in session set this to true and provide pages via SSL instead of standard HTTP or, to quote nkp, "risk the firesheep!" Seriously, don't fuck around with this one.
+   # :path => '/'
+
 
   # at Development SQLlite will do fine
   
@@ -103,15 +117,7 @@ error do
     redirect to('/')
 end
 
-  use Rack::Session::Dalli, 
-    :cache => Dalli::Client.new,
-    :expire_after => 2592000, # 15 minutes
-    :key => 'keytech_user', # cookie name (probably change this)
-    :secret => '06c6a115a065cfd20cc2c9fcd2c3d7a7d354de3189ee58bce0240abd586db044',
-    :httponly => true, # bad js! No cookies for you!
-    :compress => true,
-    :secure => false, # NOTE: if you're storing user authentication information in session set this to true and provide pages via SSL instead of standard HTTP or, to quote nkp, "risk the firesheep!" Seriously, don't fuck around with this one.
-    :path => '/'
+
 
   # A Postgres connection:
   DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
@@ -205,7 +211,6 @@ end
   # Signup a new user, take POST arguments and try to create a new useraccount
   # flash message if something goes wrong
   post '/signup' do
-
 
      @user = UserAccount.new(:email => params[:email].downcase, 
                 :password => params[:password], :password_confirmation => params[:password_confirmation],
@@ -655,6 +660,10 @@ end
 
 get '/pricing' do
    erb :"public/pricing"
+end
+
+get '/debug' do
+    session.inspect
 end
 
 # Redirection for file download

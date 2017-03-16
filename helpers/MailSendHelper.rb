@@ -1,9 +1,11 @@
 # Sends a mail
 
-require 'mail'
 
+
+require 'mail'
 require_relative '../UserAccount'
 require_relative '../PasswordRecoveryList'
+
 
 
 # prepaires and send a mail

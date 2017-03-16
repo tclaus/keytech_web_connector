@@ -1,7 +1,7 @@
 module ApplicationHelper
 
 	  def title
-		base_title = "keytech DEMO web application"
+		base_title = "keytech web connector (Beta)"
 		if @title.nil?
 			 base_title
 		else

@@ -34,7 +34,8 @@ module Sinatra
           searchstring = searchstring.partition(' ')[2] # Rechten Teil übergeben'
         end
 
-        result = HTTParty.get(user.keytechAPIURL + "/searchitems", 
+        # keytech request here. Start Search
+        result = HTTParty.get(user.keytechAPIURL + "/search", 
                                         :basic_auth => {
                                               :username => user.keytechUserName, 
                                               :password => user.keytechPassword}, 

@@ -17,7 +17,7 @@
     <tr class="iterateable-item">
       
       <td class="icon"><div popover="<%=  @result[i]["ClassDisplayName"] %>" popover-trigger="mouseenter">
-        <%= classImage(@result[i]["Key"]) %> 
+         <%= classImageTemplate(@result[i]["Key"]) %> 
       </div></td>
 
       <td class="name">  <div><%=  link_to("/elementdetails/#{@result[i]['Key']}", @result[i]["Name"]) %></div> 
