@@ -1,16 +1,18 @@
 # Keytech web app
 
-This is a small web app for searching the Keytech database.
+This is a small web app for accessing the Keytech database.
 
-To Install memcached: 
- OSX: brew install memcached
-
- Ubuntu: apt-get install memcached
+Requisits: 
+- Install memcached: 
+ OSX: 		brew install memcached
+ Ubuntu: 	apt-get install memcached
 
 
 Install Bundler to get all the gems for development
 $: gem install bundler
 $: bundler install --without-production
+
+Fur ruby, use 'rvm'
 
 gem install rack
 
