@@ -1,9 +1,10 @@
-#For Rackup Configuration needed. Rackup shows here and do whatever 'run' orders
+#\ --host 0.0.0.0
+# ^ This is a rackup parameter
+
 
 require 'bundler'
 Bundler.setup
 require './KtApp'
-
 
 if memcache_servers = ENV["MEMCACHE_SERVERS"]
   	use Rack::Cache,
@@ -17,5 +18,5 @@ else
   	:entitystore => 'file:/var/cache/rack/body'#
 end
 
-
+# Finally run the app
 run KtApp

@@ -64,8 +64,6 @@ configure do
     :key => 'rack.session', 
     :path => "/",
     :secret => "06c6a115a065cfd20cc2c9fcd2c3d7a7d354de3189ee58bce0240abd586db044"
-
-    title = "keytech web connector"
 end
 
 
