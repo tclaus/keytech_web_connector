@@ -1,6 +1,6 @@
 
 
- # Represents a laout element
+ # Represents a single layout element
  class EditorLayout
  	attr_accessor :attributeAlignment, :attributeName, :controlType, :dataDictionaryID, :dataDictionaryType
  	attr_accessor :displayName, :font, :name, :position, :sequence, :showInCardView, :size
@@ -24,8 +24,7 @@
  	 end
 
  	 if controlType=="TEXT"
- 	 	
- 	 	inputTag = "<input type=\"text\" id=\"#{attributeName}\"  #{positionAttribute} ng-model=\"#{attributeDataLink}\">"
+ 	 	inputTag = "<input type=\"text\" id=\"#{attributeName}\" #{positionAttribute} ng-model=\"#{attributeDataLink}\">"
  	 	return inputTag
  	 end
  	 

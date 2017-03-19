@@ -1,8 +1,8 @@
 
-<div ng-init="param='<%= @element.elementKey %>';">
+<div>
 <% editorLayouts = loadEditorLayout(@element.elementKey) %>
 
-<fieldset ng-controller="elementInformation" class="Information" style="position:relative; left:5px; top:5px; height:<%= editorLayouts.maxHeight  %>px">
+<fieldset ng-controller="elementInformation" key="<%= @element.elementKey %>" class="Information" style="position:relative; left:5px; top:5px; height:<%= editorLayouts.maxHeight  %>px">
 
 <% editorLayouts.layouts.each do |layoutElement| %>
 	<%= layoutElement.htmlStatement %>

@@ -1,5 +1,5 @@
 
-# a list of layout elememnts
+# a list of layout elements
 class EditorLayouts
 	attr_accessor :layouts
 	attr_accessor :maxHeight, :maxWidth
@@ -7,7 +7,5 @@ class EditorLayouts
 	def initialize
 		self.layouts = Array.new #init the array
 	end
-
-
 
 end

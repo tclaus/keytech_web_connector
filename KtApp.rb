@@ -565,27 +565,26 @@ end
   end
 
 
-  #Loads a element detail, if present
+  # Presents a view for a specific element
   get '/elementdetails/:elementKey' do
     if currentUser
-      @elementKey = params[:elementKey]
-
-      if params[:format]=='json'
-        elementData = loadElement(@elementKey,'ALL')
-        return elementData.to_json
-      end
-
-      # OK, viewtype is relevant
-      @element = loadElement(@elementKey)
-
+      
+      @element = loadElement(params[:elementKey])
       @detailsLink = "/elementdetails/#{params[:elementKey]}"
       @viewType = params[:viewType]
       
-
       erb :elementdetails
     else
       flash[:notice] = sessionInvalidText
       redirect '/'
+    end
+  end
+
+# Loads Element data
+  get '/elementdata/:elementKey' do
+    if currentUser
+        data = loadElement(params[:elementKey],'ALL')
+        return data.to_json
     end
   end
 

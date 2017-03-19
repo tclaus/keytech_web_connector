@@ -1,8 +1,7 @@
-var elementInformation = angular.module('keytech', [ ]);
-
-elementInformation.controller('elementInformation', function($scope, $http) {
-  $http.get('/element/' + $elementKey +'?=format=json')
+angular.module('keytech', [ ])
+.controller('elementInformation', function($scope, $http, $attrs) {
+  $http.get('/elementdata/' + $attrs.key )
        .then(function(res){
-          $scope.attributs = res.data;                
+          $scope.element = res.data;                
         });
 });
