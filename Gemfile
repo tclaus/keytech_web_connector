@@ -1,6 +1,7 @@
 source "https://rubygems.org"
-#ruby '2.0.0'
-gem 'sinatra' #, :github => "sinatra/sinatra"
+
+gem 'sinatra', '~>1.4.0', :require => 'sinatra/base'
+
 
 # other dependencies
 gem 'haml'

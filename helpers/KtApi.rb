@@ -350,8 +350,6 @@ def loadElementStatusHistory(elementKey)
       return history  
     end
 
-
-
   end
 
   # Register this class

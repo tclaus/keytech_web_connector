@@ -1,13 +1,13 @@
 module ApplicationHelper
 
-	  def title
+	def title
 		base_title = "keytech web connector (Beta)"
 		if @title.nil?
-			 base_title
+		 	base_title
 		else
 			"#{base_title} | #{@title}"
 		end
-	  end
+	end
 
 
 	#Common Link Helper
@@ -44,6 +44,5 @@ module ApplicationHelper
 		return imageTag
 	end
 
-
-
 end
+

@@ -51,7 +51,11 @@ validates_confirmation_of :password
  
 
 def isAdmin?
-	(email.downcase ==ENV['AdminUserName']) || is_admin? || email.downcase =='thorstenclaus@web.de'
+	(email.downcase ==ENV['AdminUserName']) || 
+	is_admin? || 
+	email.downcase =='thorstenclaus@web.de'
+	
+	#TODO: Admin - User in den Settings festlegen
 end
 
 def isAdmin=(isAdmin)
