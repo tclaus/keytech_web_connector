@@ -67,15 +67,24 @@ set :root, File.dirname(__FILE__)
     DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/development.db")
     DataMapper.auto_upgrade!
 
-
     # Mail Send
     Mail.defaults do
-        delivery_method :smtp, { :address              => "smtp.gmail.com",
+      if ENV['MAILSSL'] == "TRUE"
+        delivery_method :smtp, { :address              => ENV['MAILSERVER'] || "smtp.gmail.com",
                                  :port                 => 587,
-                                 :user_name            => "vvanchesa@gmail.com",
-                                 :password             => "bla123_yuhuu",
+                                 :user_name            => ENV['MAILUSERNAME'] || "vvanchesa@gmail.com",
+                                 :password             => ENV['MAILPASSWORD'] || "bla123_yuhuu",
                                  :authentication       => :plain,   
                                  :enable_starttls_auto => true  }
+      else
+        puts "MAILSERVER - NO SSL"
+      delivery_method :smtp, { :address              => ENV['MAILSERVER'] || "smtp.gmail.com",
+                                 :port                 => 587,
+                                 :user_name            => ENV['MAILUSERNAME'] || "vvanchesa@gmail.com",
+                                 :password             => ENV['MAILPASSWORD'] || "bla123_yuhuu"
+                                  }
+      end
+
     end
     DataMapper.auto_upgrade!
   end
@@ -262,24 +271,30 @@ set :root, File.dirname(__FILE__)
 
   put '/account' do
     user = currentUser
-
+    puts "Save account Data"
     if user
-      if params[:commitKeytechCredentials] == "Save"
+      puts "User OK"
+      puts "Submittype:" + params[:submit]
+
+      if params[:submit] == "commitKeytechCredentials"
+        puts "Save credentials"
         user.keytechAPIURL = params[:keytechAPIURL]
         user.keytechPassword = params[:keytechPassword]
         user.keytechUserName = params[:keytechUserName]
         
         if !user.save
           flash[:warning] = user.errors.full_messages
+        else
+          puts "Save OK"
         end    
       end
 
-      if params[:commitProfile] == "Save"
+      if params[:submit] == "commitProfile"
         # Do nothing! 
         # Currently not allowed to change email address!
       end
 
-      if params[:commitPassword] == "Save"
+      if params[:submit] =="commitPassword"
         # Check for current Password
         if !params[:current_password]
           flash[:error] = "Password was empty"
@@ -599,6 +614,7 @@ set :root, File.dirname(__FILE__)
 # Loads the element thumbnail
   get '/element/:thumbnailHint/thumbnail' do
     if loggedIn?
+      puts "Load a thumbnail"
       cache_control :public, max_age:1800
       content_type "image/png"
       loadElementThumbnail(params[:thumbnailHint])
@@ -629,7 +645,7 @@ get '/files/:elementKey/masterfile' do
       redirect '/'
     end
   end
-  
+
   # Static Pages
    # Loads the static page support
   get '/support' do

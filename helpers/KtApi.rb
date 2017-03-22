@@ -41,8 +41,15 @@ module Sinatra
                                               :password => user.keytechPassword}, 
                                         :query => {:q => searchstring,:classtypes=>typeString})
 
-        if result.code !=200 || result.code !=403
+        if result.code == 200
+          puts "Search OK"
+        end
+
+
+        if result.code !=200 && result.code !=403
          # flash[:notice] = "#{result.code}: #{result.message}"
+         puts "keytech API Error " + result.code.to_s
+         puts "header: " , response.headers.inspect
         end
 
         if result.code ==403
@@ -152,41 +159,7 @@ end
         @itemarray=result["ElementList"]
     end
 
-# Loads the thumbnail at the given key
-  def loadElementThumbnail(thumbnailKey)
 
-
-    # Using Dalli and memcached
-    resource = "/elements/#{thumbnailKey}/thumbnail"
-    # print "loaded: #{resource}"
-    
-    user = currentUser
-
-    plainURI = user.keytechAPIURL.sub(/^https?\:\/\//, '').sub(/^www./,'')
-    
-    tnData = settings.cache.get(plainURI + resource)
-    if !tnData
-    # Thumbnail für 1 std cachen 
-    #print "cache MISS "
-
-      http = Net::HTTP.new(plainURI,443)
-      http.use_ssl = true; 
-      http.start do |http|
-        req = Net::HTTP::Get.new(resource, {"User-Agent" =>
-                              "keytech api downloader"})
-        req.basic_auth(user.keytechUserName,user.keytechPassword)
-        response = http.request(req)
-    
-        settings.cache.set(plainURI + resource,response.body)
-        # return this!
-        response.body  # Body contain image Data!
-      end
-    else
-      print "cache HIT! "
-      return tnData
-    end
-
-  end
 
 # Loads the editorlayout for this class
  def loadEditorLayout(elementKey)
@@ -312,9 +285,9 @@ private
             elementNote.createdAt = note['CreatedAt']
             elementNote.createdBy = note['CreatedBy']
             elementNote.createdByLong = note['CreatedByLong']
-            elementNote.noteID = note['NoteID']
-            elementNote.noteSubject = note['NoteSubject']
-            elementNote.noteText = note['NoteText']            
+            elementNote.noteID = note['ID']
+            elementNote.noteSubject = note['Subject']
+            elementNote.noteText = note['Text']            
             elementNote.noteType = note['NoteType']
 
             notes << elementNote

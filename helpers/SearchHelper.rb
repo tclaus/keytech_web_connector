@@ -117,24 +117,56 @@ module SearchHelper
 		tnData = settings.cache.get(plainURI + resource)
     	if !tnData
     		# if not, reload from keytech API
-			http = Net::HTTP.new(plainURI,443)
-			http.use_ssl = true; 
-			http.start do |http|
-				req = Net::HTTP::Get.new(resource, {"User-Agent" =>
-	        										"keytech api downloader"})
-				req.basic_auth(user.keytechUserName,user.keytechPassword)
-				response = http.request(req)
-				#print "response #{response}"		
-		
-				settings.cache.set(plainURI + resource,response.body)
-				# return this!
-				response.body
 
-			end
+ 			result = HTTParty.get(user.keytechAPIURL + resource, 
+                                        :basic_auth => {
+                                              :username => user.keytechUserName, 
+                                              :password => user.keytechPassword})
+			settings.cache.set(plainURI + resource,response.body)
+				
+			return result.body
+
 		else
 			return tnData
 		end
 	end
+
+	# Loads the thumbnail at the given key
+  def loadElementThumbnail(thumbnailKey)
+
+
+    # Using Dalli and memcached
+    resource = "/elements/#{thumbnailKey}/thumbnail"
+    # print "loaded: #{resource}"
+    
+    user = currentUser
+
+    plainURI = user.keytechAPIURL.sub(/^https?\:\/\//, '').sub(/^www./,'')
+    
+    tnData = settings.cache.get(plainURI + resource)
+    if !tnData
+      # Thumbnail für 1 std cachen 
+      puts "Thumbnail cache MISS "
+
+      result = HTTParty.get(user.keytechAPIURL + resource, 
+                                        :basic_auth => {
+                                              :username => user.keytechUserName, 
+                                              :password => user.keytechPassword})
+
+      if result.code == 200 
+        settings.cache.set(plainURI + resource,response.body)
+        # return this!
+        return result.body  # Body contain image Data!
+      else
+        return nil
+      end
+    
+    else
+      puts "Thumbnail cache HIT! "
+      return tnData
+    end
+
+  end
 
 end
 
