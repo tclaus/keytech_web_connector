@@ -1,0 +1,41 @@
+<div class="dialog">
+
+		<form class="form-horizontal" role="form" accept-charset="UTF-8" action="/account" class="edit-keytech-credentials" method="post">
+			<fieldset>
+
+			<div style="margin:0;padding:0;display:inline">
+				<input name="utf8" type="hidden" value="✓">
+				<input name="_method" type="hidden" value="put">
+			</div>
+
+			 <h3>keytech Credentials </h3>
+
+			<div class="form-group">
+
+				<label class="col-sm-3 control-label" for="keytechUserName">keytech Username</label>
+				<div class="col-sm-9">
+				<input class="form-control" name="keytechUserName" placeholder="<%= @user.keytechUserName %>" type="text" value="<%= @user.keytechUserName %>" autocomplete="off">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="keytechPassword">keytech password</label>
+				<div class="col-sm-9">
+				<input class="form-control" name="keytechPassword" placeholder type="password" value="<%= @user.keytechPassword %>" autocomplete="off">
+			</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="keytechAPIURL">keytech API URL</label>
+				<div class="col-sm-9">
+				<input class="form-control" id = "keytechAPIURL" name="keytechAPIURL" placeholder="<%= @user.keytechAPIURL %>" type="text" value="<%= @user.keytechAPIURL %>" autocomplete="off">
+				<a onclick="getElementById('keytechAPIURL').value = 'https://demo.keytech.de'">Set to Demo Database</<a>
+			</div>
+			</div>
+
+			<div class="form-group">
+			    <div class="col-sm-offset-3 col-sm-9">
+			      <button type="submit" class="btn btn-default" name="submit" value="commitKeytechCredentials">Save</button>
+			    </div>
+			  </div>
+	  		</fieldset>
+	</form>
+	</div>

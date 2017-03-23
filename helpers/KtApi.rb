@@ -20,10 +20,10 @@ module Sinatra
 
     # Finds all elements by a search text
     def findElements(searchstring)
-        
+
         user = UserAccount.get(session[:user])
-        
-        typeString=''
+
+        typeString='default_do,default_fd,default_mi'
         # type=bla demo
         if (searchstring.start_with?('type='))
           # dann bis zum ersten leerzeichen suchen
@@ -35,10 +35,10 @@ module Sinatra
         end
 
         # keytech request here. Start Search
-        result = HTTParty.get(user.keytechAPIURL + "/search", 
+        result = HTTParty.get(user.keytechAPIURL + "/search",
                                         :basic_auth => {
-                                              :username => user.keytechUserName, 
-                                              :password => user.keytechPassword}, 
+                                              :username => user.keytechUserName,
+                                              :password => user.keytechPassword},
                                         :query => {:q => searchstring,:classtypes=>typeString})
 
         if result.code == 200
@@ -57,18 +57,21 @@ module Sinatra
           flash[:error] = "Unauthorized for API access. Please check keytech username and password in your account settings."
         end
 
-
-        @itemarray=result["ElementList"]
+        @PageNumber = result["PageNumber"]
+        @TotalRecords = result["Totalrecords"]
+        @PageSize = result["PageSize"]
+        @SearchString = searchstring
+        return result["ElementList"]
     end
 
-    
+
     # Loads the BOM of the given elementKey
     def loadElementBom(elementKey)
       user = currentUser
       #/elements/{ElementKey}/structure
-      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}/bom", 
+      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}/bom",
                                         :basic_auth => {
-                                              :username => user.keytechUserName, 
+                                              :username => user.keytechUserName,
                                               :password => user.keytechPassword})
 
         keytechBomElements = loadElementBomData(result)
@@ -76,9 +79,9 @@ module Sinatra
         return keytechBomElements
     end
 
-private 
+private
   def loadElementBomData(result)
-     
+
     bomItems = KeytechBomElements.new
 
      result["BomElementList"].each do |bomItem|
@@ -93,9 +96,9 @@ private
           newbomItem.keyValueList = hash
       end
 
-      
+
       newbomItem.simpleElement = bomItem["SimpleElement"]
-      
+
       bomItems.bomElements << newbomItem
     end
     return bomItems
@@ -108,16 +111,16 @@ private
     def loadElement(elementKey,responseAttributes = "")
       user = currentUser
       #/elements/{ElementKey}/structure
-      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}?attributes=#{responseAttributes}", 
+      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}?attributes=#{responseAttributes}",
                                         :basic_auth => {
-                                              :username => user.keytechUserName, 
+                                              :username => user.keytechUserName,
                                               :password => user.keytechPassword})
 
         keytechElement = loadElementData(result)
         return keytechElement
     end
 
-private 
+private
 def loadElementData(result)
         keytechElement = KeytechElement.new
         element = result["ElementList"][0]
@@ -147,13 +150,13 @@ def loadElementData(result)
 end
 
 # Loads the underlying structure base an a given Element Key
-    def loadElementStructure(elementKey)
+  def loadElementStructure(elementKey)
       #user = UserAccount.get(session[:user])
       user = currentUser
       #/elements/{ElementKey}/structure
-      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}/structure", 
+      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}/structure",
                                         :basic_auth => {
-                                              :username => user.keytechUserName, 
+                                              :username => user.keytechUserName,
                                               :password => user.keytechPassword})
 
         @itemarray=result["ElementList"]
@@ -168,28 +171,28 @@ end
 
       user = currentUser
       #/elements/{ElementKey}/structure
-      result = HTTParty.get(user.keytechAPIURL + "/classes/#{classKey}/editorlayout", 
+      result = HTTParty.get(user.keytechAPIURL + "/classes/#{classKey}/editorlayout",
                                               :basic_auth => {
-                                              :username => user.keytechUserName, 
+                                              :username => user.keytechUserName,
                                               :password => user.keytechPassword})
 
       return layoutFromResult(result)
-          
-  end
+
+    end
 
 
   # Loads the bill of material layout
 def loadBomLayout
     user = currentUser
     plainURI = user.keytechAPIURL.sub(/^https?\:\/\//, '').sub(/^www./,'')
-   
+
     bomLayoutData = settings.cache.get(plainURI + "_BOM")
     if !bomLayoutData
 
       #/elements/{ElementKey}/structure
-      result = HTTParty.get(user.keytechAPIURL + "/classes/bom/listerlayout", 
+      result = HTTParty.get(user.keytechAPIURL + "/classes/bom/listerlayout",
                                               :basic_auth => {
-                                              :username => user.keytechUserName, 
+                                              :username => user.keytechUserName,
                                               :password => user.keytechPassword})
 
       bomLayoutData =  layoutFromResult(result)
@@ -202,12 +205,12 @@ def loadBomLayout
 private
    def layoutFromResult(result)
         editorLayouts = EditorLayouts.new # [] # creates an array
-          
+
           maxWidth = 0
           maxHeight = 0
 
           result["DesignerControls"].each do |layoutElement| # go through JSON response and make gracefully objects
-      
+
 
           editorlayout = EditorLayout.new
           editorlayout.attributeAlignment = layoutElement['AttributeAlignment']
@@ -221,7 +224,7 @@ private
           editorlayout.position = layoutElement['Position']
           editorlayout.sequence = layoutElement['Sequence']
           editorlayout.size = layoutElement['Size']
-          
+
           height = editorlayout.size['height'] + editorlayout.position['y']
           (maxHeight< height)? maxHeight= height : maxHeight
 
@@ -239,26 +242,26 @@ private
 
 
 
-# Loads the filelist of given element 
+# Loads the filelist of given element
  def loadElementFileList(elementKey)
 
       user = currentUser
 
-      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}/files", 
+      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}/files",
                                               :basic_auth => {
-                                              :username => user.keytechUserName, 
+                                              :username => user.keytechUserName,
                                               :password => user.keytechPassword})
 
       files = [] # crates an empty array
 
       result["FileInfos"].each do |elementFile| # go through JSON response and make gracefully objects
-      
+
             file = KeytechElementFile.new
             file.fileID = elementFile['FileID']
             file.fileName = elementFile['FileName']
             file.fileSize = elementFile['FileSize']
             file.fileSizeDisplay = elementFile['FileSizeDisplay']
-            # normalized filename erstellen ? 
+            # normalized filename erstellen ?
             files << file
           end
         return files
@@ -268,16 +271,16 @@ private
 
       user = currentUser
 
-      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}/notes", 
+      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}/notes",
                                               :basic_auth => {
-                                              :username => user.keytechUserName, 
+                                              :username => user.keytechUserName,
                                               :password => user.keytechPassword})
 
       notes = [] # crates an empty array
 
 
       result["NotesList"].each do |note| # go through JSON response and make gracefully objects
-      
+
             elementNote = KeytechElementNote.new
             elementNote.changedAt = note['ChangedAt']
             elementNote.changedBy = note['ChangedBy']
@@ -287,7 +290,7 @@ private
             elementNote.createdByLong = note['CreatedByLong']
             elementNote.noteID = note['ID']
             elementNote.noteSubject = note['Subject']
-            elementNote.noteText = note['Text']            
+            elementNote.noteText = note['Text'].gsub(/\u000d\u000a/,'<br>') #Replace poor mans CRLF.. (Windows crap!)
             elementNote.noteType = note['NoteType']
 
             notes << elementNote
@@ -301,26 +304,26 @@ def loadElementStatusHistory(elementKey)
 
       user = currentUser
 
-      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}/statushistory", 
+      result = HTTParty.get(user.keytechAPIURL + "/elements/#{elementKey}/statushistory",
                                               :basic_auth => {
-                                              :username => user.keytechUserName, 
+                                              :username => user.keytechUserName,
                                               :password => user.keytechPassword})
 
       history = [] # crates an empty array
 
 
       result["StatusHistoryEntries"].each do |historyentry| # go through JSON response and make gracefully objects
-      
+
             entry = KeytechElementStatusHistoryEntry.new
             entry.description = historyentry['Description']
             entry.signedByList = historyentry['SignedByList']
             entry.sourceStatus = historyentry['SourceStatus']
             entry.targetStatus = historyentry['TargetStatus']
-            
+
 
             history << entry
       end
-      return history  
+      return history
     end
 
   end

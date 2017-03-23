@@ -8,16 +8,16 @@
 
   <li class="list-group-item">
   	<div>
-  	<%= note.createdByLong%>  <%= convertJsonDate(note.createdAt) %> 
+  	<%= note.createdByLong%>  <%= convertJsonDate(note.createdAt) %>
   	</div>
   	<div>
   		<strong><%= note.noteSubject %></strong>
   	</div>
   	<div class="text-muted">
-  		<%= note.noteText[0,200] %>
+  		<%= note.noteText %>
   	</div>
   </li>
-  
+
 <% end %>
 <% else %>
 	<li class="list-group-item">
