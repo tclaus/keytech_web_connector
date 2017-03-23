@@ -1,5 +1,4 @@
 require 'sinatra/base'
-require 'httparty'
 require './KeytechElement'
 require './EditorLayout'
 require './EditorLayouts'
@@ -8,15 +7,12 @@ require './KeytechElementNote'
 require './KeytechElementStatusHistoryEntry'
 require './KeytechBomElement'
 require './KeytechBomElements'
+require './UserAccount'
 
 module Sinatra
 
   # This makes a sinatra extension, with access to session variable
   module KtApiHelper
-    include HTTParty
-
-    require_relative '../UserAccount'
-
 
     # Finds all elements by a search text
     def findElements(searchstring)
@@ -35,6 +31,8 @@ module Sinatra
         end
 
         # keytech request here. Start Search
+
+
         result = HTTParty.get(user.keytechAPIURL + "/search",
                                         :basic_auth => {
                                               :username => user.keytechUserName,

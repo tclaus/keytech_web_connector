@@ -1,5 +1,6 @@
 module ApplicationHelper
 
+	# Retuns the main Application title
 	def title
 		base_title = "keytech web connector (Beta)"
 		if @title.nil?
@@ -9,6 +10,11 @@ module ApplicationHelper
 		end
 	end
 
+
+		#Converts the nasty JSON Date format to something useful
+		def convertJsonDate(jsonDate)
+			Time.at((jsonDate.gsub(/\D/, "").to_i - 200) / 1000).strftime("%F")
+		end
 
 	#Common Link Helper
 	def link_to(url,text=url,opts={})
@@ -20,10 +26,10 @@ module ApplicationHelper
 	# generates a flash message
 	def showFlashMessage
 		messageText = ""
-		flash_types.select{ |kind| flash.has?(kind) }.each do |kind| 
+		flash_types.select{ |kind| flash.has?(kind) }.each do |kind|
 			messageText.concat('<div class="notice ' + kind.to_s + '">')
   			messageText.concat(flash[kind].to_s)
-			messageText.concat('</div>') 
+			messageText.concat('</div>')
 		end
 
 		return messageText
@@ -31,12 +37,12 @@ module ApplicationHelper
 
 	# Creates a link to a gravatar image
 	def gravatar_helper(user)
-	
+
 	  # create the md5 hash
 		hash = Digest::MD5.hexdigest(user.email.downcase)
- 
+
 		# compile URL which can be used in <img src="RIGHT_HERE"...
-		image_src = "http://www.gravatar.com/avatar/#{hash}" 
+		image_src = "http://www.gravatar.com/avatar/#{hash}"
 		imageTag = '<a href="http://gravatar.com" target="_blank" class="gravatar" data-original-title="Change your avatar at Gravatar.&lt;br&gt;We are using #{user.email}">'
 		imageTag.concat('<img srv="#{image_src}" class="avatar">')
 		imageTag.concat('</a>')
@@ -45,4 +51,3 @@ module ApplicationHelper
 	end
 
 end
-

@@ -7,9 +7,7 @@ require 'sinatra/base'
 
   	# Is this the currentViewType? (Compare QueryString of URL, return class="active" if so. )
   	def currentViewType?(view="")
-  
   		(request.query_string == view || (request.query_string =="" && view == "viewtype=information"))  ? 'class="active"' :nil
   	end
 
   end
-

@@ -6,14 +6,10 @@ require "rexml/document"
 module SearchHelper
 
 
-	#Converts the nasty JSON Date format to something useful
-	def convertJsonDate(jsonDate)
-		Time.at((jsonDate.gsub(/\D/, "").to_i - 200) / 1000).strftime("%F")
-	end
 
 	# TODO: Load images locally
 	#1. Generate a URL with credentials and load and forward image from API (Nasty)
-	#2. Load the image to a local image store and reload it from local? 
+	#2. Load the image to a local image store and reload it from local?
 	#   Images are always the same, so caching is OK for classicons (not neccesarly Thumbnails, these can change over time)
 
 	def classImageTemplate(elementKey)
@@ -24,7 +20,7 @@ module SearchHelper
 		end
 	end
 
-	# Returns "DO", "FD" or "MI" to identify the type of element 
+	# Returns "DO", "FD" or "MI" to identify the type of element
 	def classType(elementKey)
 		if elementKey
 			classKey =   elementKey.split(':')[0]
@@ -36,7 +32,7 @@ module SearchHelper
 				return "FD"
 			end
 		end
-		# easy: in all other cases: It must be an document.. 
+		# easy: in all other cases: It must be an document..
 		return "DO"
 	end
 
@@ -46,6 +42,7 @@ module SearchHelper
 		"/files/#{elementKey}/masterfile"
 	end
 
+	# Loads a file from the keytech API and returns it
 	def loadFile(elementKey,fileID)
 	 #files/:elementKey/files/:fileID"
 	 	resource = "/elements/#{elementKey}/files/#{fileID}"
@@ -55,22 +52,14 @@ module SearchHelper
 		user = currentUser
 
 		plainURI = user.keytechAPIURL.sub(/^https?\:\/\//, '').sub(/^www./,'')
-		http = Net::HTTP.new(plainURI,443)
-		http.use_ssl = true; 
-		http.start do |http|
-
-			
-			req = Net::HTTP::Get.new(resource, {"User-Agent" =>
-        										"keytech api downloader"})
-			req.basic_auth(user.keytechUserName, user.keytechPassword)
-			response = http.request(req)
-			print "response: #{response}"		
+		response = HTTParty.get(user.keytechAPIURL + resource,
+																		:basic_auth => {
+																					:username => user.keytechUserName,
+																					:password => user.keytechPassword})
 
 			# return this as a file attachment
 			attachment( response["X-Filename"])  #Use the sinatra helper to set this as filename
-
 			response.body
-		end
 	end
 
 	# Starts the download for the masterfile of the given element
@@ -82,48 +71,39 @@ module SearchHelper
 		#print "Username: #{session[:user]}, pw: #{session[:passwd]}"
 		user = currentUser
 
-		plainURI = user.keytechAPIURL.sub(/^https?\:\/\//, '').sub(/^www./,'')
-		http = Net::HTTP.new(plainURI,443)
-		http.use_ssl = true; 
-		http.start do |http|
+		response = HTTParty.get(user.keytechAPIURL + resource,
+																		:basic_auth => {
+																					:username => user.keytechUserName,
+																					:password => user.keytechPassword})
 
-			
-			req = Net::HTTP::Get.new(resource, {"User-Agent" =>
-        										"keytech api downloader"})
-			req.basic_auth(user.keytechUserName, user.keytechPassword)
-			response = http.request(req)
-			print "response: #{response}"		
 
 			# return this as a file attachment
 			attachment( response["X-Filename"])  #Use the sinatra helper to set this as filename
-
 			response.body
 
- 			
-		end
 	end
 
 	def loadClassImage(classKey)
 		# see: http://juretta.com/log/2006/08/13/ruby_net_http_and_open-uri/
 		resource = "/classes/#{classKey}/smallimage"
 		#print "loaded: #{resource}"
-			
+
 		user = currentUser
-		
+
 		plainURI = user.keytechAPIURL.sub(/^https?\:\/\//, '').sub(/^www./,'')
-		
-		# Image already loaded in memcache? 
+
+		# Image already loaded in memcache?
 
 		tnData = settings.cache.get(plainURI + resource)
     	if !tnData
     		# if not, reload from keytech API
 
- 			result = HTTParty.get(user.keytechAPIURL + resource, 
+ 			result = HTTParty.get(user.keytechAPIURL + resource,
                                         :basic_auth => {
-                                              :username => user.keytechUserName, 
+                                              :username => user.keytechUserName,
                                               :password => user.keytechPassword})
 			settings.cache.set(plainURI + resource,response.body)
-				
+
 			return result.body
 
 		else
@@ -138,29 +118,29 @@ module SearchHelper
     # Using Dalli and memcached
     resource = "/elements/#{thumbnailKey}/thumbnail"
     # print "loaded: #{resource}"
-    
+
     user = currentUser
 
     plainURI = user.keytechAPIURL.sub(/^https?\:\/\//, '').sub(/^www./,'')
-    
+
     tnData = settings.cache.get(plainURI + resource)
     if !tnData
-      # Thumbnail für 1 std cachen 
+      # Thumbnail für 1 std cachen
       puts "Thumbnail cache MISS "
 
-      result = HTTParty.get(user.keytechAPIURL + resource, 
+      result = HTTParty.get(user.keytechAPIURL + resource,
                                         :basic_auth => {
-                                              :username => user.keytechUserName, 
+                                              :username => user.keytechUserName,
                                               :password => user.keytechPassword})
 
-      if result.code == 200 
+      if result.code == 200
         settings.cache.set(plainURI + resource,response.body)
         # return this!
         return result.body  # Body contain image Data!
       else
         return nil
       end
-    
+
     else
       puts "Thumbnail cache HIT! "
       return tnData
@@ -169,8 +149,3 @@ module SearchHelper
   end
 
 end
-
-
-
-
-

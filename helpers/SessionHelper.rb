@@ -4,7 +4,7 @@ require_relative '../UserAccount'
 
 # Helps getting session information
 module SessionHelper
-	
+
 	# Returns true if a valid user is logged in
 	def loggedIn?
 		return session[:user] !=nil
@@ -12,12 +12,12 @@ module SessionHelper
 
 	# Retuns the actiual loged in user
 	def currentUser
-		
+
 		user = UserAccount.get(session[:user])
 		if user
 			user.lastSeenAt = Time.now # Update the last action the user did
 			user.save
-		end	
+		end
 		return user
 	end
 
@@ -25,7 +25,7 @@ module SessionHelper
 		user = UserAccount.get(session[:user])
 		if user
 			return user.isAdmin
-		end	
+		end
 		return false
 
 	end
@@ -36,6 +36,6 @@ module SessionHelper
 
 	def invalidUserNameOrPasswordText
 		return "Invalid username or password"
-	end 
+	end
 
 end
