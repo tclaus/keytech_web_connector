@@ -13,20 +13,29 @@
 
 				<label class="col-sm-3 control-label" for="keytechUserName">keytech Username</label>
 				<div class="col-sm-9">
-				<input class="form-control" name="keytechUserName" placeholder="<%= @user.keytechUserName %>" type="text" value="<%= @user.keytechUserName %>" autocomplete="off">
+				<input class="form-control" id="keytechUserName" name="keytechUserName" placeholder="<%= @user.keytechUserName %>" type="text" value="<%= @user.keytechUserName %>" autocomplete="off">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label" for="keytechPassword">keytech password</label>
 				<div class="col-sm-9">
-				<input class="form-control" name="keytechPassword" placeholder type="password" value="<%= @user.keytechPassword %>" autocomplete="off">
+				<input class="form-control" id="keytechPassword" name="keytechPassword" placeholder type="password" value="<%= @user.keytechPassword %>" autocomplete="off">
 			</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label" for="keytechAPIURL">keytech API URL</label>
 				<div class="col-sm-9">
 				<input class="form-control" id = "keytechAPIURL" name="keytechAPIURL" placeholder="<%= @user.keytechAPIURL %>" type="text" value="<%= @user.keytechAPIURL %>" autocomplete="off">
-				<a onclick="getElementById('keytechAPIURL').value = 'https://demo.keytech.de'">Set to Demo Database</<a>
+				<a id"setDefault">Set to Demo Database</<a>
+
+<script>
+	$('#setDefault').click(function(){
+		$('#keytechAPIURL').val('https://demo.keytech.de');
+		$('#keytechUserName').val('jgrant');
+		$('#keytechPassword').val('')
+	});
+</script>
+
 			</div>
 			</div>
 
