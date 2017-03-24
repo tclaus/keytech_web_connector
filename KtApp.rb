@@ -15,7 +15,7 @@ require 'memcachier'
 require 'rack/session/dalli'
 require 'rack-cache'
 
-# 
+#
 require './UserAccount'
 require './PasswordRecoveryList'
 
@@ -23,16 +23,16 @@ require './PasswordRecoveryList'
 class KtApp < Sinatra::Base
 
 set :root, File.dirname(__FILE__)
-  
+
   register Sinatra::Contrib
-  
+
   require_relative "helpers/KtApi"
   require_relative "helpers/DetailsHelper"
   require_relative "helpers/SearchHelper"
   require_relative "helpers/ApplicationHelper"
   require_relative "helpers/SessionHelper"
   require_relative "helpers/MailSendHelper"
-  
+
   # Enable flash messages
   use Rack::Flash, :sweep => true
 
@@ -42,19 +42,26 @@ set :root, File.dirname(__FILE__)
     end
   end
 
+  #include Helpers module
+  helpers ApplicationHelper
+  helpers SearchHelper
+  helpers SessionHelper
+  helpers Sinatra::KtApiHelper
+  helpers DetailsHelper
+  helpers MailSendHelper
 
   #Some configurations
 
   configure do
-    
+
     # Set up Memcache
     dalliOptions={:expires_in =>1800} #30 minuten
     set :cache, Dalli::Client.new(nil,dalliOptions)
 
     #enable sessions, for 900 seconds (15 minutes)
-    use Rack::Session::Cookie, 
-      :expire_after => 2592000, 
-      :key => 'rack.session', 
+    use Rack::Session::Cookie,
+      :expire_after => 2592000,
+      :key => 'rack.session',
       :path => "/",
       :secret => "06c6a115a065cfd20cc2c9fcd2c3d7a7d354de3189ee58bce0240abd586db044"
   end
@@ -63,9 +70,8 @@ set :root, File.dirname(__FILE__)
   configure :development do
 
     # at Development SQLlite will do fine
-    
+
     DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/development.db")
-    DataMapper.auto_upgrade!
 
     # Mail Send
     Mail.defaults do
@@ -74,7 +80,7 @@ set :root, File.dirname(__FILE__)
                                  :port                 => 587,
                                  :user_name            => ENV['MAILUSERNAME'] || "vvanchesa@gmail.com",
                                  :password             => ENV['MAILPASSWORD'] || "bla123_yuhuu",
-                                 :authentication       => :plain,   
+                                 :authentication       => :plain,
                                  :enable_starttls_auto => true  }
       else
         puts "MAILSERVER - NO SSL"
@@ -86,12 +92,12 @@ set :root, File.dirname(__FILE__)
       end
 
     end
-    DataMapper.auto_upgrade!
+
   end
 
 
 
-  #Some configurations 
+  #Some configurations
   configure :production do
     require 'dm-postgres-adapter'
 
@@ -101,7 +107,7 @@ set :root, File.dirname(__FILE__)
     error do
       redirect to('/')
     end
- 
+
     # A Postgres connection:
     DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
     # TODO: Payments als Production Code einbauen
@@ -115,27 +121,19 @@ set :root, File.dirname(__FILE__)
                                :authentication       => :plain,
                                :enable_starttls_auto => true  }
     end
-    DataMapper.auto_upgrade!
-  end 
+  end
+  puts "DataMapper: Auto Upgrade"
+  DataMapper.auto_upgrade!
 
   # Assets (Cleard)
   set :environment, Sprockets::Environment.new
   environment.append_path "assets/stylesheets"
   environment.append_path "assets/javascripts"
   #environment.js_compressor = :uglify
-  #environment.css_compressor = :scss    
+  #environment.css_compressor = :scss
 
 
   enable :method_override
-
-  #include Helpers module
-  helpers ApplicationHelper
-  helpers SearchHelper
-  helpers SessionHelper
-  helpers Sinatra::KtApiHelper
-  helpers DetailsHelper
-  helpers MailSendHelper
-
 
 
   # Routes
@@ -168,7 +166,7 @@ set :root, File.dirname(__FILE__)
   get '/search' do
     if currentUser
       if currentUser.usesDemoAPI? || currentUser.hasValidSubscription?
-        
+
         @result= findElements(params[:q])
         erb :search
       else
@@ -176,7 +174,7 @@ set :root, File.dirname(__FILE__)
         erb :search
       end
 
-    else 
+    else
       flash[:notice] = sessionInvalidText
       redirect '/'
     end
@@ -194,7 +192,9 @@ set :root, File.dirname(__FILE__)
   # flash message if something goes wrong
   post '/signup' do
 
-     @user = UserAccount.new(:email => params[:email].downcase, 
+     @user = UserAccount.new(
+                :email => params[:email].downcase,
+                :fullname => params[:fullname],
                 :password => params[:password], :password_confirmation => params[:password_confirmation],
                 :keytechUserName =>params[:keytech_username],
                 :keytechPassword => params[:keytech_password],
@@ -226,7 +226,7 @@ set :root, File.dirname(__FILE__)
       #  print "Cancel Plan"
       #    # Cancel current subscription
       #    Braintree::Subscription.cancel(@user.subscriptionID)
-      #    
+      #
       #    @user.subscriptionID = ""  # Remove subscriptionID
       #    @user.save
       #    redirect '/account'
@@ -263,7 +263,7 @@ set :root, File.dirname(__FILE__)
       # end
 
     erb :account
-      
+
     else
       redirect '/'
     end
@@ -281,17 +281,24 @@ set :root, File.dirname(__FILE__)
         user.keytechAPIURL = params[:keytechAPIURL]
         user.keytechPassword = params[:keytechPassword]
         user.keytechUserName = params[:keytechUserName]
-        
+
         if !user.save
           flash[:warning] = user.errors.full_messages
         else
           puts "Save OK"
-        end    
+        end
       end
 
       if params[:submit] == "commitProfile"
-        # Do nothing! 
-        # Currently not allowed to change email address!
+        puts "Update profile"
+        user.fullname = params[:fullname]
+
+        if !user.save
+          flash[:warning] = user.errors.full_messages
+        else
+          puts "Save OK"
+        end
+
       end
 
       if params[:submit] =="commitPassword"
@@ -301,14 +308,14 @@ set :root, File.dirname(__FILE__)
           redirect '/account'
         end
 
-        authUser =  UserAccount.authenticate(user.email, params[:current_password]) 
+        authUser =  UserAccount.authenticate(user.email, params[:current_password])
         if authUser
           password = params[:password]
           password_confirmation = params[:password_confirmation]
 
           if password.empty? && password_confirmation.empty?
               flash[:warning] = "New password can not be empty"
-              redirect '/account'   
+              redirect '/account'
           end
 
           if password.eql? password_confirmation
@@ -323,7 +330,7 @@ set :root, File.dirname(__FILE__)
 
         else
           flash[:error] = "Current password is invalid"
-        end 
+        end
       end
 
     else
@@ -338,7 +345,7 @@ set :root, File.dirname(__FILE__)
   get '/account/subscription' do
 
     @user = currentUser
-    
+
     if @user
         if !@user.subscriptionID.empty?
           # A billing customer is already given
@@ -350,7 +357,7 @@ set :root, File.dirname(__FILE__)
 
     else
         redirect '/'
-    end 
+    end
   end
 
 # For Payment Data
@@ -371,7 +378,7 @@ set :root, File.dirname(__FILE__)
     )
     if result.success?
       "<h1>Customer created with name: #{result.customer.first_name} #{result.customer.last_name}</h1>"
-    
+
       currentUser.billingID = result.customer.id
 
       # Start the plan
@@ -387,12 +394,12 @@ set :root, File.dirname(__FILE__)
         "<h1>Subscription Status #{result.subscription.status} </h1>"
       else
         flash[:error] = result.message
-        redirect '/create_customer'  
+        redirect '/create_customer'
       end
     else
 
       # Something goes wrong
-      flash[:error] = result.message 
+      flash[:error] = result.message
       redirect '/create_customer'
     end
   end
@@ -413,7 +420,7 @@ set :root, File.dirname(__FILE__)
 
   get '/logout' do
     session.destroy
-    
+
     flash[:notice] = "You have logged out."
     redirect '/'
   end
@@ -424,7 +431,7 @@ set :root, File.dirname(__FILE__)
 
     # Send a password recovery link
   post '/account/forgotpassword' do
-    # existiert diese Mail- Adrese ? 
+    # existiert diese Mail- Adrese ?
 
     if params[:email].empty?
       flash[:warning] = "Enter a valid mail address"
@@ -443,7 +450,7 @@ set :root, File.dirname(__FILE__)
 
     # Delete all old password recoveries based in this email
     PasswordRecoveryList.all(:email => params[:email]).destroy
-    
+
     # Generate a new password recovery pending entry
     newRecovery = PasswordRecoveryList.create(:email=> params[:email] )
     # Now send a mail
@@ -456,7 +463,7 @@ set :root, File.dirname(__FILE__)
 
   # Recovers lost password,if recoveryID is still valid in database
   get '/account/password/reset/:recoveryID' do
-    if params[:recoveryID] 
+    if params[:recoveryID]
       # recovery Token exist?
       recovery = PasswordRecoveryList.first(:recoveryID => params[:recoveryID])
       print "Recovery: #{recovery}"
@@ -465,7 +472,7 @@ set :root, File.dirname(__FILE__)
         if !recovery.isValid?
           recovery.destroy
           flash[:warning] = "Recovery token has expired"
-          return erb :"passwordManagement/invalidPasswordRecovery"  
+          return erb :"passwordManagement/invalidPasswordRecovery"
         end
 
         @user = UserAccount.first(:email => recovery.email.to_s)
@@ -476,12 +483,12 @@ set :root, File.dirname(__FILE__)
           erb :"passwordManagement/newPassword"
         else
           flash[:warning] = "Can not recover a password from a deleted or disabled useraccount."
-          erb :"passwordManagement/invalidPasswordRecovery"   
+          erb :"passwordManagement/invalidPasswordRecovery"
         end
-        
+
       else
         flash[:warning] = "Recovery token not found or invalid"
-        erb :"passwordManagement/invalidPasswordRecovery"   
+        erb :"passwordManagement/invalidPasswordRecovery"
       end
     else
       flash[:warning] = "Invalid page - a recovery token is missing."
@@ -501,7 +508,7 @@ set :root, File.dirname(__FILE__)
 
             if password.empty? && password_confirmation.empty?
                 flash[:warning] = "New password can not be empty"
-                redirect '/account/password/reset/#{params[:recoveryID]}'   
+                redirect '/account/password/reset/#{params[:recoveryID]}'
             end
 
             if password.eql? password_confirmation
@@ -518,7 +525,7 @@ set :root, File.dirname(__FILE__)
               end
             else
               flash[:error] = "Password and password confirmation did not match."
-              redirect '/account/password/reset/#{params[:recoveryID]}'   
+              redirect '/account/password/reset/#{params[:recoveryID]}'
             end
         end
     end
@@ -527,11 +534,11 @@ set :root, File.dirname(__FILE__)
   # Presents a view for a specific element
   get '/elementdetails/:elementKey' do
     if currentUser
-      
+
       @element = loadElement(params[:elementKey])
       @detailsLink = "/elementdetails/#{params[:elementKey]}"
       @viewType = params[:viewType]
-      
+
       erb :elementdetails
     else
       flash[:notice] = sessionInvalidText
@@ -576,7 +583,7 @@ set :root, File.dirname(__FILE__)
   end
 
  # Redirected when 'submit' is clicked
-  post '/contact' do 
+  post '/contact' do
     name= params[:name]
     email= params[:email]
     message= params[:message]
@@ -638,7 +645,7 @@ get '/files/:elementKey/masterfile' do
   get '/files/:elementKey/files/:fileID' do
     if loggedIn?
       content_type "application/octet-stream"
-      
+
       loadFile(params[:elementKey],params[:fileID])
     else
       flash[:notice] = sessionInvalidText
@@ -652,7 +659,7 @@ get '/files/:elementKey/masterfile' do
      cache_control :public, max_age: 1800
      erb :"public/support"
   end
-  
+
   get '/terms' do
     cache_control :public, max_age: 1800
     erb :"public/terms"

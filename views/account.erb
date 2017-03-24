@@ -1,120 +1,91 @@
 
 <%= showFlashMessage %>
 
-	<div class="dialog">
-
-		<form accept-charset="UTF-8" action="/account" class="form-horizontal" role="form"  method="post">
-			<fieldset>
-			<h3 id="profile">Profile</h3>
-
-			<div style="margin:0;padding:0;display:inline">
-				<input name="utf8" type="hidden" value="✓">
-				<input name="_method" type="hidden" value="put">
-			</div>
-
-			<% gravatar_helper(@user) %>
-
-			<div class="form-group">
-			  	<label class="col-sm-3 control-label" for="user[name]">Username</label>
-			    <div class="col-sm-9">
-			    <input class="form-control" id="user_name" name="user[name]" placeholder="Name" type="text" autocomplete="off">
-			</div>
-			</div>
-	 		<div class="form-group">
-				<label class="col-sm-3 control-label" for="user[email]">Email</label>
-	    		<div class="col-sm-9">
-	    		<input class="form-control" id="user_email" name="user[email]" placeholder="<%= @user.email %>" size="30" type="email" value="<%= @user.email %>" disabled autocomplete="off">
-	    	</div>
-	  		</div>
-			<div class="form-group">
-			    <div class="col-sm-offset-3 col-sm-9">
-			      <button type="submit" class="btn btn-default" name="submit" value="commitProfile">Save</button>
-			    </div>
-			  </div>
-			</fieldset>
-		</form>
-	</div>
+<div class="dialog">
+	<%= erb :"accounts/profile" %>
+</div>
 
 <p></p>
 
-	<div class="dialog">
-		<form class="form-horizontal" role="form" accept-charset="UTF-8" action="/account"  method="post">
-			<fieldset>
+<div class="dialog">
+	<form class="form-horizontal" role="form" accept-charset="UTF-8" action="/account"  method="post">
+		<fieldset>
 			<div style="margin:0;padding:0;display:inline">
 				<input name="utf8" type="hidden" value="✓">
 				<input name="_method" type="hidden" value="put">
 			</div>
 
-
 			<h3>Password</h3>
 
-		<div class="form-group">
-			<label class= "col-sm-3 control-label" for="user[current_password]">Current Password</label>
-		  	<div class="col-sm-9">
-		    <input class="form-control" id="current_password" name="current_password" placeholder="Current Password" type="password" autocomplete="off">
-		  </div>
-		</div>
-		  <div class="form-group">
-		  	<label class="col-sm-3 control-label" for="user[password]">New Password</label>
-		  	<div class="col-sm-9">
-		    	<input class="form-control" id="password" name="password" placeholder="New Password" type="password" autocomplete="off">
-			</div>
-		  </div>
-
-		  <div class="form-group">
-		  	<label class="col-sm-3 control-label" for="user[password]">Confirm new password</label>
-		  	<div class="col-sm-9">
-		    <input class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm New Password" size="30" type="password" autocomplete="off">
-		  </div>
-		</div>
 			<div class="form-group">
-			    <div class="col-sm-offset-3 col-sm-9">
-			      <button type="submit" class="btn btn-default" name="submit" value="commitPassword">Save</button>
-			    </div>
-			  </div>
+				<label class= "col-sm-3 control-label" for="user[current_password]">Current Password</label>
+				<div class="col-sm-9">
+					<input class="form-control" id="current_password" name="current_password" placeholder="Current Password" type="password" autocomplete="off">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="user[password]">New Password</label>
+				<div class="col-sm-9">
+					<input class="form-control" id="password" name="password" placeholder="New Password" type="password" autocomplete="off">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="user[password]">Confirm new password</label>
+				<div class="col-sm-9">
+					<input class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm New Password" size="30" type="password" autocomplete="off">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-3 col-sm-9">
+					<button type="submit" class="btn btn-default" name="submit" value="commitPassword">Save</button>
+				</div>
+			</div>
 		</fieldset>
 	</form>
 </div>
 
 <p></p>
-	<%= erb :"accounts/keytechIntegration" %>
+<div class="dialog">
+<%= erb :"accounts/keytechIntegration" %>
+</div>
 
 <p></p>
 <!--
 <div class="dialog">
 
-		<form accept-charset="UTF-8" action="/account" class="edit-keytech-credentials" method="post">
-			<fieldset>
-				<h3>Billing Information</h3>
-				<p>
-				Customer ID:
-				<%= @user.billingID %>
-				</p>
-				<p>
+<form accept-charset="UTF-8" action="/account" class="edit-keytech-credentials" method="post">
+<fieldset>
+<h3>Billing Information</h3>
+<p>
+Customer ID:
+<%= @user.billingID %>
+</p>
+<p>
 
-				 <% if @user.subscriptionID %>
-					 <% if !@user.subscriptionID.empty? %>
-					 <%  subscription = Braintree::Subscription.find(@user.subscriptionID)  %>
-					 <%  if subscription %>
-						  Subscription: <%= subscription.status %> </br>
+<% if @user.subscriptionID %>
+<% if !@user.subscriptionID.empty? %>
+<%  subscription = Braintree::Subscription.find(@user.subscriptionID)  %>
+<%  if subscription %>
+Subscription: <%= subscription.status %> </br>
 
-						  Next Payment: <%= "%.2f USD" % subscription.price %> on <%= subscription.next_billing_date %>
+Next Payment: <%= "%.2f USD" % subscription.price %> on <%= subscription.next_billing_date %>
 
-						  <a href="/account?action=cancelPlan" class="button">Cancel</a>
-						<% else %>
-						<%=    "No subscription" %>
-						  <a href="/account/subscription" class="button">Subscribe</a>
-						<% end %>
-					<% else %>
-						<%=    "No subscription" %>
-						  <a href="/account/subscription" class="button">Subscribe</a>
-					<% end %>
-				<% else %>
-					<%=    "No subscription" %>
-				<% end %>
-				</p>
-			</fieldset>
-		</form>
+<a href="/account?action=cancelPlan" class="button">Cancel</a>
+<% else %>
+<%=    "No subscription" %>
+<a href="/account/subscription" class="button">Subscribe</a>
+<% end %>
+<% else %>
+<%=    "No subscription" %>
+<a href="/account/subscription" class="button">Subscribe</a>
+<% end %>
+<% else %>
+<%=    "No subscription" %>
+<% end %>
+</p>
+</fieldset>
+</form>
 </div>
 -->
 
