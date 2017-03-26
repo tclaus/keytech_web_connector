@@ -3,18 +3,18 @@
 
 
 require 'mail'
-require_relative '../UserAccount'
-require_relative '../PasswordRecoveryList'
+require './classes/UserAccount'
+require './classes/PasswordRecoveryList'
 
 
 
 # prepaires and send a mail
 #
 module MailSendHelper
-	
-	# 
+
+	#
 	def sendPasswordRecoveryMail(passwordRecovery)
-		
+
 		# Makes the link and adds the recoveryID
 		# TODO: Distinguish between Development and Productive!
 		localURL = ENV['localURL']
@@ -44,7 +44,7 @@ module MailSendHelper
 
 	# Send a mail to the admin if a new user signsup (to remove later)
 	def sendNewSignUpMail(theUser)
-		
+
 		mailContent = "New Usermail: " + theUser.email
 
 		mail = Mail.new do
@@ -52,12 +52,9 @@ module MailSendHelper
 		  to      'info@claus-software.de'
 		  subject 'A new User has logged in to keytech Web App'
 		  body    mailContent
-		end 
+		end
 		mail.deliver!
-		
-	
+
+
 	end
 end
-
-
-

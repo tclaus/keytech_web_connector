@@ -9,7 +9,7 @@ require 'sinatra/base'
 require 'data_mapper'
 require 'httparty'
 
-require './Cipher'
+require './classes/Cipher'
 
 
 

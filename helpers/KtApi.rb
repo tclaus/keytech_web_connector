@@ -1,13 +1,13 @@
 require 'sinatra/base'
-require './KeytechElement'
-require './EditorLayout'
-require './EditorLayouts'
-require './KeytechElementFile'
-require './KeytechElementNote'
-require './KeytechElementStatusHistoryEntry'
-require './KeytechBomElement'
-require './KeytechBomElements'
-require './UserAccount'
+require './classes/KeytechElement'
+require './classes/EditorLayout'
+require './classes/EditorLayouts'
+require './classes/KeytechElementFile'
+require './classes/KeytechElementNote'
+require './classes/KeytechElementStatusHistoryEntry'
+require './classes/KeytechBomElement'
+require './classes/KeytechBomElements'
+require './classes/UserAccount'
 
 module Sinatra
 

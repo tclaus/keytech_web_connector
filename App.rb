@@ -17,11 +17,11 @@ require 'rack/session/dalli'
 require 'rack-cache'
 
 #
-require './UserAccount'
-require './PasswordRecoveryList'
+require './classes/UserAccount'
+require './classes/PasswordRecoveryList'
 
 
-class KtApp < Sinatra::Base
+class App < Sinatra::Base
 
 set :root, File.dirname(__FILE__)
 
@@ -124,7 +124,7 @@ set :root, File.dirname(__FILE__)
                                :enable_starttls_auto => true  }
     end
   end
-  puts "DataMapper: Auto Upgrade"
+
   DataMapper.auto_upgrade!
 
   # Assets (Cleard)
@@ -273,7 +273,7 @@ set :root, File.dirname(__FILE__)
     end
   end
 
-  put '/account' do
+  post '/account' do
     user = currentUser
     puts "Save account Data"
     if user

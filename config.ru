@@ -1,11 +1,11 @@
 #\ --host 0.0.0.0
-# ^ This is a rackup parameter
+# ^ This is the rackup parameter to get access vom other domains than localhost
 
 
 require 'bundler'
 Bundler.require(:default)
 
-require './KtApp'
+require './App'
 
 if memcache_servers = ENV["MEMCACHE_SERVERS"]
   	use Rack::Cache,
@@ -20,4 +20,4 @@ else
 end
 
 # Finally run the app
-run KtApp
+run App

@@ -1,6 +1,6 @@
 
 
-require_relative '../UserAccount'
+require './classes/UserAccount'
 
 # Helps getting session information
 module SessionHelper

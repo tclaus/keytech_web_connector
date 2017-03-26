@@ -1,8 +1,8 @@
 
 require 'rubygems'
 require 'sinatra'
-require 'data_mapper' 
-require './UserAccount'
+require 'data_mapper'
+require './classes/UserAccount'
 
 class Session
 	include DataMapper::Resource
