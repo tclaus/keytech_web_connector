@@ -5,6 +5,7 @@ require 'rubygems'
 require 'bundler'
 require 'sinatra/base'
 require 'sinatra/contrib/all'
+require 'sinatra/cross_origin'
 
 require 'sprockets'
 require 'rack-flash'
@@ -25,6 +26,7 @@ class KtApp < Sinatra::Base
 set :root, File.dirname(__FILE__)
 
   register Sinatra::Contrib
+  register Sinatra::CrossOrigin
 
   require_relative "helpers/KtApi"
   require_relative "helpers/DetailsHelper"
@@ -218,6 +220,8 @@ set :root, File.dirname(__FILE__)
   end
 
   get '/account' do
+    # Allow cross domains (for testing keytech APIs)
+    cross_origin
     # Shows an edit page for current account
     @user = currentUser
     if @user

@@ -12,6 +12,7 @@ gem 'compass'
 gem 'sprockets'
 gem 'json'
 gem 'sinatra-contrib'
+gem "sinatra-cross_origin", "~> 0.3.1"
 gem 'pkg-config'
 gem 'rack-flash-session'
 gem 'rack-flash3'
