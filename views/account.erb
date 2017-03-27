@@ -12,47 +12,7 @@
 </div>
 
 <p></p>
+
 <div class="dialog">
-<%= erb :"accounts/keytechIntegration" %>
-</div>
-
-<p></p>
-<!--
-<div class="dialog">
-
-<form accept-charset="UTF-8" action="/account" class="edit-keytech-credentials" method="post">
-<fieldset>
-<h3>Billing Information</h3>
-<p>
-Customer ID:
-<%= @user.billingID %>
-</p>
-<p>
-
-<% if @user.subscriptionID %>
-<% if !@user.subscriptionID.empty? %>
-<%  subscription = Braintree::Subscription.find(@user.subscriptionID)  %>
-<%  if subscription %>
-Subscription: <%= subscription.status %> </br>
-
-Next Payment: <%= "%.2f USD" % subscription.price %> on <%= subscription.next_billing_date %>
-
-<a href="/account?action=cancelPlan" class="button">Cancel</a>
-<% else %>
-<%=    "No subscription" %>
-<a href="/account/subscription" class="button">Subscribe</a>
-<% end %>
-<% else %>
-<%=    "No subscription" %>
-<a href="/account/subscription" class="button">Subscribe</a>
-<% end %>
-<% else %>
-<%=    "No subscription" %>
-<% end %>
-</p>
-</fieldset>
-</form>
-</div>
--->
-
+	<%= erb :"accounts/keytechIntegration" %>
 </div>

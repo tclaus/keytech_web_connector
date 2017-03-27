@@ -1,11 +1,10 @@
 
 
-<form id="credentials" class="form-horizontal" role="form" accept-charset="UTF-8" action="/account" class="edit-keytech-credentials" method="post">
+<form id="credentials" class="form-horizontal" accept-charset="UTF-8" action="/account" method="post">
 	<fieldset>
 
 		<div style="margin:0;padding:0;display:inline">
 			<input name="utf8" type="hidden" value="✓">
-			<input name="_method" type="hidden" value="put">
 		</div>
 
 		<h3>keytech Credentials </h3>
@@ -16,7 +15,7 @@
 				<input class="form-control" id = "keytechAPIURL" name="keytechAPIURL" placeholder="<%= @user.keytechAPIURL %>" type="text" value="<%= @user.keytechAPIURL %>" autocomplete="off">
 				<a id="testURL">Test API</a>
 
-				<a id="setDefault">Set to Demo Database</<a>
+				<a id="setDefault">Set to Demo Database</a>
 
 					<script>
 					$('#setDefault').click(function(){
@@ -35,6 +34,7 @@
 				<input class="form-control" id="keytechUserName" name="keytechUserName" placeholder="<%= @user.keytechUserName %>" type="text" value="<%= @user.keytechUserName %>" autocomplete="off">
 			</div>
 		</div>
+
 		<div class="form-group">
 			<label class="col-sm-3 control-label" for="keytechPassword">keytech password</label>
 			<div class="col-sm-9">

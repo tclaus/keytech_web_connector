@@ -131,6 +131,7 @@ set :root, File.dirname(__FILE__)
   set :environment, Sprockets::Environment.new
   environment.append_path "assets/stylesheets"
   environment.append_path "assets/javascripts"
+  environment.append_path "assets/images"
   #environment.js_compressor = :uglify
   #environment.css_compressor = :scss
 
@@ -275,9 +276,7 @@ set :root, File.dirname(__FILE__)
 
   post '/account' do
     user = currentUser
-    puts "Save account Data"
     if user
-      puts "User OK"
       puts "Submittype:" + params[:submit]
 
       if params[:submit] == "commitKeytechCredentials"
