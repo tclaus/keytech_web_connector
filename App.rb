@@ -65,7 +65,7 @@ set :root, File.dirname(__FILE__)
       :expire_after => 2592000,
       :key => 'rack.session',
       :path => "/",
-      :secret => "06c6a115a065cfd20cc2c9fcd2c3d7a7d354de3189ee58bce0240abd586db044"
+      :secret => ENV['COOCKIE_SECRET']
   end
 
 
@@ -80,16 +80,16 @@ set :root, File.dirname(__FILE__)
       if ENV['MAILSSL'] == "TRUE"
         delivery_method :smtp, { :address              => ENV['MAILSERVER'] || "smtp.gmail.com",
                                  :port                 => 587,
-                                 :user_name            => ENV['MAILUSERNAME'] || "vvanchesa@gmail.com",
-                                 :password             => ENV['MAILPASSWORD'] || "bla123_yuhuu",
+                                 :user_name            => ENV['MAILUSERNAME'] || "<MailUsername>",
+                                 :password             => ENV['MAILPASSWORD'] || "<MAILPassword>",
                                  :authentication       => :plain,
                                  :enable_starttls_auto => true  }
       else
         puts "MAILSERVER - NO SSL"
       delivery_method :smtp, { :address              => ENV['MAILSERVER'] || "smtp.gmail.com",
                                  :port                 => 587,
-                                 :user_name            => ENV['MAILUSERNAME'] || "vvanchesa@gmail.com",
-                                 :password             => ENV['MAILPASSWORD'] || "bla123_yuhuu"
+                                 :user_name            => ENV['MAILUSERNAME'] || "<MailUsername>",
+                                 :password             => ENV['MAILPASSWORD'] || "<MailUsername>"
                                   }
       end
 

@@ -23,7 +23,7 @@ class UserAccount
 
 property :id, 							Serial
 property :email, 						String, :required => true, :length => (5..40), :unique => true, :format => :email_address
-property :fullname, 				String
+property :fullname, 				String, :default =>""
 property :password_hashed, 	String, :writer =>:protected
 property :salt, 						String, :required=>true, :writer =>:protected
 
@@ -33,7 +33,7 @@ property :keytechAPI_crypted, String, :length => 100, :writer =>:protected
 
 property :is_admin, 				Boolean, :default => false, :accessor => :private
 
-property :created_at, 			DateTime
+property :created_at, 			DateTime, :default => Time.now
 
 # Links to the customerID of payment service
 property :billingID, 				Integer, :default =>0
@@ -51,11 +51,8 @@ validates_confirmation_of :password
 
 
 def isAdmin?
-	(email.downcase ==ENV['AdminUserName']) ||
-	is_admin? ||
-	email.downcase =='thorstenclaus@web.de'
-
-	#TODO: Admin - User in den Settings festlegen
+	# TODO: Admin - User in den Settings festlegen
+	return true
 end
 
 def isAdmin=(isAdmin)
@@ -168,15 +165,6 @@ end
 #
 def hasValidSubscription?
 	return true
-	# Ignore any nbilling this time
-	print " Subsciption: #{subscriptionID} "
-	if !subscriptionID.empty?
-	 	subscription = Braintree::Subscription.find(subscriptionID)
-		if subscription
-			return subscription.status.downcase.eql? "active"
-		end
-	end
-	return false
 end
 
 protected

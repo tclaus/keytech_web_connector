@@ -9,16 +9,41 @@ This is a web connector for accessing the Keytech WEB-API.
  OSX: 		brew install memcached
  Ubuntu: 	apt-get install memcached
 
+# Setup
 
-Install Bundler to get all the gems for development
-$: gem install bundler
-$: bundler install --without-production
+keytech web connector was build up on ruby 2.2 or higher. On a Mac you can use 'RVM' to install suitable Ruby version.
+* Go to [RVM.io](https://rvm.io) and install RVM
+* Close and reopen the terminal window.
+* Get the repo: $: git clone https://github.com/vvanchesa/keytech_web_connector.git
+* Change dir to keytech_web_connector
+  * RVM will eventually inform about missing ruby - install it: $: rvm install 2.2
+  * leave and enter directory again
+*  $: gem install bundler
+*  $: bundler install --without production
 
-Fur ruby, use 'rvm'
+Bundler will now install all needed dependencies.
 
-gem install rack
 
-Start local with 'rackup' and open a browser at http://localhost:9292
+For development and production some environment variables must be set:
+
+* MAILSERVER    => the SMPT Host for sending Mails. (Password recovery, sign in mails)
+* MAILUSERNAME  => Username for mail server. May be empty.
+* MAILPASSWORD  => Password for mail server. May be empty.
+  (Used in App.rb)
+* KEYTECHDEMOURL  => The default keytech Web-API base address. Defaults to 'https://demo.keytech.de'
+* KEYTECHDEMOUSER => Default demo username. Default is 'jgrant'
+
+On Unix Systems you can set environment with
+    export NAME=Value
+on the console.
+
+## Start
+
+Start local with '$: rackup' and open a browser at http://localhost:9292
+
+You will see a signin page. Go to the 'signup' instead and enter any mail/password combination you like.
+After this you can login to the open default keytech web-api.
+
 
 ## How to use
 Start with 'rackup' and register the first account. Registering means to get access to this service.

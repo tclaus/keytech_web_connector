@@ -15,8 +15,8 @@ if memcache_servers = ENV["MEMCACHE_SERVERS"]
 else
 	use Rack::Cache,
   		:verbose     => true,
-  		:metastore   => 'file:/var/cache/rack/meta',
-  		:entitystore => 'file:/var/cache/rack/body'#
+  		:metastore   => 'file:./cache/rack/meta',
+  		:entitystore => 'file:./cache/rack/body'#
 end
 
 # Finally run the app
