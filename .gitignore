@@ -5,7 +5,7 @@
 
 #store no Databasefiles
 
-development.db 
+development.db
 
 *.swp
 *.rbc
@@ -14,4 +14,5 @@ development.db
 /pkg
 /doc/api
 /.bundle
+/cache
 # /Gemfile.lock #Needed for heroku
