@@ -1,2 +1,9 @@
 language: ruby
-rvm: '2.2'
+
+
+before_install:
+  - rvm get head
+  - gem install bundler
+
+
+rvm: '2.2.6'
