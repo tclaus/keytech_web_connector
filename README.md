@@ -17,6 +17,7 @@ keytech web connector was build up on ruby 2.2 or higher. On a Mac you can use '
 * Get the repo: $: git clone https://github.com/vvanchesa/keytech_web_connector.git
 * Change dir to keytech_web_connector
   * RVM will eventually inform about missing ruby - install it: $: rvm install 2.2
+  * $: rvm use 2.2 (you may run this as sudo)
   * leave and enter directory again
 *  $: gem install bundler
 *  $: bundler install --without production
@@ -54,6 +55,11 @@ Credentials and Web-API URL will be stored crypted in a local database. Password
 
 This a a proof-of-concept at time of writing this.
 Feel free to fork it and improve it.
+
+## Troubleshooting
+* RVM will install ruby only as sudo. (Can not write to /usr/lib)
+  Try '$: rvm autolibs read-only'
+
 
 ## License
 Copyright (c) 2014-2017 Thorsten Claus
