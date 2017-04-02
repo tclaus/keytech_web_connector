@@ -14,7 +14,7 @@ module MailSendHelper
 
 	#
 	def sendPasswordRecoveryMail(passwordRecovery)
-
+		begin
 		# Makes the link and adds the recoveryID
 		# TODO: Distinguish between Development and Productive!
 		localURL = ENV['localURL']
@@ -38,13 +38,15 @@ module MailSendHelper
 		else
 			print "Error sending mail"
 		end
-
+	rescue
+		flash[:error] = "Could not send a mail!"
+	end
 
 	end
 
 	# Send a mail to the admin if a new user signsup (to remove later)
 	def sendNewSignUpMail(theUser)
-
+		begin
 		mailContent = "New Usermail: " + theUser.email
 
 		mail = Mail.new do
@@ -54,7 +56,9 @@ module MailSendHelper
 		  body    mailContent
 		end
 		mail.deliver!
-
+	rescue
+		flash[:error] = "Could not send a mail!"
+	end
 
 	end
 end
