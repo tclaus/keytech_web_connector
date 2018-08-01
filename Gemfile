@@ -8,7 +8,7 @@ gem 'haml'
 gem 'httparty'
 gem 'rake'
 gem 'sass'
-gem 'compass'
+gem 'compass', "~> 1.0.3"
 gem 'sprockets'
 gem 'json'
 gem 'sinatra-contrib'
