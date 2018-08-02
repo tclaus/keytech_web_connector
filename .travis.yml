@@ -8,3 +8,6 @@ before_install:
 
 
 rvm: '2.5.1'
+
+script:
+  - rackup
